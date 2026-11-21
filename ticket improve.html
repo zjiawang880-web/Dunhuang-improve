@@ -1,0 +1,3160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DUNHUANG | Ticket Guide</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* GLOBAL */
+
+:root {
+  --dark: #171c19;
+  --brown: #96583f;
+  --deep: #51342c;
+  --gold: #d8b47c;
+  --paper: #f7efe5;
+  --cream: #fffaf3;
+  --line: #e9d8c6;
+  --muted: #8b756a;
+  --nav-height: 90px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 120px;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--deep);
+  font-family: "DM Sans", "Noto Sans SC", sans-serif;
+  line-height: 1.7;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* NAVIGATION */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 90px;
+  padding: 15px 4%;
+  z-index: 1000;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 25px;
+
+  color: white;
+  background: transparent;
+
+  transition: background .3s, box-shadow .3s;
+}
+
+.navbar.scrolled {
+  background: rgba(23,28,25,.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 5px 25px #0003;
+}
+
+.logo {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.logo span {
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: color .3s;
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.lang-btn,
+.senior-button {
+  min-height: 44px;
+  padding: 8px 12px;
+
+  border: 1px solid #ffffff80;
+  background: transparent;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.senior-button {
+  border-color: var(--gold);
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.lang-btn.active,
+.lang-btn:hover,
+.senior-button.active,
+.senior-button:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--dark);
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 175px 6% 100px;
+  text-align: center;
+  color: #fffaf3;
+
+  background:
+    radial-gradient(
+      circle at 80% 25%,
+      #efba7040,
+      transparent 38%
+    ),
+    linear-gradient(
+      120deg,
+      #51342c,
+      #87503c 65%,
+      #b17b56
+    );
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 510px;
+  height: 510px;
+  right: -160px;
+  top: 40px;
+  border: 1px solid #f2cd9f55;
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 370px;
+  height: 370px;
+  right: -85px;
+  top: 105px;
+  border: 1px solid #f2cd9f35;
+  border-radius: 50%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1050px;
+}
+
+.hero-kicker {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.hero h1 {
+  font-family: "Cormorant Garamond",
+    "Noto Serif SC", serif;
+
+  font-weight: 500;
+  font-size: clamp(55px, 8vw, 105px);
+  line-height: 1.12;
+  margin: 20px 0;
+}
+
+.hero-line {
+  width: 85px;
+  height: 2px;
+  margin: 25px auto;
+  background: var(--gold);
+}
+
+.hero p {
+  max-width: 730px;
+  margin: auto;
+  color: #f1decf;
+  font-size: 16px;
+  line-height: 2;
+}
+
+/* TICKET MAIN */
+
+.ticket-section {
+  padding: 90px 5% 110px;
+}
+
+.ticket-container {
+  max-width: 1350px;
+  margin: auto;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 43px;
+}
+
+.section-label {
+  font-size: 12px;
+  color: #a47150;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.section-heading h2 {
+  font-family: "Cormorant Garamond",
+    "Noto Serif SC", serif;
+
+  font-weight: 600;
+  font-size: clamp(43px, 5.5vw, 70px);
+  margin: 10px 0 15px;
+  line-height: 1.15;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* STATISTICS */
+
+.ticket-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  text-align: center;
+}
+
+.stat-card strong {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  color: var(--brown);
+  font-size: 47px;
+  line-height: 1.1;
+}
+
+.stat-card span {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* FILTERS */
+
+.ticket-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-bottom: 21px;
+}
+
+.ticket-search,
+.ticket-category {
+  padding: 14px 17px;
+  background: #fffdf9;
+  border: 1px solid #dec7af;
+  border-radius: 9px;
+  color: var(--deep);
+  font-size: 13px;
+}
+
+.ticket-search {
+  flex: 1;
+  min-width: 220px;
+}
+
+.ticket-category {
+  min-width: 200px;
+}
+
+.ticket-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-btn {
+  padding: 11px 18px;
+  border: 1px solid #d9bfa7;
+  border-radius: 30px;
+  background: var(--cream);
+  color: #865840;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition: .2s;
+}
+
+.filter-btn:hover {
+  background: #eadbc9;
+}
+
+.filter-btn.active {
+  background: var(--brown);
+  color: white;
+  border-color: var(--brown);
+}
+
+/* ATTRACTION CARDS */
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 22px;
+}
+
+.attraction-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: #fffdf9;
+  border: 1px solid #e7d4bf;
+  border-radius: 14px;
+
+  transition: transform .25s, box-shadow .25s;
+}
+
+.attraction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px #67432e20;
+}
+
+.attraction-card.strategy-picked {
+  border: 2px solid #b47a57;
+}
+
+.attraction-cover {
+  min-height: 130px;
+  padding: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      120deg,
+      #744737,
+      #b77f5d
+    );
+
+  color: white;
+}
+
+.attraction-icon {
+  font-size: 45px;
+}
+
+.attraction-group {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #f6e1c6;
+}
+
+.attraction-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+  padding: 23px;
+}
+
+.attraction-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ticket-tag {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 30px;
+  background: #f0dfcb;
+  color: #85543c;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ticket-tag.free {
+  background: #e2eee3;
+  color: #4b7653;
+}
+
+.ticket-tag.check {
+  background: #f1e9d8;
+  color: #897247;
+}
+
+.attraction-body h3 {
+  margin: 3px 0 0;
+  color: #634334;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.attraction-price {
+  color: var(--brown);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.attraction-description {
+  flex: 1;
+  color: #897569;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.attraction-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 9px;
+}
+
+.attraction-actions button {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 8px;
+
+  border: 1px solid var(--brown);
+  border-radius: 7px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.details-btn {
+  background: var(--brown);
+  color: white;
+}
+
+.mark-btn {
+  background: #fffaf3;
+  color: var(--brown);
+}
+
+.mark-btn.done {
+  background: #e4d7c7;
+}
+
+.empty-result {
+  grid-column: 1/-1;
+  padding: 40px;
+  text-align: center;
+  background: var(--cream);
+  border: 1px dashed #cbaa89;
+  border-radius: 12px;
+  color: var(--muted);
+}
+
+/* MY TICKET CHECKLIST */
+
+.my-ticket-section {
+  margin-top: 60px;
+  padding: 35px;
+  background: #ebddca;
+  border: 1px solid #d7bea6;
+  border-radius: 15px;
+}
+
+.my-ticket-section h2 {
+  font-family: "Cormorant Garamond",
+    "Noto Serif SC", serif;
+
+  font-size: 41px;
+  margin: 0 0 10px;
+}
+
+.my-ticket-section > p {
+  color: #846d5b;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.my-ticket-list {
+  display: grid;
+  gap: 11px;
+  margin-top: 23px;
+}
+
+.my-ticket-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  padding: 14px 18px;
+  border-radius: 9px;
+  background: #fffaf3;
+}
+
+.my-ticket-row strong {
+  color: var(--deep);
+  font-size: 14px;
+}
+
+.my-ticket-row span {
+  color: #956e50;
+  font-size: 12px;
+}
+
+.my-ticket-row button {
+  border: none;
+  background: var(--brown);
+  color: white;
+  padding: 10px 13px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.ticket-estimate {
+  padding-top: 20px;
+  font-size: 15px !important;
+  color: #80543e !important;
+  font-weight: 600;
+}
+
+.ticket-note {
+  margin-top: 24px;
+  color: #987d6b;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.strategy-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 13px 19px;
+  border-radius: 7px;
+  background: var(--brown);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* DETAIL DIALOG */
+
+.ticket-dialog {
+  width: min(800px, 94vw);
+  max-height: 86vh;
+  padding: 0;
+
+  border: 1px solid #cba783;
+  border-radius: 15px;
+
+  background: #fffaf3;
+  color: var(--deep);
+
+  overflow-y: auto;
+  box-shadow: 0 25px 80px #0005;
+}
+
+.ticket-dialog::backdrop {
+  background: #171c19b8;
+  backdrop-filter: blur(5px);
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+
+  padding: 28px 30px;
+  background: linear-gradient(
+    110deg,
+    #704736,
+    #ae7957
+  );
+  color: white;
+}
+
+.dialog-header small {
+  color: #ebcca3;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.dialog-header h2 {
+  font-family: "Cormorant Garamond",
+    "Noto Serif SC", serif;
+
+  font-size: 42px;
+  margin: 6px 0 0;
+}
+
+.close-dialog {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid #ffffff90;
+  border-radius: 50%;
+  color: white;
+  font-size: 25px;
+}
+
+.dialog-content {
+  padding: 30px;
+}
+
+.dialog-content h3 {
+  color: var(--brown);
+  font-size: 16px;
+  margin: 23px 0 7px;
+}
+
+.dialog-content p {
+  margin: 5px 0;
+  color: #705b4d;
+  font-size: 14px;
+  line-height: 2;
+}
+
+.dialog-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.dialog-links a {
+  display: inline-block;
+  padding: 12px 16px;
+  background: var(--brown);
+  color: white;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dialog-links a.secondary {
+  background: #ead9c7;
+  color: var(--brown);
+}
+
+/* BOTTOM NAVIGATION */
+
+.journey-navigation {
+  padding: 65px 5%;
+  background: var(--dark);
+  color: #fffaf3;
+}
+
+.journey-inner {
+  max-width: 1250px;
+  margin: auto;
+}
+
+.journey-label {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  font-size: 12px;
+}
+
+.journey-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.journey-links a {
+  padding: 23px;
+  border: 1px solid #d8b47c80;
+  border-radius: 8px;
+  transition: .2s;
+}
+
+.journey-links a:hover {
+  background: var(--gold);
+  color: var(--dark);
+}
+
+.journey-links a:last-child {
+  text-align: right;
+}
+
+.journey-links span {
+  display: block;
+  font-size: 12px;
+  opacity: .8;
+  margin-bottom: 7px;
+}
+
+.journey-links strong {
+  font-size: 20px;
+}
+
+footer {
+  padding: 38px;
+  text-align: center;
+  background: #51342c;
+  color: #e6caa8;
+}
+
+footer h2 {
+  font-family: "Cormorant Garamond", serif;
+  letter-spacing: 3px;
+  font-size: 35px;
+  color: white;
+  margin: 0;
+}
+
+footer p {
+  font-size: 12px;
+}
+
+/* SENIOR MODE */
+
+body.senior-mode {
+  font-size: 20px;
+}
+
+body.senior-mode .attraction-description,
+body.senior-mode .section-heading p,
+body.senior-mode .dialog-content p,
+body.senior-mode .my-ticket-section p {
+  font-size: 19px;
+}
+
+body.senior-mode .nav-links a {
+  font-size: 19px;
+}
+
+body.senior-mode .filter-btn,
+body.senior-mode .attraction-actions button {
+  font-size: 16px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1250px) {
+  .navbar {
+    grid-template-columns: auto 1fr;
+    row-gap: 13px;
+  }
+
+  .nav-actions {
+    justify-content: flex-end;
+  }
+
+  .nav-links {
+    grid-row: 2;
+    grid-column: 1/-1;
+  }
+}
+
+@media (max-width: 1000px) {
+  .ticket-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    padding: 11px 3%;
+    column-gap: 8px;
+  }
+
+  .logo {
+    font-size: 27px;
+  }
+
+  .nav-actions {
+    gap: 4px;
+  }
+
+  .lang-btn,
+  .senior-button {
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  .nav-links {
+    gap: 10px 15px;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+  }
+
+  .hero {
+    padding: 170px 5% 65px;
+    min-height: 450px;
+  }
+
+  .hero h1 {
+    font-size: 55px;
+  }
+
+  .ticket-section {
+    padding: 60px 4%;
+  }
+
+  .ticket-grid,
+  .ticket-stats,
+  .journey-links {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-search,
+  .ticket-category {
+    width: 100%;
+  }
+
+  .my-ticket-section {
+    padding: 24px;
+  }
+
+  .dialog-content {
+    padding: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<header class="navbar" id="navbar">
+
+  <a class="logo" id="logoLink" href="./Dunhuang improve.html">
+    DUNHUANG<span>.</span>
+  </a>
+
+  <nav class="nav-links" id="navLinks"></nav>
+
+  <div class="nav-actions">
+
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="ms">BM</button>
+
+    <button class="senior-button" id="seniorBtn">
+      👓 <span id="seniorText">Senior Mode</span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <span class="hero-kicker">
+      THE SILK ROAD · TICKETS & ADMISSION
+    </span>
+
+    <h1 id="heroTitle">
+      Dunhuang Ticket Guide
+    </h1>
+
+    <div class="hero-line"></div>
+
+    <p id="heroDescription"></p>
+
+  </div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main>
+
+<section class="ticket-section">
+
+  <div class="ticket-container">
+
+    <div class="section-heading">
+
+      <span class="section-label">
+        EXPLORE · PLAN · DISCOVER
+      </span>
+
+      <h2 id="sectionTitle"></h2>
+
+      <p id="sectionIntro"></p>
+
+    </div>
+
+
+    <div class="ticket-stats">
+
+      <div class="stat-card">
+        <strong id="totalSelected">0</strong>
+        <span id="totalLabel"></span>
+      </div>
+
+      <div class="stat-card">
+        <strong id="pendingCount">0</strong>
+        <span id="pendingLabel"></span>
+      </div>
+
+      <div class="stat-card">
+        <strong id="readyCount">0</strong>
+        <span id="readyLabel"></span>
+      </div>
+
+    </div>
+
+
+    <div class="ticket-tools">
+
+      <input
+        type="search"
+        class="ticket-search"
+        id="ticketSearch"
+        autocomplete="off"
+      >
+
+      <select
+        class="ticket-category"
+        id="categorySelect"
+      ></select>
+
+    </div>
+
+
+    <div class="ticket-filters" id="ticketFilters"></div>
+
+    <div class="ticket-grid" id="ticketGrid"></div>
+
+
+    <p class="ticket-note" id="ticketNotice"></p>
+
+
+    <div class="my-ticket-section">
+
+      <h2 id="myTicketTitle"></h2>
+
+      <p id="myTicketIntro"></p>
+
+      <div class="my-ticket-list" id="myTicketList"></div>
+
+      <p class="ticket-estimate" id="ticketEstimate"></p>
+
+      <p class="ticket-note" id="estimateNote"></p>
+
+      <a
+        class="strategy-link"
+        id="strategyLink"
+        href="./strategy.html"
+      ></a>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<section class="journey-navigation">
+
+  <div class="journey-inner">
+
+    <p class="journey-label" id="journeyLabel"></p>
+
+    <div class="journey-links">
+
+      <a id="previousLink" href="./Dunhuang improve.html#journey">
+        <span id="previousText"></span>
+        <strong id="previousName"></strong>
+      </a>
+
+      <a id="nextLink" href="./transport improve.html">
+        <span id="nextText"></span>
+        <strong id="nextName"></strong>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer>
+  <h2>DUNHUANG.</h2>
+  <p id="footerText"></p>
+</footer>
+
+
+<!-- DETAILS POPUP -->
+
+<dialog class="ticket-dialog" id="ticketDialog">
+
+  <div class="dialog-header">
+
+    <div>
+      <small id="dialogCategory"></small>
+      <h2 id="dialogTitle"></h2>
+    </div>
+
+    <button
+      class="close-dialog"
+      id="closeDialog"
+      aria-label="Close"
+    >×</button>
+
+  </div>
+
+  <div class="dialog-content" id="dialogContent"></div>
+
+</dialog>
+
+
+<script>
+
+/* =========================================
+   LANGUAGE
+========================================= */
+
+const $ = id => document.getElementById(id);
+
+let currentLanguage = "en";
+
+const languageIndex = {
+  en: 0,
+  zh: 1,
+  ms: 2
+};
+
+function tr(values) {
+  if (!Array.isArray(values)) {
+    return String(values ?? "");
+  }
+
+  return values[languageIndex[currentLanguage]] ?? values[0];
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    c => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[c]
+  );
+}
+
+
+/* =========================================
+   MULTILINGUAL TEXT
+========================================= */
+
+const i18n = {
+
+  en: {
+    nav: ["HOME","EXPLORE","JOURNEY","STORIES","FAQ","ABOUT"],
+    senior: "Senior Mode",
+    hero: "Dunhuang Ticket Guide",
+    heroDesc: "From ancient caves and Silk Road ruins to golden deserts, discover ticket information for every stop of your journey.",
+    sectionTitle: "Explore Dunhuang Tickets",
+    intro: "Compare ticket prices, booking information and visiting tips. You can also find the attractions selected in your personal Strategy.",
+    total: "Selected in Strategy",
+    pending: "Not Arranged",
+    ready: "Arranged",
+    search: "Search attractions...",
+    all: "All Attractions",
+    mine: "My Strategy Picks",
+    paid: "Paid Admission",
+    free: "Free Entry",
+    check: "Check Access",
+    allCategories: "All Categories",
+    cave: "Caves & Murals",
+    heritage: "History & Ruins",
+    nature: "Desert & Nature",
+    city: "City & Culture",
+    selected: "✓ In My Strategy",
+    detail: "Ticket Details",
+    mark: "Mark as Arranged",
+    done: "✓ Arranged",
+    empty: "No matching attractions.",
+    myTitle: "My Travel Ticket Checklist",
+    myIntro: "Your attractions from Strategy appear here automatically. Mark each ticket after booking or confirming your visit.",
+    noPicks: "No attractions selected yet. Choose places in Strategy first.",
+    estimate: "Known-price reference subtotal",
+    estimateNote: "This is only a planning estimate. Unknown fees, discounts, additional activities, transport and joint tickets are not included.",
+    notice: "Prices and visiting rules may change. Always confirm the latest official information before your trip. This page does not sell tickets.",
+    strategy: "View / Edit My Strategy ↗",
+    info: "About This Place",
+    price: "Ticket Price",
+    booking: "How to Book",
+    tip: "Visiting Tips",
+    official: "Official Information ↗",
+    google: "Find Latest Ticket Information ↗",
+    maps: "View on Google Maps ↗",
+    journey: "CONTINUE YOUR JOURNEY",
+    previous: "← PREVIOUS",
+    next: "NEXT →",
+    homeName: "Home · Journey",
+    transportName: "Transportation",
+    footer: "Explore · Discover · Remember",
+    categories: {
+      paid: "Paid Ticket",
+      free: "Usually Free",
+      check: "Confirm Access"
+    }
+  },
+
+  zh: {
+    nav: ["首页","探索","旅程","历史故事","常见问题","关于我们"],
+    senior: "长辈模式",
+    hero: "敦煌景点门票指南",
+    heroDesc: "从千年石窟到大漠风光，从丝路古关到历史遗址，了解敦煌每一个景点的门票和预约方式。",
+    sectionTitle: "探索敦煌景点门票",
+    intro: "查看不同景点的参考票价、预约方式和游览建议，也可以直接查看你在 Strategy 中选择过的景点。",
+    total: "Strategy 已选景点",
+    pending: "尚未安排",
+    ready: "已经安排",
+    search: "搜索景点名称……",
+    all: "全部景点",
+    mine: "我的 Strategy 景点",
+    paid: "需要门票",
+    free: "免费景点",
+    check: "开放待确认",
+    allCategories: "所有类别",
+    cave: "石窟艺术",
+    heritage: "历史遗址",
+    nature: "沙漠与自然",
+    city: "城市文化",
+    selected: "✓ 我的攻略已选择",
+    detail: "查看门票详情",
+    mark: "标记已安排",
+    done: "✓ 已安排",
+    empty: "没有符合条件的景点。",
+    myTitle: "我的旅行门票清单",
+    myIntro: "这里会自动读取 Strategy 中已经选择的景点。购票或确认开放情况后，可以逐项标记。",
+    noPicks: "还没有读取到景点选择。可以先去 Strategy 制作你的旅行攻略。",
+    estimate: "已知票价参考合计",
+    estimateNote: "这只是初步旅行预算。未核实门票、优惠票、附加体验、交通费用及联票差价没有计算在内。",
+    notice: "所有价格仅供参考，景区可能调整票价、开放时间和预约规定。请在出发前再次核实官方信息。本网站不直接售票。",
+    strategy: "查看 / 修改我的 Strategy 攻略 ↗",
+    info: "景点介绍",
+    price: "参考门票",
+    booking: "如何预约 / 购票",
+    tip: "游览提醒",
+    official: "查看官方资料 ↗",
+    google: "搜索最新票务信息 ↗",
+    maps: "在 Google 地图查看 ↗",
+    journey: "继续探索敦煌",
+    previous: "← 上一页",
+    next: "下一页 →",
+    homeName: "首页 · 旅行规划",
+    transportName: "交通指南",
+    footer: "探索 · 发现 · 铭记",
+    categories: {
+      paid: "收费景点",
+      free: "通常免费",
+      check: "需核实开放"
+    }
+  },
+
+  ms: {
+    nav: ["UTAMA","TEROKAI","KEMBARA","KISAH","SOALAN LAZIM","TENTANG KAMI"],
+    senior: "Mod Warga Emas",
+    hero: "Panduan Tiket Dunhuang",
+    heroDesc: "Semak tiket untuk gua, gurun dan tapak bersejarah di sepanjang Laluan Sutera.",
+    sectionTitle: "Terokai Tiket Dunhuang",
+    intro: "Bandingkan harga tiket dan maklumat tempahan untuk tempat pilihan anda.",
+    total: "Dipilih dalam Strategy",
+    pending: "Belum Selesai",
+    ready: "Sudah Selesai",
+    search: "Cari tarikan...",
+    all: "Semua Tempat",
+    mine: "Pilihan Strategy Saya",
+    paid: "Tiket Berbayar",
+    free: "Masuk Percuma",
+    check: "Semak Akses",
+    allCategories: "Semua Kategori",
+    cave: "Gua & Mural",
+    heritage: "Sejarah & Runtuhan",
+    nature: "Gurun & Alam",
+    city: "Bandar & Budaya",
+    selected: "✓ Dipilih dalam Strategy",
+    detail: "Butiran Tiket",
+    mark: "Tanda Selesai",
+    done: "✓ Selesai",
+    empty: "Tiada tempat yang sepadan.",
+    myTitle: "Senarai Semak Tiket Saya",
+    myIntro: "Pilihan dari Strategy dipaparkan secara automatik. Tandakan selepas tiket atau akses disahkan.",
+    noPicks: "Belum ada pilihan. Pilih tempat dalam Strategy dahulu.",
+    estimate: "Anggaran harga tiket diketahui",
+    estimateNote: "Ini hanya anggaran. Harga belum disahkan, diskaun, pengangkutan dan aktiviti tambahan tidak termasuk.",
+    notice: "Harga dan peraturan boleh berubah. Sila semak maklumat rasmi sebelum lawatan. Laman ini tidak menjual tiket.",
+    strategy: "Lihat / Ubah Strategy Saya ↗",
+    info: "Tentang Tempat Ini",
+    price: "Harga Tiket",
+    booking: "Cara Menempah",
+    tip: "Tip Lawatan",
+    official: "Maklumat Rasmi ↗",
+    google: "Cari Maklumat Tiket Terkini ↗",
+    maps: "Lihat di Google Maps ↗",
+    journey: "TERUSKAN PERJALANAN",
+    previous: "← SEBELUMNYA",
+    next: "SETERUSNYA →",
+    homeName: "Utama · Perjalanan",
+    transportName: "Pengangkutan",
+    footer: "Terokai · Temui · Kenang",
+    categories: {
+      paid: "Berbayar",
+      free: "Biasanya Percuma",
+      check: "Sahkan Akses"
+    }
+  }
+};
+
+
+/* =========================================
+   ATTRACTION DATA
+========================================= */
+
+function makePlace(
+  id, category, type, icon,
+  name, price, description, tip,
+  amount = null, official = ""
+) {
+  return {
+    id, category, type, icon,
+    name, price, description, tip,
+    amount, official
+  };
+}
+
+const attractions = [
+
+  makePlace(
+    "mogao", "cave", "paid", "🏛️",
+    ["Mogao Caves","莫高窟","Gua Mogao"],
+    ["Peak ¥238 / Low ¥140","旺季 ¥238 / 淡季 ¥140","Puncak ¥238 / Rendah ¥140"],
+    [
+      "A UNESCO World Heritage Site famous for Buddhist murals and sculptures.",
+      "世界文化遗产，以千年佛教壁画和彩塑闻名，是敦煌最重要的文化景点之一。",
+      "Tapak Warisan Dunia terkenal dengan mural dan arca Buddha."
+    ],
+    [
+      "Book through the official Mogao reservation channel. Regular visits include digital films and guided caves. Emergency tickets follow separate rules.",
+      "通过莫高窟官方渠道实名预约。常规参观包含数字电影及洞窟讲解；B 类应急票、特窟参观另有规定。须先到数字展示中心。",
+      "Tempah melalui saluran rasmi. Lawatan biasa termasuk filem digital dan gua berpandu."
+    ],
+    238,
+    "https://www.dha.ac.cn/skxl/mgk.htm"
+  ),
+
+  makePlace(
+    "mingsha", "nature", "paid", "🏜️",
+    ["Mingsha Mountain & Crescent Lake","鸣沙山月牙泉","Gunung Mingsha & Tasik Bulan Sabit"],
+    ["About ¥110","参考约 ¥110","Kira-kira ¥110"],
+    [
+      "Golden sand dunes surrounding a crescent-shaped oasis.",
+      "金色沙丘与月牙形泉水交相辉映，是敦煌最有代表性的沙漠景观。",
+      "Bukit pasir emas dan oasis berbentuk bulan sabit."
+    ],
+    [
+      "Check seasonal ticket rules. Camel riding, sand sliding and other experiences may cost extra.",
+      "留意淡旺季票价及实名预约要求。骑骆驼、滑沙、沙漠项目通常另外收费，傍晚是热门时段。",
+      "Semak harga mengikut musim. Aktiviti unta dan pasir mungkin berbayar."
+    ],
+    110
+  ),
+
+  makePlace(
+    "museum", "city", "free", "🏺",
+    ["Dunhuang Museum","敦煌博物馆","Muzium Dunhuang"],
+    ["Free admission","免费入馆","Masuk percuma"],
+    [
+      "Discover Silk Road history, archaeology and cultural objects.",
+      "通过考古文物和历史展览了解丝绸之路与敦煌文化，适合在参观石窟前补充背景知识。",
+      "Muzium sejarah dan artifak Laluan Sutera."
+    ],
+    [
+      "Check opening days and reservation requirements before your visit.",
+      "无需购买普通门票，但可能需要预约。留意闭馆日期、节假日开放安排和官方公众号。",
+      "Semak waktu operasi dan keperluan tempahan."
+    ],
+    0
+  ),
+
+  makePlace(
+    "leiyin", "city", "free", "🛕",
+    ["Leiyin Temple","雷音寺","Kuil Leiyin"],
+    ["Usually free","通常免费","Biasanya percuma"],
+    [
+      "A Buddhist temple near the Mingsha Mountain scenic area.",
+      "鸣沙山附近的佛教寺院，适合体验当地宗教文化和传统建筑。",
+      "Kuil Buddha berhampiran Gunung Mingsha."
+    ],
+    [
+      "Dress respectfully and follow temple rules. Donations are optional.",
+      "参观时遵守寺院礼仪，不要干扰宗教活动。香火及捐赠通常属于自愿消费。",
+      "Hormati adat kuil dan peraturan lawatan."
+    ],
+    0
+  ),
+
+  makePlace(
+    "filmcity", "heritage", "paid", "🎬",
+    ["Dunhuang Film City","敦煌古城影视城","Kota Filem Dunhuang"],
+    ["Check current fee","门票价格请核实","Semak harga tiket"],
+    [
+      "Historical-style architecture and film sets.",
+      "以仿古建筑、影视布景和古城街道为特色，适合古风摄影与影视文化体验。",
+      "Set filem dan seni bina gaya bandar purba."
+    ],
+    [
+      "Check admission fees and optional costume photography prices.",
+      "核实景区门票、开放时间和服装摄影等附加收费。注意这里并非丝路遗产城。",
+      "Semak tiket dan caj fotografi tambahan."
+    ]
+  ),
+
+  makePlace(
+    "silkroadcity", "heritage", "paid", "🏯",
+    ["Silk Road Heritage City","丝路遗产城","Kota Warisan Laluan Sutera"],
+    ["Check current fee","门票价格请核实","Semak harga tiket"],
+    [
+      "A cultural attraction featuring Silk Road-inspired architecture.",
+      "以丝路历史建筑和古风文化场景为特色的旅游景区。",
+      "Tarikan budaya dengan seni bina gaya Laluan Sutera."
+    ],
+    [
+      "Confirm the operator, current opening hours and admission fee.",
+      "提前确认景区是否正常开放、票价及可参与的体验项目，不要与敦煌古城影视城混淆。",
+      "Semak waktu operasi dan harga rasmi."
+    ]
+  ),
+
+  makePlace(
+    "danghe", "city", "free", "🌉",
+    ["Danghe Riverside Walk","党河风情线","Persiaran Sungai Danghe"],
+    ["Usually free","通常免费","Biasanya percuma"],
+    [
+      "An urban riverside area with pleasant evening views.",
+      "敦煌市区的河岸步道与灯光景观，适合傍晚散步和城市夜景摄影。",
+      "Kawasan sungai untuk berjalan dan menikmati suasana malam."
+    ],
+    [
+      "Public walking areas are generally free. Commercial services may charge separately.",
+      "普通公共步道通常不需要门票，部分商业设施或活动可能收费。",
+      "Kawasan awam biasanya percuma."
+    ],
+    0
+  ),
+
+  makePlace(
+    "bookstore", "city", "free", "📚",
+    ["Dunhuang Bookstore","敦煌书局","Kedai Buku Dunhuang"],
+    ["Usually free entry","一般免费入店","Biasanya percuma"],
+    [
+      "Books, cultural products and creative design inspired by Dunhuang.",
+      "集敦煌主题书籍、文创产品和艺术设计于一体的文化空间。",
+      "Buku dan barangan reka bentuk budaya Dunhuang."
+    ],
+    [
+      "Browsing is normally free; books, products and workshops are paid.",
+      "进入书店一般不用门票，购买书籍、文创和体验课程需要另外收费。",
+      "Melihat buku percuma, pembelian dan bengkel berbayar."
+    ],
+    0
+  ),
+
+  makePlace(
+    "moon-town", "city", "free", "🌙",
+    ["Crescent Lake Town","月牙泉小镇","Pekan Tasik Bulan Sabit"],
+    ["Usually free","公共街区通常免费","Biasanya percuma"],
+    [
+      "A leisure district with food, shops and local culture.",
+      "以美食、商铺和休闲活动为主的特色街区，适合散步和品尝当地美食。",
+      "Kawasan makanan, kedai dan aktiviti santai."
+    ],
+    [
+      "This town is different from the ticketed Mingsha Mountain scenic area.",
+      "月牙泉小镇并不等于鸣沙山月牙泉收费景区。商店、餐饮和娱乐项目自行付费。",
+      "Pekan ini berbeza daripada kawasan Gunung Mingsha yang berbayar."
+    ],
+    0
+  ),
+
+  makePlace(
+    "yangguan", "heritage", "paid", "🏯",
+    ["Yangguan Pass","阳关","Laluan Yangguan"],
+    ["¥50 reference","参考 ¥50","Rujukan ¥50"],
+    [
+      "An ancient Silk Road pass and frontier cultural site.",
+      "古代丝绸之路的重要关隘，以边塞历史、商旅文化和古关遗迹为特色。",
+      "Laluan sempadan bersejarah di sepanjang Laluan Sutera."
+    ],
+    [
+      "Compare single tickets with the Yangguan–Yumen joint ticket if visiting both.",
+      "如果还准备前往玉门关，可以比较单独门票和联票，并核实景区交通收费。",
+      "Bandingkan tiket berasingan dan tiket gabungan Yangguan–Yumen."
+    ],
+    50,
+    "https://www.dhymg.com/"
+  ),
+
+  makePlace(
+    "yumen", "heritage", "paid", "🧱",
+    ["Yumen Pass","玉门关","Laluan Yumen"],
+    ["¥40 reference","参考 ¥40","Rujukan ¥40"],
+    [
+      "Ancient Chinese frontier ruins on the western Silk Road.",
+      "汉代重要关隘遗址，可以结合河仓城、汉长城等西线历史景点游览。",
+      "Runtuhan laluan sempadan purba dari zaman Han."
+    ],
+    [
+      "Check the sightseeing shuttle and what nearby heritage sites are included.",
+      "核实景交车费用及具体游览范围，汉长城可能包含在相关线路或联票中。",
+      "Semak bas pelawat dan kawasan yang termasuk dalam tiket."
+    ],
+    40,
+    "https://www.dhymg.com/"
+  ),
+
+  makePlace(
+    "hanwall", "heritage", "check", "🧱",
+    ["Han Great Wall Ruins","汉长城遗址","Runtuhan Tembok Besar Han"],
+    ["Check Yumen ticket coverage","核实玉门关线路是否包含","Semak tiket Yumen"],
+    [
+      "Ancient frontier wall remains in the Dunhuang desert.",
+      "敦煌西线保存的汉代边塞长城遗迹，体现古代边防设施和丝路交通历史。",
+      "Runtuhan tembok sempadan zaman Han."
+    ],
+    [
+      "Confirm whether your Yumen Pass ticket already covers the site.",
+      "如果已经购买玉门关门票，请先确认是否包含汉长城，避免重复付费。",
+      "Semak jika tiket Yumen sudah merangkumi kawasan ini."
+    ],
+    null,
+    "https://www.dhymg.com/"
+  ),
+
+  makePlace(
+    "yadan", "nature", "paid", "🏜️",
+    ["Yadan National Geopark","雅丹国家地质公园","Geopark Yadan"],
+    ["About ¥50 + ¥70 shuttle","参考门票 ¥50＋观光车 ¥70","Sekitar ¥50 + ¥70 bas"],
+    [
+      "Dramatic wind-eroded desert formations, also called the Ghost City.",
+      "大型风蚀雅丹地貌景区，又称「魔鬼城」，是敦煌西线非常有代表性的自然景观。",
+      "Landskap gurun unik yang terbentuk oleh hakisan angin."
+    ],
+    [
+      "Allow sufficient driving time. Confirm shuttle fees and check weather warnings.",
+      "距离市区较远，通常需要包车或自驾。注意景交车、日落时段和风沙天气。",
+      "Rancang masa perjalanan, semak cuaca dan bayaran bas."
+    ],
+    120
+  ),
+
+  makePlace(
+    "baima", "heritage", "check", "🗼",
+    ["White Horse Pagoda","白马塔","Pagoda Kuda Putih"],
+    ["Confirm admission","入场票价待核实","Semak bayaran masuk"],
+    [
+      "A historical Buddhist pagoda connected to Dunhuang heritage.",
+      "具有历史意义的佛教古塔，适合结合敦煌市区或近郊路线参观。",
+      "Pagoda Buddha bersejarah di Dunhuang."
+    ],
+    [
+      "Confirm opening hours and admission before arriving.",
+      "前往之前确认开放时间、门票及现场参观安排。",
+      "Semak waktu buka dan harga tiket."
+    ]
+  ),
+
+  makePlace(
+    "sanwei", "nature", "check", "⛰️",
+    ["Sanwei Mountain","三危山","Gunung Sanwei"],
+    ["Access depends on the area","具体开放区域待核实","Semak kawasan yang dibuka"],
+    [
+      "Mountain scenery and historical cultural places east of Dunhuang.",
+      "敦煌东部的山地景观与历史文化遗址，并非整座山都属于开放景区。",
+      "Pemandangan gunung dan tapak budaya di timur Dunhuang."
+    ],
+    [
+      "Confirm accessible temples, roads and viewpoints with local authorities.",
+      "先确认哪些寺院、道路及观景点可以参观，不要自行进入非开放区域。",
+      "Sahkan akses jalan, kuil dan tempat melihat pemandangan."
+    ]
+  ),
+
+  makePlace(
+    "westcaves", "cave", "paid", "🪷",
+    ["Western Thousand Buddha Caves","西千佛洞","Gua Buddha Seribu Barat"],
+    ["¥30 reference","参考 ¥30","Rujukan ¥30"],
+    [
+      "A smaller cave site managed by the Dunhuang Academy.",
+      "由敦煌研究院管理的石窟群，规模比莫高窟小，但具有珍贵的壁画艺术价值。",
+      "Gua Buddha bersejarah yang diuruskan oleh Akademi Dunhuang."
+    ],
+    [
+      "Visits follow guided arrangements. Severe weather may affect opening.",
+      "参观按官方开放和讲解安排进行，沙尘、雨雪等天气可能影响开放。",
+      "Lawatan mengikut jadual rasmi dan bergantung pada cuaca."
+    ],
+    30,
+    "https://www.dha.ac.cn/skxl/xqfd.htm"
+  ),
+
+  makePlace(
+    "westlake", "nature", "check", "🦢",
+    ["Dunhuang West Lake Nature Reserve","敦煌西湖国家级自然保护区","Rizab Alam Tasik Barat Dunhuang"],
+    ["Protected area · verify access","保护区 · 进入条件待核实","Kawasan dilindungi · semak akses"],
+    [
+      "A protected wetland and desert ecosystem.",
+      "具有重要生态价值的湿地与荒漠自然保护区域，部分区域受到严格保护。",
+      "Ekosistem tanah lembap dan gurun yang dilindungi."
+    ],
+    [
+      "Do not assume public access. Contact the management authority first.",
+      "自然保护区不等于普通景区，必须先确认允许进入的区域和管理规定。",
+      "Hubungi pihak pengurusan sebelum lawatan."
+    ]
+  ),
+
+  makePlace(
+    "jin-tomb", "heritage", "paid", "🏺",
+    ["Western Jin Mural Tomb","西晋壁画墓","Makam Bermural Jin Barat"],
+    ["Admission fee · verify","收费参观 · 请核价","Berbayar · semak harga"],
+    [
+      "Painted brick tombs illustrating ancient daily life.",
+      "通过彩绘砖画展现西晋时期的生活图景与艺术风格，是具有考古价值的历史遗址。",
+      "Makam dengan lukisan batu bata dari zaman Jin Barat."
+    ],
+    [
+      "Check visitor access and whether advance arrangements are required.",
+      "小众文保景点可能存在接待限制，请提前确认开放时间与预约要求。",
+      "Semak waktu buka dan syarat lawatan."
+    ]
+  ),
+
+  makePlace(
+    "guazhou-sculptures", "nature", "free", "🗿",
+    ["Guazhou Gobi Sculptures","瓜州戈壁雕塑群","Arca Gurun Guazhou"],
+    ["Outdoor viewing usually free","户外雕塑通常免费","Arca luar biasanya percuma"],
+    [
+      "Large outdoor artworks including Son of the Earth and The Boundless.",
+      "瓜州戈壁上的大型公共艺术作品，包括「大地之子」「无界」等，适合摄影打卡。",
+      "Arca luar seperti Anak Bumi dan Tanpa Sempadan."
+    ],
+    [
+      "Outdoor access is generally free, but parking and services may cost extra.",
+      "户外公共雕塑一般免费，交通、停车或相关商业体验可能另外收费。",
+      "Lawatan luar biasanya percuma, tetapi kemudahan mungkin berbayar."
+    ],
+    0
+  ),
+
+  makePlace(
+    "suoyang", "heritage", "paid", "🏯",
+    ["Suoyang City Ruins","锁阳城遗址","Runtuhan Kota Suoyang"],
+    ["Ticket + shuttle · verify","门票＋景交车 · 请核价","Tiket + bas · semak harga"],
+    [
+      "An important ancient Silk Road city ruin near Guazhou.",
+      "位于瓜州的丝绸之路古城遗址，保存有古城墙和相关历史遗迹。",
+      "Runtuhan kota purba Laluan Sutera berhampiran Guazhou."
+    ],
+    [
+      "Check whether sightseeing transport is required and included in the ticket.",
+      "景区面积较大，部分路线可能使用观光车，务必核实门票和景交车的收费组合。",
+      "Semak tiket dan caj bas pelawat."
+    ]
+  ),
+
+  makePlace(
+    "yulin", "cave", "paid", "🎨",
+    ["Yulin Caves","榆林窟","Gua Yulin"],
+    ["Domestic ¥40 / Foreign ¥55","内宾 ¥40 / 外宾 ¥55","Domestik ¥40 / Asing ¥55"],
+    [
+      "Important Buddhist mural caves near Guazhou.",
+      "瓜州重要石窟群，以精美壁画著称，被称为莫高窟的姊妹窟。",
+      "Gua mural Buddha yang penting berhampiran Guazhou."
+    ],
+    [
+      "Representative caves may have separate fees. Check guided visiting times.",
+      "普通洞窟门票区分内宾和外宾，代表性洞窟可能另行收费，需确认讲解及参观时段。",
+      "Gua khas mungkin mempunyai caj tambahan."
+    ],
+    null,
+    "https://www.dha.ac.cn/skxl/ylk.htm"
+  ),
+
+  makePlace(
+    "xuanquanzhi", "heritage", "paid", "📜",
+    ["Xuanquanzhi Post Station","悬泉置遗址","Tapak Pos Xuanquanzhi"],
+    ["Confirm current ticket","参观票价待核实","Semak tiket terkini"],
+    [
+      "A historic Han-era Silk Road postal station.",
+      "汉代丝绸之路的重要邮驿遗址，可以了解古代交通、驿站制度和文书文化。",
+      "Tapak pos bersejarah zaman Han di Laluan Sutera."
+    ],
+    [
+      "Check current visitor arrangements instead of relying on older guides.",
+      "新旧攻略里的开放信息可能不同，出发前核实最新开放时间、参观与预约条件。",
+      "Semak syarat lawatan terkini."
+    ]
+  ),
+
+  makePlace(
+    "eastcaves", "cave", "check", "🪷",
+    ["Eastern Thousand Buddha Caves","东千佛洞","Gua Buddha Seribu Timur"],
+    ["Limited access · verify","开放条件有限 · 请核实","Akses terhad · semak dahulu"],
+    [
+      "A lesser-known historical cave site in the Guazhou region.",
+      "位于瓜州地区的小众历史石窟群，公众参观及管理安排需要提前确认。",
+      "Gua sejarah yang kurang dikenali di Guazhou."
+    ],
+    [
+      "Confirm whether public visits or special permission are available.",
+      "必须先确认是否允许公众进入、是否需要预约或许可，不要自行进入未开放洞窟。",
+      "Semak kebenaran rasmi sebelum masuk."
+    ]
+  ),
+
+  makePlace(
+    "hanxia", "cave", "check", "🪨",
+    ["Hanxia Grottoes","旱峡石窟","Gua Hanxia"],
+    ["Protected site · verify access","文保点 · 需核实开放","Tapak dilindungi · semak akses"],
+    [
+      "A small archaeological cave site, not a conventional tourist attraction.",
+      "小众石窟文物保护点，并不是常规成熟的旅游售票景区。",
+      "Tapak gua arkeologi kecil yang dilindungi."
+    ],
+    [
+      "Only visit after receiving confirmation from the managing authority.",
+      "必须先确认文保管理方是否允许公众进入，不得擅自进入保护区或洞窟。",
+      "Lawati hanya selepas mendapat pengesahan pihak pengurusan."
+    ]
+  )
+
+];
+
+
+/* =========================================
+   BOOKING INFORMATION
+========================================= */
+
+const bookingMethods = {
+
+  en: {
+    paid: "Check the official attraction operator or authorised booking channel for tickets, dates and admission conditions.",
+    free: "No standard admission ticket is usually needed. Check opening times and any reservation requirements.",
+    check: "Confirm public access and visiting permission with the managing authority before travelling."
+  },
+
+  zh: {
+    paid: "请通过景区官方渠道或认可的购票平台确认实际价格、参观日期、预约要求和购票方式。",
+    free: "通常不需要购买普通入场门票，但可能存在预约、限流或特殊开放时间要求。",
+    check: "请先联系景区或文物保护管理方，确认是否对公众开放、是否需要预约或特殊许可。"
+  },
+
+  ms: {
+    paid: "Semak tiket, harga dan syarat tempahan melalui saluran rasmi.",
+    free: "Biasanya tiada tiket masuk, tetapi tempahan atau waktu khas mungkin diperlukan.",
+    check: "Sahkan akses dan kebenaran dengan pihak pengurusan sebelum melawat."
+  }
+
+};
+
+
+/* =========================================
+   STORAGE
+========================================= */
+
+const STRATEGY_KEY = "dunhuang-custom-travel-guide";
+const TICKET_KEY = "dunhuang-ticket-checklist-v1";
+
+let ticketStatus = {};
+
+try {
+  ticketStatus = JSON.parse(
+    localStorage.getItem(TICKET_KEY) || "{}"
+  );
+} catch {
+  ticketStatus = {};
+}
+
+let currentFilter = "all";
+let currentCategory = "all";
+let searchText = "";
+
+
+function getStrategySelections() {
+  try {
+    const data = JSON.parse(
+      localStorage.getItem(STRATEGY_KEY) || "{}"
+    );
+
+    if (Array.isArray(data.attractions)) {
+      return [...new Set(data.attractions.map(String))];
+    }
+
+  } catch (error) {
+    console.warn("Cannot read Strategy:", error);
+  }
+
+  return [];
+}
+
+
+function saveTicketStatus() {
+  try {
+    localStorage.setItem(
+      TICKET_KEY,
+      JSON.stringify(ticketStatus)
+    );
+  } catch (error) {
+    console.warn("Cannot save ticket status:", error);
+  }
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+const HOME_FILE = "./Dunhuang improve.html";
+
+function updateNavigation() {
+
+  const t = i18n[currentLanguage];
+
+  const sections = [
+    "home",
+    "experiences",
+    "journey",
+    "stories",
+    "faq",
+    "about"
+  ];
+
+  const nav = $("navLinks");
+
+  nav.innerHTML = sections.map((section, index) => {
+
+    const target =
+      section === "about"
+        ? `./about.html?lang=${currentLanguage}`
+        : `${HOME_FILE}?lang=${currentLanguage}#${section}`;
+
+    return `
+      <a href="${target}">
+        ${escapeHTML(t.nav[index])}
+      </a>
+    `;
+
+  }).join("");
+
+
+  $("logoLink").href =
+    `${HOME_FILE}?lang=${currentLanguage}#home`;
+
+  $("previousLink").href =
+    `${HOME_FILE}?lang=${currentLanguage}#journey`;
+
+  $("nextLink").href =
+    `./transport improve.html?lang=${currentLanguage}`;
+
+  $("strategyLink").href =
+    `./strategy.html?lang=${currentLanguage}`;
+
+
+  $("seniorText").textContent = t.senior;
+
+  $("journeyLabel").textContent = t.journey;
+
+  $("previousText").textContent = t.previous;
+  $("previousName").textContent = t.homeName;
+
+  $("nextText").textContent = t.next;
+  $("nextName").textContent = t.transportName;
+
+  $("footerText").textContent = t.footer;
+
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+function renderStats() {
+
+  const picked = getStrategySelections();
+
+  const completed = picked.filter(
+    id => ticketStatus[id]
+  ).length;
+
+  const t = i18n[currentLanguage];
+
+  $("totalSelected").textContent = picked.length;
+  $("pendingCount").textContent = picked.length - completed;
+  $("readyCount").textContent = completed;
+
+  $("totalLabel").textContent = t.total;
+  $("pendingLabel").textContent = t.pending;
+  $("readyLabel").textContent = t.ready;
+
+}
+
+
+/* =========================================
+   FILTERS
+========================================= */
+
+function renderFilters() {
+
+  const t = i18n[currentLanguage];
+
+  const filters = [
+    "all",
+    "mine",
+    "paid",
+    "free",
+    "check"
+  ];
+
+  $("ticketFilters").innerHTML = filters.map(key => `
+    <button
+      type="button"
+      class="filter-btn ${currentFilter === key ? "active" : ""}"
+      data-filter="${key}"
+    >
+      ${escapeHTML(t[key])}
+    </button>
+  `).join("");
+
+
+  const categories = [
+    "all",
+    "cave",
+    "heritage",
+    "nature",
+    "city"
+  ];
+
+  $("categorySelect").innerHTML = categories.map(key => `
+    <option value="${key}">
+      ${escapeHTML(
+        key === "all" ? t.allCategories : t[key]
+      )}
+    </option>
+  `).join("");
+
+  $("categorySelect").value = currentCategory;
+
+}
+
+
+/* =========================================
+   ATTRACTION CARDS
+========================================= */
+
+function makeAttractionCard(item) {
+
+  const t = i18n[currentLanguage];
+
+  const picked = getStrategySelections();
+
+  const inStrategy = picked.includes(item.id);
+
+  const isDone = !!ticketStatus[item.id];
+
+  return `
+
+    <article class="attraction-card ${
+      inStrategy ? "strategy-picked" : ""
+    }">
+
+      <div class="attraction-cover">
+
+        <span class="attraction-icon">
+          ${item.icon}
+        </span>
+
+        <span class="attraction-group">
+          ${escapeHTML(t[item.category])}
+        </span>
+
+      </div>
+
+
+      <div class="attraction-body">
+
+        <div class="attraction-tags">
+
+          <span class="ticket-tag ${item.type}">
+            ${escapeHTML(t.categories[item.type])}
+          </span>
+
+          ${
+            inStrategy
+              ? `<span class="ticket-tag">
+                   ${escapeHTML(t.selected)}
+                 </span>`
+              : ""
+          }
+
+        </div>
+
+
+        <h3>${escapeHTML(tr(item.name))}</h3>
+
+        <div class="attraction-price">
+          ${escapeHTML(tr(item.price))}
+        </div>
+
+        <p class="attraction-description">
+          ${escapeHTML(tr(item.description))}
+        </p>
+
+
+        <div class="attraction-actions">
+
+          <button
+            type="button"
+            class="details-btn"
+            data-detail="${item.id}"
+          >
+            ${escapeHTML(t.detail)}
+          </button>
+
+          <button
+            type="button"
+            class="mark-btn ${isDone ? "done" : ""}"
+            data-mark="${item.id}"
+          >
+            ${escapeHTML(isDone ? t.done : t.mark)}
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+}
+
+
+function renderAttractions() {
+
+  const t = i18n[currentLanguage];
+
+  const picked = getStrategySelections();
+
+  const sorted = [...attractions].sort(
+    (a, b) =>
+      Number(picked.includes(b.id)) -
+      Number(picked.includes(a.id))
+  );
+
+
+  const filtered = sorted.filter(item => {
+
+    if (
+      currentFilter === "mine" &&
+      !picked.includes(item.id)
+    ) {
+      return false;
+    }
+
+    if (
+      ["paid", "free", "check"].includes(currentFilter) &&
+      item.type !== currentFilter
+    ) {
+      return false;
+    }
+
+    if (
+      currentCategory !== "all" &&
+      item.category !== currentCategory
+    ) {
+      return false;
+    }
+
+
+    const query = searchText.trim().toLowerCase();
+
+    if (!query) return true;
+
+    return item.name.some(name =>
+      name.toLowerCase().includes(query)
+    ) || item.id.includes(query);
+
+  });
+
+
+  $("ticketGrid").innerHTML = filtered.length
+
+    ? filtered.map(makeAttractionCard).join("")
+
+    : `
+      <div class="empty-result">
+        ${escapeHTML(t.empty)}
+      </div>
+    `;
+
+  renderMyTicketList();
+  renderStats();
+
+}
+
+
+/* =========================================
+   MY TICKET LIST
+========================================= */
+
+function renderMyTicketList() {
+
+  const t = i18n[currentLanguage];
+
+  const picked = getStrategySelections();
+
+  if (!picked.length) {
+
+    $("myTicketList").innerHTML = `
+      <div class="empty-result">
+        ${escapeHTML(t.noPicks)}
+      </div>
+    `;
+
+  } else {
+
+    $("myTicketList").innerHTML = picked.map(id => {
+
+      const item = attractions.find(a => a.id === id);
+
+      const name = item ? tr(item.name) : id;
+
+      const price = item ? tr(item.price) : "";
+
+      const done = !!ticketStatus[id];
+
+      return `
+
+        <div class="my-ticket-row">
+
+          <strong>${escapeHTML(name)}</strong>
+
+          <span>${escapeHTML(price)}</span>
+
+          <button
+            type="button"
+            data-mark="${escapeHTML(id)}"
+          >
+            ${escapeHTML(done ? t.done : t.mark)}
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  const known = picked
+    .map(id => attractions.find(a => a.id === id))
+    .filter(item =>
+      item &&
+      item.type === "paid" &&
+      Number.isFinite(item.amount)
+    );
+
+  const total = known.reduce(
+    (sum, item) => sum + item.amount,
+    0
+  );
+
+  $("ticketEstimate").textContent =
+    `${t.estimate}: ¥${total}`;
+
+  $("estimateNote").textContent =
+    `${known.length} priced attractions. ${t.estimateNote}`;
+
+}
+
+
+/* =========================================
+   TICKET DETAILS
+========================================= */
+
+function openDetails(id) {
+
+  const item = attractions.find(a => a.id === id);
+
+  if (!item) return;
+
+  const t = i18n[currentLanguage];
+
+  $("dialogCategory").textContent =
+    t[item.category] + " · " + t.categories[item.type];
+
+  $("dialogTitle").textContent =
+    tr(item.name);
+
+
+  const booking =
+    bookingMethods[currentLanguage][item.type];
+
+
+  const officialLink = item.official
+
+    ? `
+      <a
+        href="${escapeHTML(item.official)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ${escapeHTML(t.official)}
+      </a>
+    `
+
+    : `
+      <a
+        href="https://www.google.com/search?q=${
+          encodeURIComponent(
+            item.name[1] + " 门票 预约 官网"
+          )
+        }"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ${escapeHTML(t.google)}
+      </a>
+    `;
+
+
+  const mapLink = `
+    <a
+      class="secondary"
+      href="https://www.google.com/maps/search/?api=1&query=${
+        encodeURIComponent(
+          item.name[1] + " 甘肃 敦煌 中国"
+        )
+      }"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      ${escapeHTML(t.maps)}
+    </a>
+  `;
+
+
+  $("dialogContent").innerHTML = `
+
+    <h3>${escapeHTML(t.info)}</h3>
+
+    <p>${escapeHTML(tr(item.description))}</p>
+
+
+    <h3>${escapeHTML(t.price)}</h3>
+
+    <p>
+      <strong>${escapeHTML(tr(item.price))}</strong>
+    </p>
+
+
+    <h3>${escapeHTML(t.booking)}</h3>
+
+    <p>${escapeHTML(booking)}</p>
+
+
+    <h3>${escapeHTML(t.tip)}</h3>
+
+    <p>${escapeHTML(tr(item.tip))}</p>
+
+
+    <div class="dialog-links">
+      ${officialLink}
+      ${mapLink}
+    </div>
+
+
+    <p style="
+      margin-top:25px;
+      color:#9b806c;
+      font-size:12px;
+    ">
+      ${escapeHTML(t.notice)}
+    </p>
+
+  `;
+
+  $("ticketDialog").showModal();
+
+}
+
+
+/* =========================================
+   BUTTON EVENTS
+========================================= */
+
+document.addEventListener("click", function(event) {
+
+  const filterButton = event.target.closest(
+    "[data-filter]"
+  );
+
+  if (filterButton) {
+
+    currentFilter = filterButton.dataset.filter;
+
+    renderFilters();
+    renderAttractions();
+
+    return;
+  }
+
+
+  const detailsButton = event.target.closest(
+    "[data-detail]"
+  );
+
+  if (detailsButton) {
+
+    openDetails(detailsButton.dataset.detail);
+
+    return;
+  }
+
+
+  const markButton = event.target.closest(
+    "[data-mark]"
+  );
+
+  if (markButton) {
+
+    const id = markButton.dataset.mark;
+
+    ticketStatus[id] = !ticketStatus[id];
+
+    saveTicketStatus();
+
+    renderAttractions();
+
+    return;
+  }
+
+});
+
+
+$("ticketSearch").addEventListener(
+  "input",
+  function(event) {
+
+    searchText = event.target.value;
+
+    renderAttractions();
+
+  }
+);
+
+
+$("categorySelect").addEventListener(
+  "change",
+  function(event) {
+
+    currentCategory = event.target.value;
+
+    renderAttractions();
+
+  }
+);
+
+
+/* =========================================
+   CLOSE DIALOG
+========================================= */
+
+$("closeDialog").addEventListener(
+  "click",
+  () => $("ticketDialog").close()
+);
+
+
+$("ticketDialog").addEventListener(
+  "click",
+  event => {
+
+    if (event.target === $("ticketDialog")) {
+      $("ticketDialog").close();
+    }
+
+  }
+);
+
+
+/* =========================================
+   LANGUAGE SWITCHING
+========================================= */
+
+function setLanguage(lang) {
+
+  if (!["en", "zh", "ms"].includes(lang)) {
+    lang = "en";
+  }
+
+  currentLanguage = lang;
+
+  document.documentElement.lang =
+    lang === "zh" ? "zh-CN" : lang;
+
+  try {
+
+    localStorage.setItem(
+      "dunhuang-language",
+      lang
+    );
+
+  } catch {}
+
+
+  const url = new URL(window.location.href);
+
+  url.searchParams.set("lang", lang);
+
+  history.replaceState(null, "", url);
+
+
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+
+    btn.classList.toggle(
+      "active",
+      btn.dataset.lang === lang
+    );
+
+  });
+
+
+  render();
+
+}
+
+
+document.querySelectorAll(".lang-btn").forEach(btn => {
+
+  btn.addEventListener("click", () => {
+
+    setLanguage(btn.dataset.lang);
+
+  });
+
+});
+
+
+/* =========================================
+   SENIOR MODE
+========================================= */
+
+$("seniorBtn").addEventListener("click", () => {
+
+  const active = document.body.classList.toggle(
+    "senior-mode"
+  );
+
+  $("seniorBtn").classList.toggle(
+    "active",
+    active
+  );
+
+  try {
+    localStorage.setItem(
+      "dunhuang-senior-mode",
+      String(active)
+    );
+  } catch {}
+
+});
+
+
+/* =========================================
+   SCROLL NAVBAR
+========================================= */
+
+function updateNavbar() {
+
+  const navbar = $("navbar");
+
+  navbar.classList.toggle(
+    "scrolled",
+    window.scrollY > 30
+  );
+
+  document.documentElement.style.setProperty(
+    "--nav-height",
+    navbar.offsetHeight + "px"
+  );
+
+}
+
+
+window.addEventListener(
+  "scroll",
+  updateNavbar,
+  { passive: true }
+);
+
+window.addEventListener(
+  "resize",
+  updateNavbar
+);
+
+
+/* =========================================
+   COMPLETE RENDER
+========================================= */
+
+function render() {
+
+  const t = i18n[currentLanguage];
+
+  updateNavigation();
+
+  $("heroTitle").textContent = t.hero;
+  $("heroDescription").textContent = t.heroDesc;
+
+  $("sectionTitle").textContent = t.sectionTitle;
+  $("sectionIntro").textContent = t.intro;
+
+  $("ticketSearch").placeholder = t.search;
+
+  $("myTicketTitle").textContent = t.myTitle;
+  $("myTicketIntro").textContent = t.myIntro;
+
+  $("ticketNotice").textContent = t.notice;
+
+  $("strategyLink").textContent = t.strategy;
+
+  document.title = t.hero + " | DUNHUANG";
+
+  renderFilters();
+  renderAttractions();
+
+}
+
+
+/* =========================================
+   STRATEGY SYNCHRONISATION
+========================================= */
+
+window.addEventListener("storage", event => {
+
+  if (event.key === TICKET_KEY) {
+
+    try {
+      ticketStatus = JSON.parse(
+        event.newValue || "{}"
+      );
+    } catch {
+      ticketStatus = {};
+    }
+
+  }
+
+  if (
+    event.key === STRATEGY_KEY ||
+    event.key === TICKET_KEY
+  ) {
+    renderAttractions();
+  }
+
+});
+
+
+window.addEventListener("pageshow", () => {
+  renderAttractions();
+});
+
+
+/* =========================================
+   INITIALISE
+========================================= */
+
+function initialise() {
+
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  let lang = params.get("lang");
+
+  if (!["en", "zh", "ms"].includes(lang)) {
+
+    try {
+      lang = localStorage.getItem(
+        "dunhuang-language"
+      ) || "en";
+    } catch {
+      lang = "en";
+    }
+
+  }
+
+
+  try {
+
+    if (
+      localStorage.getItem(
+        "dunhuang-senior-mode"
+      ) === "true"
+    ) {
+
+      document.body.classList.add("senior-mode");
+
+      $("seniorBtn").classList.add("active");
+
+    }
+
+  } catch {}
+
+
+  setLanguage(lang);
+
+  updateNavbar();
+
+}
+
+
+initialise();
+
+</script>
+
+<!-- DUNHUANG · REVIEWS NAVIGATION -->
+
+<style>
+#dhReviews {
+  scroll-margin-top: 105px;
+}
+
+.navbar .nav-links {
+  gap: clamp(9px, 1.3vw, 22px);
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const HOME_PAGE = "./Dunhuang improve.html";
+
+  const labels = {
+    en: "REVIEWS",
+    zh: "旅人说",
+    ms: "ULASAN"
+  };
+
+  const nav = document.querySelector(
+    ".navbar .nav-links, #navLinks"
+  );
+
+  if (!nav) return;
+
+  function getLanguage() {
+    const value = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (value.startsWith("zh")) return "zh";
+
+    if (
+      value.startsWith("ms") ||
+      value.startsWith("bm")
+    ) return "ms";
+
+    return "en";
+  }
+
+  function updateReviewsNavigation() {
+    const language = getLanguage();
+
+    const onHomepage =
+      document.getElementById("dhReviews") !== null;
+
+    const href = onHomepage
+      ? "#dhReviews"
+      : HOME_PAGE +
+        "?lang=" + language +
+        "#dhReviews";
+
+    let link = nav.querySelector(
+      '[data-dh-reviews-nav="true"]'
+    );
+
+    if (!link) {
+
+      link = document.createElement("a");
+
+      link.dataset.dhReviewsNav = "true";
+
+      // Find FAQ so Reviews appears before it.
+
+      const faq = Array.from(
+        nav.querySelectorAll("a")
+      ).find(a =>
+        a.getAttribute("href")?.includes("#faq") ||
+        a.dataset.i18n === "navFAQ"
+      );
+
+      // Support existing <ul><li> navigation
+      // and newer directly rendered <a> links.
+
+      if (nav.tagName === "UL") {
+
+        const li = document.createElement("li");
+        li.appendChild(link);
+
+        const faqItem = faq
+          ? faq.closest("li")
+          : null;
+
+        if (
+          faqItem &&
+          faqItem.parentElement === nav
+        ) {
+          nav.insertBefore(li, faqItem);
+        } else {
+          nav.appendChild(li);
+        }
+
+      } else {
+
+        if (faq && faq.parentElement === nav) {
+          nav.insertBefore(link, faq);
+        } else {
+          nav.appendChild(link);
+        }
+
+      }
+
+    }
+
+    if (link.textContent !== labels[language]) {
+      link.textContent = labels[language];
+    }
+
+    if (link.getAttribute("href") !== href) {
+      link.setAttribute("href", href);
+    }
+
+  }
+
+  // Re-add the link if a page rebuilds its
+  // navigation during language switching.
+
+  const navObserver = new MutationObserver(
+    updateReviewsNavigation
+  );
+
+  navObserver.observe(nav, {
+    childList: true
+  });
+
+  // Update wording when HTML language changes.
+
+  new MutationObserver(
+    updateReviewsNavigation
+  ).observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ["lang"]
+    }
+  );
+
+  // Support language buttons.
+
+  document.querySelectorAll(
+    "[data-lang]"
+  ).forEach(button => {
+
+    button.addEventListener("click", () => {
+      setTimeout(updateReviewsNavigation, 0);
+    });
+
+  });
+
+  updateReviewsNavigation();
+
+})();
+</script>
+
+<!-- END REVIEWS NAVIGATION -->
+
+<!-- ===================================
+   DUNHUANG · GLOBAL FLOATING TOOLS
+   AI GUIDE + BACK TO TOP
+=================================== -->
+
+<style>
+.dh-global-tools {
+  position: fixed !important;
+  right: 30px;
+  bottom: 30px;
+  z-index: 20000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: center;
+}
+
+.dh-global-tools button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform .3s ease;
+  box-shadow: 0 8px 25px #0004;
+}
+
+.dh-global-tools button:hover {
+  transform: translateY(-4px);
+}
+
+.dh-global-ai {
+  background: #171c19;
+  border: 2px solid #d8b47c;
+  color: #d8b47c;
+}
+
+.dh-global-top {
+  background: #d8b47c;
+  border: none;
+  color: #171c19;
+}
+
+/* AI CHAT WINDOW */
+
+.dh-global-chat {
+  position: fixed;
+  right: 120px;
+  bottom: 30px;
+  z-index: 20001;
+
+  width: min(450px, calc(100vw - 150px));
+  height: min(650px, calc(100dvh - 60px));
+
+  background: #fffaf0;
+  border: 1px solid #d8b47c;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px #0006;
+  overflow: hidden;
+}
+
+.dh-global-chat[hidden] {
+  display: none !important;
+}
+
+.dh-global-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fffaf0;
+}
+
+.dh-global-close {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #51342c;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.dh-global-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 35px;
+  text-align: center;
+  color: #85583c;
+  background: #fffaf0;
+  font-size: 14px;
+}
+
+/* SENIOR MODE */
+
+body.senior-mode .dh-global-tools button {
+  width: 82px;
+  height: 82px;
+  font-size: 38px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+  .dh-global-tools {
+    right: 18px;
+    bottom: 20px;
+    gap: 16px;
+  }
+
+  .dh-global-tools button {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+
+  .dh-global-chat {
+    right: 10px;
+    bottom: 160px;
+    width: calc(100vw - 20px);
+    height: min(560px, calc(100dvh - 180px));
+  }
+}
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  // 原本的敦煌首页文件名
+  const HOME_PAGE = "./Dunhuang%20AI.html";
+
+  // 避免在已有按钮的页面重复创建
+  const hasOriginalAI =
+    !!document.getElementById("aiFloating");
+
+  const hasOriginalTop =
+    !!document.querySelector(".floating-top");
+
+  if (hasOriginalAI && hasOriginalTop) return;
+
+  const tools = document.createElement("div");
+  tools.className = "dh-global-tools";
+
+  // Create buttons
+  const aiButton = document.createElement("button");
+  aiButton.className = "dh-global-ai";
+  aiButton.type = "button";
+  aiButton.textContent = "✦";
+  aiButton.title = "Dunhuang AI Guide";
+  aiButton.setAttribute("aria-label", "Open AI Guide");
+
+  const topButton = document.createElement("button");
+  topButton.className = "dh-global-top";
+  topButton.type = "button";
+  topButton.textContent = "↑";
+  topButton.title = "Back to Top";
+  topButton.setAttribute("aria-label", "Back to Top");
+
+  if (!hasOriginalAI) tools.appendChild(aiButton);
+  if (!hasOriginalTop) tools.appendChild(topButton);
+
+  document.body.appendChild(tools);
+
+  /* BACK TO TOP */
+
+  topButton.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  /* AI WINDOW */
+
+  if (hasOriginalAI) return;
+
+  const panel = document.createElement("div");
+  panel.className = "dh-global-chat";
+  panel.hidden = true;
+
+  const frame = document.createElement("iframe");
+  frame.className = "dh-global-frame";
+  frame.title = "Dunhuang AI Guide";
+
+  const close = document.createElement("button");
+  close.className = "dh-global-close";
+  close.type = "button";
+  close.textContent = "×";
+  close.setAttribute("aria-label", "Close AI Guide");
+
+  const loading = document.createElement("div");
+  loading.className = "dh-global-loading";
+  loading.textContent = "Opening Dunhuang AI Guide...";
+
+  panel.append(frame, loading, close);
+  document.body.appendChild(panel);
+
+  let loaded = false;
+
+  function getLanguage() {
+    const lang = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (lang.startsWith("zh")) return "zh";
+    if (lang.startsWith("ms") || lang.startsWith("bm")) return "ms";
+    return "en";
+  }
+
+  /* Reuse the real AI window from homepage */
+
+  frame.addEventListener("load", function () {
+
+    try {
+      const doc = frame.contentDocument;
+
+      if (!doc || !doc.getElementById("aiFloating")) {
+        throw new Error("Homepage AI not found");
+      }
+
+      // Hide homepage content inside the iframe.
+      // Show only the original AI chat.
+      const style = doc.createElement("style");
+
+      style.textContent = `
+        html, body {
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: hidden !important;
+          background: #fffaf0 !important;
+        }
+
+        body > :not(#aiWindow) {
+          display: none !important;
+        }
+
+        #aiWindow {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          max-width: none !important;
+          max-height: none !important;
+          border-radius: 0 !important;
+          display: flex !important;
+          box-shadow: none !important;
+          z-index: 100 !important;
+        }
+
+        #aiWindow[hidden] {
+          display: none !important;
+        }
+
+        #aiClose {
+          display: none !important;
+        }
+      `;
+
+      doc.head.appendChild(style);
+
+      // Set language to match the current page
+      const languageButton = doc.querySelector(
+        '.language-switcher button[data-lang="' +
+        getLanguage() + '"]'
+      );
+
+      languageButton?.click();
+
+      // Open homepage's existing AI functionality
+      const button = doc.getElementById("aiFloating");
+
+      const aiWindow = doc.getElementById("aiWindow");
+
+      if (aiWindow.hidden) {
+        button.click();
+      }
+
+      loaded = true;
+      loading.style.display = "none";
+
+    } catch (error) {
+
+      loading.innerHTML = "";
+
+      const fallback = document.createElement("a");
+      fallback.href = HOME_PAGE;
+      fallback.textContent = "Open AI on Homepage ↗";
+      fallback.style.color = "#96583f";
+
+      loading.appendChild(fallback);
+
+      console.warn("AI guide:", error);
+    }
+
+  });
+
+
+  /* OPEN AI */
+
+  function openAI() {
+
+    panel.hidden = false;
+    aiButton.setAttribute("aria-expanded", "true");
+
+    if (!loaded && !frame.src) {
+      frame.src = HOME_PAGE;
+    }
+
+  }
+
+
+  /* CLOSE AI */
+
+  function closeAI() {
+
+    panel.hidden = true;
+    aiButton.setAttribute("aria-expanded", "false");
+
+    try {
+      frame.contentWindow.speechSynthesis?.cancel();
+    } catch {}
+
+  }
+
+
+  aiButton.addEventListener("click", () => {
+
+    if (panel.hidden) {
+      openAI();
+    } else {
+      closeAI();
+    }
+
+  });
+
+  close.addEventListener("click", closeAI);
+
+  document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && !panel.hidden) {
+      closeAI();
+    }
+
+  });
+
+})();
+</script>
+
+<!-- END GLOBAL FLOATING TOOLS -->
+
+</body>
+</html>

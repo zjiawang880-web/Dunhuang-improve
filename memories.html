@@ -1,0 +1,4066 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>My Dunhuang Memories | DUNHUANG</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --night: #171c19;
+  --brown: #96583f;
+  --darkbrown: #51342c;
+  --gold: #d8b47c;
+  --paper: #f7efe5;
+  --cream: #fffaf3;
+  --line: #e6d2bc;
+  --muted: #927d70;
+  --serif: "Cormorant Garamond", "Noto Serif SC", serif;
+  --sans: "DM Sans", "Noto Sans SC", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 140px;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--darkbrown);
+  font-family: var(--sans);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* NAVIGATION */
+
+.navbar {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 90px;
+  padding: 15px 4%;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 25px;
+  align-items: center;
+
+  background: transparent;
+  color: white;
+  transition: background .25s;
+}
+
+.navbar.scrolled,
+body.senior-mode .navbar {
+  background: rgba(23,28,25,.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 5px 25px #0003;
+}
+
+.logo {
+  font: 600 36px var(--serif);
+  letter-spacing: 3px;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+.nav-actions,
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lang-btn,
+.senior-button {
+  min-height: 46px;
+  padding: 9px 13px;
+
+  background: transparent;
+  border: 1px solid #ffffff80;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.senior-button {
+  border-color: var(--gold);
+  border-radius: 5px;
+}
+
+.lang-btn.active,
+.lang-btn:hover,
+.senior-button:hover,
+.senior-button.active {
+  background: var(--gold);
+  color: var(--night);
+  border-color: var(--gold);
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  min-height: 550px;
+  padding: 156px 7% 95px;
+  color: var(--cream);
+
+  background: linear-gradient(
+    112deg,
+    #5e372f 0%,
+    #8e5d49 51%,
+    #c58960 100%
+  );
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  right: -140px;
+  top: 40px;
+
+  width: 610px;
+  height: 610px;
+  border: 1px solid #f0d3aa55;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -170px;
+
+  height: 240px;
+  border-radius: 50%;
+  background: #ddad8350;
+  z-index: -1;
+}
+
+.hero-inner {
+  max-width: 1320px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: 1fr .7fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.eyebrow {
+  color: #ebc995;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font: 500 clamp(60px,7vw,100px)/1.03 var(--serif);
+  margin: 21px 0 23px;
+}
+
+.hero h1 em {
+  color: #eecb96;
+  font-weight: 400;
+}
+
+.hero p {
+  max-width: 660px;
+  color: #f8e8d9;
+  font-size: 15px;
+  line-height: 2;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.hero-actions a {
+  padding: 13px 20px;
+  border: 1px solid #edc89999;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff6e6;
+}
+
+.hero-actions a:hover {
+  background: #ffffff17;
+}
+
+.hero-book {
+  position: relative;
+  margin: auto;
+
+  width: min(290px,76%);
+  height: 360px;
+
+  transform: rotate(8deg);
+  border-radius: 5px 17px 17px 5px;
+
+  background: linear-gradient(
+    120deg,
+    #d9b98c 0%,
+    #f5e5c6 17%,
+    #f9efda 100%
+  );
+
+  box-shadow:
+    20px 22px 0 #50332450,
+    0 25px 60px #24110e4d;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  color: #96583f;
+  border-left: 12px solid #c99b70;
+}
+
+.hero-book::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border: 1px solid #cda777;
+}
+
+.hero-book .emblem {
+  font-size: 74px;
+  color: #b99460;
+  line-height: 1;
+}
+
+.hero-book strong {
+  font: 600 34px/1.05 var(--serif);
+  margin-top: 23px;
+}
+
+.hero-book small {
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-top: 17px;
+}
+
+/* THREE TRAVEL STAGES */
+
+.stage-strip {
+  padding: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(15px,5vw,70px);
+  flex-wrap: wrap;
+
+  background: #eadeca;
+  border-bottom: 1px solid #d7c3ac;
+  color: #846b59;
+}
+
+.stage-strip a,
+.stage-strip span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.stage-strip .current {
+  color: #96583f;
+}
+
+.stage-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ab8868;
+}
+
+/* MAIN CONTENT */
+
+.page {
+  width: min(1370px,92%);
+  margin: auto;
+  padding: 76px 0 95px;
+}
+
+.section-intro {
+  text-align: center;
+  margin: 0 auto 40px;
+  max-width: 750px;
+}
+
+.section-intro h2 {
+  font: 500 clamp(45px,5vw,69px)/1.12 var(--serif);
+  margin: 13px 0;
+  color: #51342c;
+}
+
+.section-intro p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+  margin: 0;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns:
+    minmax(0,1.7fr)
+    minmax(260px,.83fr);
+
+  gap: 23px;
+  align-items: start;
+}
+
+.card {
+  background: #fffdf9;
+  border: 1px solid #e7d5c2;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px #6a3f290c;
+  padding: 29px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.overline {
+  display: block;
+  color: #ab825f;
+  font-size: 10px;
+  letter-spacing: 2.2px;
+  font-weight: 700;
+}
+
+.card-title h3 {
+  font: 600 32px var(--serif);
+  margin: 6px 0 0;
+}
+
+.subtle {
+  color: #957e6d;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* EDITOR */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1.3fr .7fr;
+  gap: 15px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 17px;
+}
+
+.field label {
+  color: #744d39;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  background: #fffaf3;
+  border: 1px solid #dfc9b3;
+  border-radius: 8px;
+  padding: 13px 14px;
+  color: #553b31;
+  outline: none;
+  font-size: 13px;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: #a26c4b;
+  box-shadow: 0 0 0 3px #96583f18;
+}
+
+.field textarea {
+  min-height: 122px;
+  line-height: 1.85;
+  resize: vertical;
+}
+
+/* PHOTO UPLOAD */
+
+.photo-upload {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 80px;
+  padding: 16px;
+
+  border: 1px dashed #cfae91;
+  background: #f9f0e5;
+  border-radius: 10px;
+
+  color: #895b43;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.photo-upload input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.photo-strip {
+  display: flex;
+  gap: 11px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+
+.photo-tile {
+  position: relative;
+  width: 92px;
+  height: 96px;
+
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: #eddfcd;
+}
+
+.photo-tile.selected {
+  border-color: #96583f;
+}
+
+.photo-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.photo-tile button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+
+  background: #51342ce5;
+  color: white;
+  border: 0;
+  border-radius: 50%;
+
+  width: 24px;
+  height: 24px;
+  font-size: 15px;
+}
+
+.photo-tile span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: #51342cb8;
+  color: white;
+  text-align: center;
+  font-size: 9px;
+  padding: 3px;
+  pointer-events: none;
+}
+
+/* PHOTO REMIX */
+
+.remix {
+  margin-top: 28px;
+  padding: 22px;
+
+  background: #f7ecdf;
+  border: 1px solid #ead1b8;
+  border-radius: 12px;
+}
+
+.remix-heading h4 {
+  font: 600 27px var(--serif);
+  margin: 7px 0;
+}
+
+.remix-heading p {
+  font-size: 12px;
+  color: #917a68;
+  line-height: 1.9;
+  margin: 0;
+}
+
+.template-tabs {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 20px 0 15px;
+}
+
+.template-tab {
+  border: 1px solid #d6b89b;
+  background: #fffaf3;
+  color: #82553c;
+
+  padding: 11px 17px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.template-tab.active {
+  background: #96583f;
+  border-color: #96583f;
+  color: white;
+}
+
+.remix-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.poster-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0,1fr)
+    minmax(0,.8fr);
+
+  gap: 18px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.poster-frame {
+  padding: 10px;
+  background: #ddc7a8;
+  border-radius: 10px;
+  box-shadow: 0 13px 28px #6c44302b;
+  min-width: 0;
+}
+
+.poster-frame canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #f0e4d1;
+  border-radius: 3px;
+}
+
+.poster-hint {
+  font-size: 12px;
+  color: #896c58;
+  line-height: 2;
+}
+
+.poster-hint strong {
+  color: #6c4b39;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 23px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: 1px solid #96583f;
+  background: #96583f;
+  color: white;
+
+  border-radius: 8px;
+  padding: 13px 18px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.btn:hover {
+  background: #7a4934;
+}
+
+.btn.secondary {
+  background: #fffaf3;
+  color: #96583f;
+}
+
+.btn.secondary:hover {
+  background: #f3e2cc;
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.status {
+  font-size: 12px;
+  color: #86644e;
+  line-height: 1.7;
+  min-height: 18px;
+  margin: 12px 0 0;
+}
+
+/* SAVED MEMORY LIST */
+
+.sidebar {
+  position: sticky;
+  top: 112px;
+}
+
+.memory-items {
+  display: grid;
+  gap: 11px;
+  max-height: 650px;
+  overflow: auto;
+  padding-right: 3px;
+}
+
+.memory-item {
+  display: grid;
+  grid-template-columns: 69px 1fr;
+  gap: 12px;
+
+  padding: 10px;
+  border: 1px solid #ead7c4;
+  background: #fffaf3;
+  border-radius: 10px;
+}
+
+.memory-item img,
+.memory-thumb-fallback {
+  width: 69px;
+  height: 77px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #e8d5bd;
+
+  display: grid;
+  place-items: center;
+  color: #a67e58;
+  font-size: 25px;
+}
+
+.memory-info {
+  min-width: 0;
+}
+
+.memory-info strong {
+  display: block;
+  font-size: 14px;
+  color: #704833;
+  overflow-wrap: anywhere;
+}
+
+.memory-info small {
+  display: block;
+  color: #a18874;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.memory-tools {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.memory-tools button {
+  border: 1px solid #dfc6ad;
+  border-radius: 5px;
+  background: #fffdf7;
+  color: #845940;
+
+  font-size: 11px;
+  padding: 5px 7px;
+}
+
+.memory-tools button:hover {
+  background: #f1deca;
+}
+
+.memory-empty {
+  font-size: 13px;
+  color: #a18874;
+  line-height: 1.8;
+
+  border: 1px dashed #d9bd9d;
+  padding: 24px 16px;
+  border-radius: 9px;
+  text-align: center;
+}
+
+.finish-btn {
+  width: 100%;
+  margin-top: 20px;
+  background: #754636;
+  padding: 16px;
+
+  border-radius: 8px;
+  color: #fff7e8;
+  font-size: 14px;
+  font-weight: 700;
+  border: 0;
+}
+
+.finish-btn:hover {
+  background: #96583f;
+}
+
+.finish-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.privacy-note {
+  margin-top: 15px;
+  font-size: 11px;
+  color: #9b8069;
+  line-height: 1.8;
+}
+
+/* FLIPBOOK */
+
+#bookStage {
+  margin-top: 15px;
+}
+
+.book-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  flex-direction: column;
+}
+
+.book {
+  position: relative;
+  width: min(690px,100%);
+  min-height: 650px;
+  padding: 13px 13px 13px 24px;
+
+  border-radius: 6px 21px 21px 6px;
+  background: #764a36;
+
+  box-shadow:
+    14px 18px 0 #a17d5b52,
+    23px 28px 45px #49312633;
+
+  perspective: 1800px;
+}
+
+.book::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  bottom: 12px;
+  width: 12px;
+
+  background: repeating-linear-gradient(
+    to right,
+    #b98b67 0px,
+    #b98b67 2px,
+    #e0c5a0 3px,
+    #f1dfbc 4px
+  );
+
+  border-radius: 3px;
+}
+
+.book-page {
+  position: relative;
+  min-height: 625px;
+  padding: 34px 39px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    105deg,
+    #e8d4b8 0%,
+    #fffaf0 9%,
+    #fff9eb 100%
+  );
+
+  border: 1px solid #dcc4a5;
+  border-radius: 3px 14px 14px 3px;
+  box-shadow: inset 13px 0 18px #87684b15;
+}
+
+.book-page.flip-next {
+  animation: pageNext .55s ease both;
+  transform-origin: left center;
+}
+
+.book-page.flip-prev {
+  animation: pagePrev .55s ease both;
+  transform-origin: left center;
+}
+
+@keyframes pageNext {
+  0% {
+    transform: rotateY(-65deg);
+    opacity: .35;
+  }
+
+  100% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pagePrev {
+  0% {
+    transform: rotateY(65deg);
+    opacity: .35;
+  }
+
+  100% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+.book-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ab8262;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.book-cover-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 525px;
+  gap: 18px;
+}
+
+.book-cover-content .big-symbol {
+  font-size: 94px;
+  color: #b28e5d;
+  line-height: 1;
+}
+
+.book-cover-content h2 {
+  font: 600 clamp(44px,6vw,76px)/1.04 var(--serif);
+  color: #925740;
+  margin: 0;
+}
+
+.book-cover-content p {
+  font-size: 13px;
+  color: #9d795d;
+  letter-spacing: 2px;
+}
+
+.book-entry-image {
+  display: block;
+  width: 100%;
+  height: 340px;
+  object-fit: contain;
+
+  background: #ead8be;
+  border-radius: 7px;
+  border: 1px solid #e5d1b9;
+  margin: 20px 0;
+}
+
+.book-entry-title {
+  font: 600 clamp(31px,4vw,49px)/1.1 var(--serif);
+  margin: 8px 0;
+  color: #734832;
+  overflow-wrap: anywhere;
+}
+
+.book-entry-date {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #ac8664;
+}
+
+.book-entry-diary {
+  font-size: 13px;
+  line-height: 1.95;
+  color: #765947;
+
+  white-space: pre-wrap;
+  overflow-y: auto;
+  max-height: 127px;
+  overflow-wrap: anywhere;
+}
+
+.book-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.book-controls button {
+  min-width: 135px;
+}
+
+.book-count {
+  min-width: 85px;
+  text-align: center;
+  font-size: 12px;
+  color: #805d44;
+}
+
+.end-symbol {
+  font-size: 76px;
+  color: #bc9767;
+}
+
+/* FOOTER */
+
+.footer {
+  padding: 28px 20px;
+  background: #171c19;
+  color: #d8b47c;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+/* SENIOR MODE */
+
+body.senior-mode .subtle,
+body.senior-mode .field label,
+body.senior-mode .memory-info small,
+body.senior-mode .book-entry-diary {
+  font-size: 18px;
+}
+
+body.senior-mode .nav-links a {
+  font-size: 18px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1240px) {
+  .navbar {
+    grid-template-columns: auto 1fr;
+    row-gap: 10px;
+  }
+
+  .nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+  }
+
+  .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .sidebar {
+    top: 145px;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero p {
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-book {
+    width: 205px;
+    height: 250px;
+  }
+
+  .hero-book strong {
+    font-size: 24px;
+  }
+
+  .hero-book .emblem {
+    font-size: 52px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .poster-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 13px 4%;
+    gap: 10px;
+  }
+
+  .logo,
+  .nav-actions,
+  .nav-links {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .nav-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    gap: 9px 15px;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+  }
+
+  .logo {
+    font-size: 30px;
+  }
+
+  .lang-btn,
+  .senior-button {
+    min-height: 39px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 205px 6% 65px;
+  }
+
+  .hero h1 {
+    font-size: 53px;
+  }
+
+  .stage-strip {
+    gap: 12px;
+  }
+
+  .page {
+    padding: 55px 0;
+  }
+
+  .card {
+    padding: 19px;
+  }
+
+  .form-grid,
+  .remix-controls,
+  .poster-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-frame {
+    max-width: 440px;
+    margin: auto;
+  }
+
+  .book {
+    min-height: 530px;
+    padding-left: 18px;
+  }
+
+  .book-page {
+    min-height: 510px;
+    padding: 25px 20px;
+  }
+
+  .book-entry-image {
+    height: 245px;
+  }
+
+  .book-entry-diary {
+    max-height: 105px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav class="navbar" id="navbar" aria-label="Main navigation">
+
+  <a class="logo" href="./Dunhuang Improve.html#home">
+    DUNHUANG<span>.</span>
+  </a>
+
+  <ul class="nav-links">
+
+    <li>
+      <a href="./Dunhuang Improve.html#home" data-i="navHome">
+        HOME
+      </a>
+    </li>
+
+    <li>
+      <a href="./Dunhuang Improve.html#experiences" data-i="navExplore">
+        EXPLORE
+      </a>
+    </li>
+
+    <li>
+      <a href="./Dunhuang Improve.html#journey" data-i="navJourney">
+        JOURNEY
+      </a>
+    </li>
+
+    <li>
+      <a href="./Dunhuang Improve.html#storyJourney" data-i="navStories">
+        STORIES
+      </a>
+    </li>
+
+    <li>
+      <a href="./Dunhuang Improve.html#faq" data-i="navFAQ">
+        FAQ
+      </a>
+    </li>
+
+    <li>
+      <a href="./about.html" data-i="navAbout">
+        ABOUT
+      </a>
+    </li>
+
+  </ul>
+
+  <div class="nav-actions">
+
+    <div class="language-switcher">
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="zh">中文</button>
+      <button type="button" class="lang-btn" data-lang="ms">BM</button>
+    </div>
+
+    <button type="button" class="senior-button" id="seniorButton">
+      👓 <span data-i="senior">Senior Mode</span>
+    </button>
+
+  </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+  <div class="hero-inner">
+
+    <div>
+
+      <span class="eyebrow">
+        DUNHUANG · MEMORY COLLECTION
+      </span>
+
+      <h1 data-html="heroTitle">
+        The Journey<br>
+        <em>Lives On.</em>
+      </h1>
+
+      <p data-i="heroText">
+        Add your favourite places, photos and diary entries.
+        Turn every memory into a page worth keeping.
+      </p>
+
+      <div class="hero-actions">
+
+        <a href="#workStage" data-i="heroStart">
+          CREATE MY MEMORY BOOK ↗
+        </a>
+
+        <a href="./checkin.html" data-i="backCheckin">
+          BACK TO CHECK-IN
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="hero-book" aria-hidden="true">
+      <span class="emblem">✧</span>
+      <strong>My Dunhuang<br>Memory Book</strong>
+      <small>EXPLORE · REMEMBER · KEEP</small>
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- THREE STAGES -->
+
+
+<style>
+/* ==========================================
+   DUNHUANG · THREE TRAVEL STAGES
+========================================== */
+
+.dh-stage-nav {
+  width: 100%;
+  background: #efe1cc;
+  border-top: 1px solid #d6b89b;
+  border-bottom: 1px solid #d6b89b;
+  padding: 17px 5%;
+}
+
+.dh-stage-inner {
+  max-width: 1150px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 12px;
+}
+
+.dh-stage-link {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-height: 70px;
+  padding: 11px 16px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  color: #967b67;
+  text-decoration: none;
+  text-align: center;
+
+  transition: background .2s, color .2s;
+}
+
+.dh-stage-number {
+  font-family: "DM Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  opacity: .8;
+}
+
+.dh-stage-text {
+  font-family:
+    "Noto Serif SC",
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.dh-stage-link:hover {
+  background: #f9f0e4;
+  color: #96583f;
+  border-color: #dcc1a5;
+}
+
+.dh-stage-link.active {
+  background: #96583f;
+  color: #fff8ea;
+  border-color: #96583f;
+}
+
+.dh-stage-link.active .dh-stage-number {
+  color: #e9c89b;
+}
+
+.dh-stage-link:focus-visible {
+  outline: 3px solid #b78655;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+
+  .dh-stage-nav {
+    padding: 12px 3%;
+  }
+
+  .dh-stage-inner {
+    gap: 6px;
+  }
+
+  .dh-stage-link {
+    padding: 10px 5px;
+    min-height: 76px;
+  }
+
+  .dh-stage-number {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .dh-stage-text {
+    font-size: 12px;
+  }
+}
+
+body.senior-mode .dh-stage-text {
+  font-size: 20px;
+}
+</style>
+
+
+<nav class="dh-stage-nav" aria-label="Travel stages">
+
+  <div class="dh-stage-inner">
+
+    <a
+      href="./strategy.html"
+      class="dh-stage-link"
+      data-stage="strategy"
+    >
+      <span class="dh-stage-number">
+        01 · STRATEGY
+      </span>
+
+      <span class="dh-stage-text"></span>
+    </a>
+
+
+    <a
+      href="./checkin.html"
+      class="dh-stage-link"
+      data-stage="checkin"
+    >
+      <span class="dh-stage-number">
+        02 · CHECK-IN
+      </span>
+
+      <span class="dh-stage-text"></span>
+    </a>
+
+
+    <a
+      href="./memories.html"
+      class="dh-stage-link"
+      data-stage="memories"
+    >
+      <span class="dh-stage-number">
+        03 · MEMORIES
+      </span>
+
+      <span class="dh-stage-text"></span>
+    </a>
+
+  </div>
+
+</nav>
+
+
+<script>
+(function () {
+  "use strict";
+
+  const bar = document.querySelector(".dh-stage-nav");
+
+  if (!bar) return;
+
+  const labels = {
+
+    zh: {
+      strategy: "把向往写成路线",
+      checkin: "把路线走成故事",
+      memories: "把故事留成回忆"
+    },
+
+    en: {
+      strategy: "Turn Dreams into Plans",
+      checkin: "Turn Plans into Stories",
+      memories: "Turn Stories into Memories"
+    },
+
+    ms: {
+      strategy: "Ubah Impian Jadi Rancangan",
+      checkin: "Ubah Rancangan Jadi Cerita",
+      memories: "Ubah Cerita Jadi Kenangan"
+    }
+
+  };
+
+
+  const currentFile = decodeURIComponent(
+    window.location.pathname.split("/").pop()
+  ).toLowerCase();
+
+
+  function updateStageBar() {
+
+    const pageLang =
+      document.documentElement.lang.toLowerCase();
+
+    const language = pageLang.startsWith("zh")
+      ? "zh"
+      : pageLang.startsWith("ms")
+        ? "ms"
+        : "en";
+
+
+    bar.querySelectorAll("[data-stage]").forEach(link => {
+
+      const stage = link.dataset.stage;
+
+      const text = link.querySelector(".dh-stage-text");
+
+      if (text) {
+        text.textContent = labels[language][stage];
+      }
+
+
+      const active = currentFile === stage + ".html";
+
+      link.classList.toggle("active", active);
+
+      if (active) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+
+    });
+
+  }
+
+
+  new MutationObserver(updateStageBar).observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ["lang"]
+    }
+  );
+
+
+  updateStageBar();
+
+})();
+</script>
+
+
+
+<main class="page">
+
+<!-- MEMORY EDITOR -->
+
+<section id="workStage">
+
+  <div class="section-intro">
+
+    <span class="eyebrow" style="color:#a47353">
+      TRAVEL JOURNAL · PHOTO REMIX
+    </span>
+
+    <h2 data-i="sectionTitle">
+      Collect Your Dunhuang Moments
+    </h2>
+
+    <p data-i="sectionText">
+      One place, one memory. Create your own pages and
+      finish with a book you can flip through.
+    </p>
+
+  </div>
+
+  <div class="workspace">
+
+    <section class="card" id="memoryEditor">
+
+      <div class="card-title">
+
+        <div>
+          <span class="overline">01 · CREATE A MEMORY</span>
+          <h3 id="editorHeading" data-i="addMemory">Add a Place</h3>
+        </div>
+
+        <button type="button" class="btn secondary"
+                id="newEntryBtn" data-i="newMemory">
+          ＋ New
+        </button>
+
+      </div>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label for="memoryPlace" data-i="placeLabel">
+            Place / Attraction
+          </label>
+          <input id="memoryPlace" maxlength="90"
+                 data-placeholder="placeHolder"
+                 placeholder="e.g. Mogao Caves" required>
+        </div>
+
+        <div class="field">
+          <label for="memoryDate" data-i="dateLabel">
+            Date
+          </label>
+          <input id="memoryDate" type="date">
+        </div>
+
+      </div>
+
+      <div class="field">
+
+        <label for="memoryPhotos" data-i="photoLabel">
+          My Travel Photos
+        </label>
+
+        <label class="photo-upload">
+          📷
+          <span data-i="uploadText">
+            Click to add photos (up to 6)
+          </span>
+          <input type="file" id="memoryPhotos"
+                 accept="image/*" multiple>
+        </label>
+
+        <div class="photo-strip" id="photoStrip"></div>
+
+      </div>
+
+      <div class="field">
+
+        <label for="memoryDiary" data-i="diaryLabel">
+          My Travel Diary
+        </label>
+
+        <textarea id="memoryDiary" maxlength="3000"
+                  data-placeholder="diaryHolder"
+                  placeholder="What happened today? What will you remember?"></textarea>
+
+      </div>
+
+
+      <!-- PHOTO REMIX UNDER THE DIARY -->
+
+      <section class="remix">
+
+        <div class="remix-heading">
+          <span class="overline">02 · PHOTO REMIX LAB</span>
+
+          <h4 data-i="remixTitle">
+            Turn Your Memory into Art
+          </h4>
+
+          <p data-i="remixText">
+            Choose a photo and a template.
+            Your location and diary become a travel poster.
+          </p>
+        </div>
+
+        <div class="template-tabs">
+
+          <button type="button"
+                  class="template-tab active"
+                  data-template="map"
+                  data-i="tplMap">
+            🗺️ Map-Inspired
+          </button>
+
+          <button type="button"
+                  class="template-tab"
+                  data-template="scrapbook"
+                  data-i="tplScrap">
+            ✂️ Dunhuang Scrapbook
+          </button>
+
+        </div>
+
+        <div class="remix-controls">
+
+          <div class="field">
+            <label for="posterFilter" data-i="filterLabel">
+              Photo Filter
+            </label>
+
+            <select id="posterFilter">
+              <option value="warm" data-i="filterWarm">
+                Warm Desert
+              </option>
+              <option value="natural" data-i="filterNatural">
+                Natural
+              </option>
+              <option value="film" data-i="filterFilm">
+                Retro Film
+              </option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="posterCaption" data-i="captionLabel">
+              Poster Caption (optional)
+            </label>
+
+            <input id="posterCaption" maxlength="90"
+                   data-placeholder="captionHolder"
+                   placeholder="One beautiful moment">
+          </div>
+
+        </div>
+
+        <div class="poster-layout">
+
+          <div class="poster-frame">
+            <canvas id="posterCanvas" width="900" height="1100"
+                    aria-label="Poster preview"></canvas>
+          </div>
+
+          <div class="poster-hint">
+
+            <strong data-i="posterPreview">
+              LIVE POSTER PREVIEW
+            </strong>
+
+            <p data-i="posterTip">
+              The map-inspired style uses an artistic map
+              pattern, not real road coordinates.
+              Upload a photo to personalize it.
+            </p>
+
+            <button type="button" class="btn secondary"
+                    id="downloadPoster" data-i="downloadPoster">
+              ↓ Download Poster PNG
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <div class="action-row">
+
+        <button type="button" class="btn"
+                id="saveMemory" data-i="saveMemory">
+          ✓ Save This Memory
+        </button>
+
+        <button type="button" class="btn secondary"
+                id="clearMemory" data-i="clearMemory">
+          Clear Editor
+        </button>
+
+      </div>
+
+      <p class="status" id="editorStatus" role="status"></p>
+
+    </section>
+
+
+    <!-- SAVED ENTRIES -->
+
+    <aside class="card sidebar">
+
+      <div class="card-title">
+
+        <div>
+          <span class="overline">MY DUNHUANG STORY</span>
+          <h3 data-i="myPages">My Memory Pages</h3>
+        </div>
+
+        <span class="overline" id="memoryCount">0</span>
+
+      </div>
+
+      <div class="memory-items" id="memoryList"></div>
+
+      <button type="button" id="finishBook"
+              class="finish-btn" data-i="finish">
+        FINISH · OPEN MY BOOK ↗
+      </button>
+
+      <p class="privacy-note" id="storageNote" data-i="storageNote">
+        Photos and diaries are stored only in this browser,
+        not uploaded to a server.
+      </p>
+
+    </aside>
+
+  </div>
+
+</section>
+
+
+<!-- FINISHED FLIPBOOK -->
+
+<section id="bookStage" hidden>
+
+  <div class="section-intro">
+
+    <span class="eyebrow" style="color:#a47353">
+      DUNHUANG · TRAVEL MEMORIES
+    </span>
+
+    <h2 data-i="bookTitle">
+      My Dunhuang Memory Book
+    </h2>
+
+    <p data-i="bookDescription">
+      One place on every page.
+      Turn the pages to relive the journey.
+    </p>
+
+  </div>
+
+  <div class="book-shell">
+
+    <div class="book">
+      <div class="book-page" id="bookPage"
+           aria-live="polite"></div>
+    </div>
+
+    <div class="book-controls">
+
+      <button type="button" class="btn secondary"
+              id="prevPage" data-i="prev">
+        ← Previous
+      </button>
+
+      <span class="book-count" id="pageCount"></span>
+
+      <button type="button" class="btn secondary"
+              id="nextPage" data-i="next">
+        Next →
+      </button>
+
+      <button type="button" class="btn"
+              id="editBook" data-i="backEdit">
+        ✎ Edit My Memories
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+  DUNHUANG · THE SILK ROAD EXPERIENCE · 2026
+</footer>
+
+
+<script>
+(() => {
+"use strict";
+
+const $ = s => document.querySelector(s);
+
+/* THREE LANGUAGES */
+
+const dict = {
+  zh: {
+    navHome: "首页",
+    navExplore: "探索",
+    navJourney: "旅程",
+    navStories: "历史故事",
+    navFAQ: "常见问题",
+    navAbout: "关于我们",
+    senior: "长辈模式",
+
+    heroTitle: "我曾到过<br><em>敦煌。</em>",
+    heroText:
+      "添加去过的地点、上传自己的照片、写下旅行日记。让每一段回忆，都成为一本书里独一无二的一页。",
+    heroStart: "开始制作我的回忆录 ↗",
+    backCheckin: "返回旅行打卡",
+
+    stageBefore: "01 · 旅行前",
+    stageDuring: "02 · 我已经在敦煌",
+    stageNow: "03 · 我已经去过",
+
+    sectionTitle: "把敦煌，装进回忆里",
+    sectionText:
+      "自己添加地点、照片和日记，最后制作一本可以翻页的旅行回忆书。",
+
+    addMemory: "添加旅行地点",
+    editMemory: "编辑旅行回忆",
+    newMemory: "＋ 新建",
+
+    placeLabel: "地点名称",
+    placeHolder: "例如：鸣沙山月牙泉",
+    dateLabel: "旅行日期",
+    photoLabel: "上传我的旅行照片",
+    uploadText: "点击添加照片（最多 6 张）",
+    diaryLabel: "我的旅行日记",
+    diaryHolder: "今天发生了什么？有哪些瞬间想记住？",
+
+    remixTitle: "把这段回忆做成一张图",
+    remixText:
+      "选择照片和模板，自动把地点、日期和日记变成纪念海报。",
+
+    tplMap: "🗺️ 地图坐标风",
+    tplScrap: "✂️ 敦煌手账风",
+
+    filterLabel: "照片滤镜",
+    filterWarm: "沙漠暖色",
+    filterNatural: "原始色彩",
+    filterFilm: "复古胶片",
+
+    captionLabel: "海报标题（可选）",
+    captionHolder: "例如：把这一刻留在敦煌",
+    posterPreview: "实时 P 图预览",
+    posterTip:
+      "地图风使用艺术化的道路纹理，并非真实路线图。上传照片后即可替换示意背景。",
+    downloadPoster: "↓ 下载 PNG 海报",
+
+    saveMemory: "✓ 保存这段回忆",
+    clearMemory: "清空编辑区",
+    myPages: "我的回忆页",
+    finish: "FINISH · 打开回忆书 ↗",
+
+    storageNote:
+      "照片和日记只保存在当前浏览器，不会上传到服务器。建议下载海报留存；清除浏览器数据可能丢失记录。",
+
+    bookTitle: "我的敦煌旅行回忆录",
+    bookDescription:
+      "一页一个地点，像翻书一样重新走一遍敦煌。",
+    prev: "← 上一页",
+    next: "下一页 →",
+    backEdit: "✎ 返回编辑",
+
+    empty: "还没有回忆。先从一个地点开始吧！",
+    edit: "编辑",
+    delete: "删除",
+    up: "↑",
+    down: "↓",
+    photoNum: "封面照片",
+
+    confirmDelete: "确定删除这条回忆吗？",
+    needPlace: "请先填写地点名称。",
+    saved: "回忆已经保存到本浏览器！",
+    saveFail:
+      "保存失败，浏览器空间可能不足。请删除部分照片或导出备份。",
+    photoLimit: "每条回忆最多上传 6 张照片。",
+    photoError: "图片读取失败，请换一张照片。",
+    noStorage:
+      "当前浏览器无法持久保存记录，请使用 Live Server 和常规浏览器窗口。",
+    unsaved:
+      "当前编辑内容还没保存，确定仍要打开回忆书吗？",
+    bookEmpty: "先保存至少一条回忆，再点击 Finish。",
+
+    coverSubtitle: "一本由我亲手制作的敦煌旅行日记",
+    endTitle: "旅程结束，回忆未完。",
+    endText: "谢谢敦煌，下一次再见。",
+    diaryEmpty: "这一天的故事，留在心里。"
+  },
+
+  en: {
+    navHome: "HOME",
+    navExplore: "EXPLORE",
+    navJourney: "JOURNEY",
+    navStories: "STORIES",
+    navFAQ: "FAQ",
+    navAbout: "ABOUT",
+    senior: "Senior Mode",
+
+    heroTitle: "The Journey<br><em>Lives On.</em>",
+    heroText:
+      "Add your favourite places, photos and diary entries. Turn every memory into a page worth keeping.",
+    heroStart: "CREATE MY MEMORY BOOK ↗",
+    backCheckin: "BACK TO CHECK-IN",
+
+    stageBefore: "01 · BEFORE THE TRIP",
+    stageDuring: "02 · IN DUNHUANG",
+    stageNow: "03 · MY MEMORIES",
+
+    sectionTitle: "Collect Your Dunhuang Moments",
+    sectionText:
+      "Add places, photos and diary entries, then finish your very own flipbook.",
+
+    addMemory: "Add a Place",
+    editMemory: "Edit a Memory",
+    newMemory: "＋ New",
+
+    placeLabel: "Place / Attraction",
+    placeHolder: "e.g. Mogao Caves",
+    dateLabel: "Travel Date",
+    photoLabel: "My Travel Photos",
+    uploadText: "Click to add photos (up to 6)",
+    diaryLabel: "My Travel Diary",
+    diaryHolder: "What happened today? What will you remember?",
+
+    remixTitle: "Turn Your Memory into Art",
+    remixText:
+      "Choose a photo and template to make a personal travel poster.",
+    tplMap: "🗺️ Map-Inspired",
+    tplScrap: "✂️ Dunhuang Scrapbook",
+
+    filterLabel: "Photo Filter",
+    filterWarm: "Warm Desert",
+    filterNatural: "Natural",
+    filterFilm: "Retro Film",
+
+    captionLabel: "Poster Caption (optional)",
+    captionHolder: "One beautiful moment",
+    posterPreview: "LIVE POSTER PREVIEW",
+    posterTip:
+      "The map-inspired template uses artistic road patterns, not a real street map. Add your own photo to personalize it.",
+    downloadPoster: "↓ Download Poster PNG",
+
+    saveMemory: "✓ Save This Memory",
+    clearMemory: "Clear Editor",
+    myPages: "My Memory Pages",
+    finish: "FINISH · OPEN MY BOOK ↗",
+
+    storageNote:
+      "Photos and diaries stay only in this browser; they are not uploaded to a server. Download posters to keep copies, and avoid clearing site data.",
+
+    bookTitle: "My Dunhuang Memory Book",
+    bookDescription:
+      "One place on each page. Flip through the story of your journey.",
+    prev: "← Previous",
+    next: "Next →",
+    backEdit: "✎ Edit My Memories",
+
+    empty: "No memories yet. Start with a place you visited!",
+    edit: "Edit",
+    delete: "Delete",
+    up: "↑",
+    down: "↓",
+    photoNum: "Cover photo",
+
+    confirmDelete: "Delete this memory?",
+    needPlace: "Please enter a place name.",
+    saved: "Memory saved in this browser!",
+    saveFail:
+      "Could not save. Browser storage may be full. Remove some photos or export a copy.",
+    photoLimit: "Maximum 6 photos per memory.",
+    photoError: "This image could not be opened. Try another file.",
+    noStorage:
+      "Permanent browser storage is unavailable. Use Live Server in a normal browser window.",
+    unsaved: "You have unsaved edits. Open the book anyway?",
+    bookEmpty: "Save at least one memory before you finish.",
+
+    coverSubtitle: "A travel diary made by me",
+    endTitle: "The journey ends. The memories stay.",
+    endText: "Thank you, Dunhuang. Until next time.",
+    diaryEmpty: "A moment I will always remember."
+  },
+
+  ms: {
+    navHome: "LAMAN UTAMA",
+    navExplore: "TEROKAI",
+    navJourney: "PERJALANAN",
+    navStories: "CERITA",
+    navFAQ: "SOALAN LAZIM",
+    navAbout: "TENTANG KAMI",
+    senior: "Mod Warga Emas",
+
+    heroTitle: "Kenangan<br><em>Dunhuang Saya.</em>",
+    heroText:
+      "Tambah lokasi, foto dan catatan perjalanan. Jadikan setiap kenangan satu halaman istimewa.",
+    heroStart: "CIPTA BUKU KENANGAN ↗",
+    backCheckin: "KEMBALI KE CHECK-IN",
+
+    stageBefore: "01 · SEBELUM PERJALANAN",
+    stageDuring: "02 · DI DUNHUANG",
+    stageNow: "03 · KENANGAN SAYA",
+
+    sectionTitle: "Simpan Detik Indah di Dunhuang",
+    sectionText:
+      "Tambah tempat, foto dan diari, kemudian hasilkan buku kenangan yang boleh diselak.",
+
+    addMemory: "Tambah Tempat",
+    editMemory: "Edit Kenangan",
+    newMemory: "＋ Baharu",
+
+    placeLabel: "Nama Tempat",
+    placeHolder: "Contoh: Gua Mogao",
+    dateLabel: "Tarikh Lawatan",
+    photoLabel: "Foto Perjalanan",
+    uploadText: "Klik untuk tambah foto (maksimum 6)",
+    diaryLabel: "Diari Perjalanan",
+    diaryHolder: "Apa yang berlaku hari ini?",
+
+    remixTitle: "Ubah Kenangan Menjadi Poster",
+    remixText:
+      "Pilih foto dan templat untuk menghasilkan poster perjalanan.",
+    tplMap: "🗺️ Gaya Peta",
+    tplScrap: "✂️ Buku Skrap Dunhuang",
+
+    filterLabel: "Penapis Foto",
+    filterWarm: "Hangat Gurun",
+    filterNatural: "Asal",
+    filterFilm: "Filem Retro",
+
+    captionLabel: "Kapsyen Poster (pilihan)",
+    captionHolder: "Satu detik yang indah",
+    posterPreview: "PRATONTON POSTER",
+    posterTip:
+      "Templat peta menggunakan corak jalan artistik, bukan peta sebenar. Tambah foto anda untuk menjadikannya peribadi.",
+    downloadPoster: "↓ Muat Turun PNG",
+
+    saveMemory: "✓ Simpan Kenangan",
+    clearMemory: "Kosongkan Editor",
+    myPages: "Halaman Kenangan",
+    finish: "FINISH · BUKA BUKU ↗",
+
+    storageNote:
+      "Foto dan diari hanya disimpan dalam pelayar ini, bukan dimuat naik ke pelayan. Muat turun poster untuk simpanan.",
+
+    bookTitle: "Buku Kenangan Dunhuang Saya",
+    bookDescription:
+      "Satu tempat setiap halaman, seperti sebuah buku perjalanan.",
+    prev: "← Sebelumnya",
+    next: "Seterusnya →",
+    backEdit: "✎ Kembali Edit",
+
+    empty: "Belum ada kenangan. Mulakan dengan satu tempat!",
+    edit: "Edit",
+    delete: "Padam",
+    up: "↑",
+    down: "↓",
+    photoNum: "Foto utama",
+
+    confirmDelete: "Padam kenangan ini?",
+    needPlace: "Sila masukkan nama tempat.",
+    saved: "Kenangan disimpan dalam pelayar!",
+    saveFail: "Tidak dapat menyimpan. Ruang pelayar mungkin penuh.",
+    photoLimit: "Maksimum 6 foto setiap kenangan.",
+    photoError: "Foto gagal dibaca. Cuba fail lain.",
+    noStorage:
+      "Storan kekal tidak tersedia. Gunakan Live Server dalam pelayar biasa.",
+    unsaved:
+      "Ada perubahan belum disimpan. Teruskan membuka buku?",
+    bookEmpty: "Simpan sekurang-kurangnya satu kenangan dahulu.",
+
+    coverSubtitle: "Diari perjalanan ciptaan saya",
+    endTitle: "Perjalanan tamat. Kenangan kekal.",
+    endText: "Terima kasih, Dunhuang. Jumpa lagi.",
+    diaryEmpty: "Detik indah yang akan dikenang."
+  }
+};
+
+
+/* GENERAL SETTINGS */
+
+let language =
+  localStorage.getItem("dunhuang-language") || "en";
+
+if (!dict[language]) {
+  language = "en";
+}
+
+const t = () => dict[language];
+
+const esc = s => String(s ?? "").replace(
+  /[&<>"']/g,
+  c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]
+);
+
+function setLanguage(code) {
+  if (!dict[code]) return;
+
+  language = code;
+
+  document.documentElement.lang =
+    code === "zh" ? "zh-CN" : code;
+
+  localStorage.setItem("dunhuang-language", code);
+
+  document.querySelectorAll("[data-i]").forEach(el => {
+    el.textContent = t()[el.dataset.i] ?? "";
+  });
+
+  document.querySelectorAll("[data-html]").forEach(el => {
+    el.innerHTML = t()[el.dataset.html] ?? "";
+  });
+
+  document.querySelectorAll("[data-placeholder]").forEach(el => {
+    el.placeholder = t()[el.dataset.placeholder] ?? "";
+  });
+
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    el.classList.toggle(
+      "active",
+      el.dataset.lang === code
+    );
+  });
+
+  document.title =
+    (
+      code === "zh"
+        ? "我的敦煌回忆录"
+        : code === "ms"
+          ? "Kenangan Dunhuang Saya"
+          : "My Dunhuang Memories"
+    ) + " | DUNHUANG";
+
+  renderList();
+  renderBook();
+  renderPhotos();
+
+  $("#editorHeading").textContent =
+    draft.id ? t().editMemory : t().addMemory;
+
+  drawSoon();
+}
+
+document.querySelectorAll("[data-lang]").forEach(b => {
+  b.addEventListener("click", () => {
+    setLanguage(b.dataset.lang);
+  });
+});
+
+
+/* SENIOR MODE */
+
+function setSenior(on) {
+  document.body.classList.toggle("senior-mode", on);
+
+  $("#seniorButton").classList.toggle("active", on);
+
+  localStorage.setItem(
+    "dunhuang-senior-mode",
+    String(on)
+  );
+}
+
+$("#seniorButton").addEventListener("click", () => {
+  setSenior(
+    !document.body.classList.contains("senior-mode")
+  );
+});
+
+setSenior(
+  localStorage.getItem("dunhuang-senior-mode") === "true"
+);
+
+
+/* NAVBAR */
+
+function navbarScroll() {
+  const bar = $("#navbar");
+
+  bar.classList.toggle(
+    "scrolled",
+    window.scrollY > 25
+  );
+
+  document.documentElement.style.scrollPaddingTop =
+    (bar.offsetHeight + 15) + "px";
+}
+
+window.addEventListener("scroll", navbarScroll, {
+  passive: true
+});
+
+window.addEventListener("resize", navbarScroll);
+
+navbarScroll();
+
+
+/* LOCAL DATABASE */
+
+const DB_NAME = "dunhuang-memory-book-v1";
+const DB_STORE = "memories";
+
+let db = null;
+let entries = [];
+let draft = {};
+let dirty = false;
+let bookIndex = 0;
+
+const today = () => {
+  const d = new Date();
+
+  return new Date(
+    d.getTime() - d.getTimezoneOffset() * 60000
+  ).toISOString().slice(0, 10);
+};
+
+function blankDraft() {
+  return {
+    id: null,
+    place: "",
+    date: today(),
+    diary: "",
+    caption: "",
+    photos: [],
+    photoIndex: 0,
+    template: "map",
+    filter: "warm",
+    order: entries.length
+  };
+}
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    if (!window.indexedDB) {
+      reject(Error("IndexedDB unavailable"));
+      return;
+    }
+
+    const req = indexedDB.open(DB_NAME, 1);
+
+    req.onupgradeneeded = () => {
+      if (!req.result.objectStoreNames.contains(DB_STORE)) {
+        req.result.createObjectStore(
+          DB_STORE,
+          { keyPath: "id" }
+        );
+      }
+    };
+
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function dbAll() {
+  return new Promise((resolve, reject) => {
+    const req = db
+      .transaction(DB_STORE, "readonly")
+      .objectStore(DB_STORE)
+      .getAll();
+
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function dbPut(record) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DB_STORE, "readwrite");
+
+    tx.objectStore(DB_STORE).put(record);
+
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function dbDelete(id) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DB_STORE, "readwrite");
+
+    tx.objectStore(DB_STORE).delete(id);
+
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function msg(s) {
+  $("#editorStatus").textContent = s;
+}
+
+
+/* EDIT MEMORY */
+
+function setDraft(next) {
+  draft = JSON.parse(JSON.stringify(next));
+  dirty = false;
+
+  $("#memoryPlace").value = draft.place;
+  $("#memoryDate").value = draft.date;
+  $("#memoryDiary").value = draft.diary;
+  $("#posterCaption").value = draft.caption;
+  $("#posterFilter").value = draft.filter;
+
+  $("#editorHeading").textContent =
+    draft.id ? t().editMemory : t().addMemory;
+
+  document.querySelectorAll("[data-template]").forEach(b => {
+    b.classList.toggle(
+      "active",
+      b.dataset.template === draft.template
+    );
+  });
+
+  $("#memoryPhotos").value = "";
+
+  renderPhotos();
+  drawSoon();
+}
+
+function resetDraft() {
+  setDraft(blankDraft());
+  msg("");
+}
+
+function markDirty() {
+  dirty = true;
+  drawSoon();
+}
+
+
+/* NEW MEMORY — AUTO SAVE THE PREVIOUS ONE */
+
+let creatingNewMemory = false;
+
+$("#newEntryBtn").addEventListener("click", async () => {
+
+  if (creatingNewMemory) return;
+
+  // Nothing changed: the current saved memory is safe.
+  if (!dirty) {
+    resetDraft();
+    return;
+  }
+
+  // Do not discard a memory without a place name.
+  if (!draft.place.trim()) {
+    msg(t().needPlace);
+    $("#memoryPlace").focus();
+    return;
+  }
+
+  if (!db) {
+    msg(t().noStorage);
+    return;
+  }
+
+  creatingNewMemory = true;
+
+  const newButton = $("#newEntryBtn");
+  const saveButton = $("#saveMemory");
+
+  newButton.disabled = true;
+  saveButton.disabled = true;
+
+  try {
+
+    // Finish generating the current poster first.
+    await paintPoster();
+
+    const memoryId = draft.id || (
+      window.crypto?.randomUUID?.() ||
+      "memory-" + Date.now() + "-" +
+      Math.random().toString(16).slice(2)
+    );
+
+    const oldRecord = entries.find(
+      entry => entry.id === memoryId
+    );
+
+    const record = {
+      ...draft,
+
+      id: memoryId,
+
+      place: draft.place.trim(),
+      diary: draft.diary.trim(),
+      caption: draft.caption.trim(),
+
+      posterData: canvas.toDataURL(
+        "image/jpeg",
+        0.85
+      ),
+
+      order: oldRecord
+        ? oldRecord.order
+        : entries.length
+    };
+
+    // Save photos, diary and poster in IndexedDB.
+    await dbPut(record);
+
+    const existingIndex = entries.findIndex(
+      entry => entry.id === memoryId
+    );
+
+    if (existingIndex >= 0) {
+      entries[existingIndex] = record;
+    } else {
+      entries.push(record);
+    }
+
+    entries.sort(
+      (a, b) => a.order - b.order
+    );
+
+    // The previous memory remains in the sidebar.
+    renderList();
+
+    // Only clear the editor AFTER saving succeeds.
+    resetDraft();
+
+    msg(t().saved);
+
+  } catch (error) {
+
+    console.error("Memory save failed:", error);
+
+    // Do not clear the editor if saving failed.
+    msg(t().saveFail);
+
+  } finally {
+
+    creatingNewMemory = false;
+
+    newButton.disabled = false;
+    saveButton.disabled = false;
+
+  }
+
+});
+
+
+/* CLEAR EDITOR — PREVENT ACCIDENTAL LOSS */
+
+$("#clearMemory").addEventListener("click", () => {
+
+  if (dirty) {
+
+    const message = language === "zh"
+      ? "当前内容还没有保存，确定清空吗？"
+      : language === "ms"
+        ? "Perubahan belum disimpan. Kosongkan editor?"
+        : "Your changes are not saved. Clear the editor?";
+
+    if (!confirm(message)) return;
+
+  }
+
+  resetDraft();
+
+});
+
+
+[
+  ["#memoryPlace", "place"],
+  ["#memoryDate", "date"],
+  ["#memoryDiary", "diary"],
+  ["#posterCaption", "caption"]
+].forEach(([selector, key]) => {
+  $(selector).addEventListener("input", e => {
+    draft[key] = e.target.value;
+    markDirty();
+  });
+});
+
+$("#posterFilter").addEventListener("change", e => {
+  draft.filter = e.target.value;
+  markDirty();
+});
+
+document.querySelectorAll("[data-template]").forEach(b => {
+  b.addEventListener("click", () => {
+    draft.template = b.dataset.template;
+
+    markDirty();
+
+    document.querySelectorAll("[data-template]").forEach(x => {
+      x.classList.toggle("active", x === b);
+    });
+  });
+});
+
+
+/* PHOTO UPLOAD AND COMPRESSION */
+
+async function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+
+    fileReader.onload = () => {
+      const img = new Image();
+
+      img.onload = () => {
+        const max = 1500;
+
+        const ratio = Math.min(
+          1,
+          max / Math.max(img.width, img.height)
+        );
+
+        const c = document.createElement("canvas");
+
+        c.width = Math.max(
+          1,
+          Math.round(img.width * ratio)
+        );
+
+        c.height = Math.max(
+          1,
+          Math.round(img.height * ratio)
+        );
+
+        const cx = c.getContext("2d");
+
+        cx.fillStyle = "#fffaf0";
+        cx.fillRect(0, 0, c.width, c.height);
+        cx.drawImage(img, 0, 0, c.width, c.height);
+
+        resolve(c.toDataURL("image/jpeg", .79));
+      };
+
+      img.onerror = () => reject(Error("Invalid image"));
+      img.src = fileReader.result;
+    };
+
+    fileReader.onerror = () => reject(fileReader.error);
+    fileReader.readAsDataURL(file);
+  });
+}
+
+$("#memoryPhotos").addEventListener("change", async e => {
+  const selected = [...e.target.files];
+
+  e.target.value = "";
+
+  for (const file of selected) {
+    if (draft.photos.length >= 6) {
+      msg(t().photoLimit);
+      break;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      continue;
+    }
+
+    try {
+      const data = await fileToDataURL(file);
+
+      draft.photos.push({
+        data,
+        name: file.name
+      });
+
+      draft.photoIndex = draft.photos.length - 1;
+      dirty = true;
+
+    } catch (err) {
+      msg(t().photoError);
+    }
+  }
+
+  renderPhotos();
+  drawSoon();
+});
+
+function renderPhotos() {
+  $("#photoStrip").innerHTML = draft.photos.map(
+    (photo, i) => `
+      <div class="photo-tile ${
+        draft.photoIndex === i ? "selected" : ""
+      }">
+
+        <img
+          src="${photo.data}"
+          alt="Photo ${i + 1}"
+          data-select-photo="${i}"
+        >
+
+        <button
+          type="button"
+          data-remove-photo="${i}"
+          aria-label="Remove photo"
+        >
+          ×
+        </button>
+
+        ${
+          draft.photoIndex === i
+            ? `<span>${esc(t().photoNum)}</span>`
+            : ""
+        }
+      </div>
+    `
+  ).join("");
+}
+
+$("#photoStrip").addEventListener("click", e => {
+  const rm = e.target.closest("[data-remove-photo]");
+
+  if (rm) {
+    const i = Number(rm.dataset.removePhoto);
+
+    draft.photos.splice(i, 1);
+
+    draft.photoIndex = Math.max(
+      0,
+      Math.min(draft.photoIndex, draft.photos.length - 1)
+    );
+
+    markDirty();
+    renderPhotos();
+    return;
+  }
+
+  const img = e.target.closest("[data-select-photo]");
+
+  if (img) {
+    draft.photoIndex = Number(img.dataset.selectPhoto);
+
+    markDirty();
+    renderPhotos();
+  }
+});
+
+
+/* POSTER CANVAS */
+
+const canvas = $("#posterCanvas");
+const ctx = canvas.getContext("2d");
+
+let paintVersion = 0;
+let paintTimer = 0;
+
+const imgCache = new Map();
+
+function loadImage(data) {
+  if (!data) {
+    return Promise.resolve(null);
+  }
+
+  if (imgCache.has(data)) {
+    return imgCache.get(data);
+  }
+
+  const promise = new Promise(resolve => {
+    const img = new Image();
+
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = data;
+  });
+
+  imgCache.set(data, promise);
+
+  if (imgCache.size > 12) {
+    imgCache.delete(imgCache.keys().next().value);
+  }
+
+  return promise;
+}
+
+function rect(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+}
+
+function coverImage(img, x, y, w, h) {
+  if (!img) return;
+
+  const factor = Math.max(
+    w / img.width,
+    h / img.height
+  );
+
+  const iw = img.width * factor;
+  const ih = img.height * factor;
+
+  ctx.save();
+
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.clip();
+
+  ctx.filter = {
+    warm: "sepia(.20) saturate(1.25) contrast(1.03)",
+    natural: "none",
+    film: "sepia(.36) saturate(.75) contrast(.93)"
+  }[draft.filter] || "none";
+
+  ctx.drawImage(
+    img,
+    x + (w - iw) / 2,
+    y + (h - ih) / 2,
+    iw,
+    ih
+  );
+
+  ctx.restore();
+}
+
+function textLines(
+  text, x, y, width, lineHeight, limit, font, color
+) {
+  ctx.font = font;
+  ctx.fillStyle = color;
+
+  let line = "";
+  let count = 0;
+
+  for (const char of Array.from(String(text || ""))) {
+    if (char === "\n") {
+      if (line) {
+        ctx.fillText(line, x, y);
+        y += lineHeight;
+        count++;
+        line = "";
+      }
+
+      if (count >= limit) break;
+      continue;
+    }
+
+    if (ctx.measureText(line + char).width > width && line) {
+      ctx.fillText(line, x, y);
+      y += lineHeight;
+      count++;
+      line = "";
+
+      if (count >= limit) break;
+    }
+
+    line += char;
+  }
+
+  if (line && count < limit) {
+    ctx.fillText(line, x, y);
+  }
+
+  return y;
+}
+
+function posterText() {
+  return (
+    draft.caption.trim() ||
+    draft.diary.trim().replace(/\s+/g, " ").slice(0, 90) ||
+    (
+      language === "zh"
+        ? "我的敦煌旅行回忆"
+        : "DUNHUANG, MY STORY"
+    )
+  );
+}
+
+
+/* TEMPLATE 1: MAP INSPIRED */
+
+function drawMapPoster(img) {
+  const grad = ctx.createLinearGradient(
+    0, 0, 900, 1100
+  );
+
+  grad.addColorStop(0, "#f4e9d8");
+  grad.addColorStop(1, "#e7d1b5");
+
+  rect(0, 0, 900, 1100, grad);
+
+  ctx.save();
+  ctx.globalAlpha = .2;
+  coverImage(img, 0, 0, 900, 610);
+  ctx.restore();
+
+  ctx.strokeStyle = "#fffdfa";
+  ctx.lineWidth = 9;
+  ctx.globalAlpha = .75;
+
+  for (let i = 0; i < 13; i++) {
+    ctx.beginPath();
+    ctx.moveTo(-80, i * 53 + 20);
+
+    ctx.bezierCurveTo(
+      250, i * 55 - 140,
+      540, i * 48 + 150,
+      980, i * 50 - 100
+    );
+
+    ctx.stroke();
+  }
+
+  ctx.lineWidth = 5;
+
+  for (let j = 0; j < 13; j++) {
+    ctx.beginPath();
+    ctx.moveTo(j * 80 - 100, -70);
+
+    ctx.bezierCurveTo(
+      j * 67 + 70, 220,
+      j * 88 - 80, 440,
+      j * 70 + 50, 690
+    );
+
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha = 1;
+
+  ctx.fillStyle = "#98553e";
+  ctx.beginPath();
+  ctx.arc(460, 285, 14, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 6;
+  ctx.stroke();
+
+  rect(0, 590, 900, 510, "#f6ebdc");
+
+  if (img) {
+    coverImage(img, 55, 440, 790, 360);
+    rect(55, 756, 790, 44, "#573d35a0");
+  } else {
+    rect(55, 440, 790, 360, "#cba47d");
+
+    textLines(
+      "DUNHUANG · PHOTO MEMORY",
+      105, 635, 690, 45, 2,
+      "bold 36px serif", "#fff6e8"
+    );
+  }
+
+  rect(55, 72, 270, 6, "#a37050");
+
+  textLines(
+    "TRAVEL COORDINATES",
+    55, 125, 700, 31, 1,
+    "bold 25px Arial", "#674837"
+  );
+
+  textLines(
+    "MAP-INSPIRED · NOT AN ACTUAL ROUTE",
+    55, 163, 750, 20, 1,
+    "16px Arial", "#836a58"
+  );
+
+  textLines(
+    draft.place.trim() || "DUNHUANG",
+    55, 867, 780, 64, 2,
+    "bold 60px 'Noto Serif SC',serif",
+    "#674332"
+  );
+
+  textLines(
+    draft.date || "",
+    58, 947, 780, 30, 1,
+    "22px Arial", "#a27a58"
+  );
+
+  textLines(
+    posterText(),
+    58, 1000, 780, 40, 2,
+    "25px 'Noto Sans SC',Arial",
+    "#926a51"
+  );
+
+  textLines(
+    "EXPLORE  ·  DISCOVER  ·  REMEMBER",
+    57, 1070, 800, 20, 1,
+    "17px Arial", "#b08e70"
+  );
+}
+
+
+/* TEMPLATE 2: DUNHUANG SCRAPBOOK */
+
+function drawScrapPoster(img) {
+  rect(0, 0, 900, 1100, "#f4e6ce");
+
+  ctx.strokeStyle = "#e2cba9";
+  ctx.lineWidth = 2;
+
+  for (let y = 0; y < 1100; y += 47) {
+    ctx.beginPath();
+    ctx.moveTo(45, y);
+    ctx.lineTo(850, y);
+    ctx.stroke();
+  }
+
+  ctx.save();
+  ctx.translate(450, 458);
+  ctx.rotate(-.045);
+
+  rect(-363, -297, 726, 618, "#fffdf5");
+  rect(-343, -277, 686, 510, "#d8ae83");
+
+  if (img) {
+    coverImage(img, -343, -277, 686, 510);
+  } else {
+    textLines(
+      "DUNHUANG",
+      -230, 0, 500, 50, 1,
+      "bold 57px Georgia",
+      "#fff9e8"
+    );
+  }
+
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(220, 163);
+  ctx.rotate(-.16);
+  rect(-110, -23, 220, 46, "#dcc094cc");
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(690, 770);
+  ctx.rotate(.12);
+  rect(-95, -20, 190, 40, "#dcc094aa");
+  ctx.restore();
+
+  ctx.strokeStyle = "#a77950";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(760, 112, 55, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.font = "bold 31px Georgia";
+  ctx.fillStyle = "#a77950";
+  ctx.fillText("✧", 749, 121);
+
+  textLines(
+    "MY DUNHUANG JOURNAL",
+    72, 77, 700, 30, 1,
+    "bold 25px Georgia",
+    "#84583d"
+  );
+
+  textLines(
+    draft.place.trim() || "DUNHUANG",
+    75, 833, 750, 60, 2,
+    "bold 59px 'Noto Serif SC',serif",
+    "#6d4634"
+  );
+
+  textLines(
+    draft.date || "",
+    80, 910, 760, 28, 1,
+    "21px Arial",
+    "#a27a58"
+  );
+
+  textLines(
+    posterText(),
+    80, 964, 740, 42, 3,
+    "25px 'Noto Sans SC',Arial",
+    "#785441"
+  );
+
+  textLines(
+    "✦  THE MEMORIES WE KEEP",
+    80, 1071, 740, 20, 1,
+    "19px Georgia",
+    "#ac835a"
+  );
+}
+
+
+/* UPDATE POSTER */
+
+async function paintPoster() {
+  const ticket = ++paintVersion;
+
+  const photo = draft.photos[draft.photoIndex];
+  const img = await loadImage(photo?.data);
+
+  if (ticket !== paintVersion) return;
+
+  ctx.clearRect(0, 0, 900, 1100);
+
+  if (draft.template === "scrapbook") {
+    drawScrapPoster(img);
+  } else {
+    drawMapPoster(img);
+  }
+}
+
+function drawSoon() {
+  clearTimeout(paintTimer);
+  paintTimer = setTimeout(paintPoster, 100);
+}
+
+
+/* DOWNLOAD PNG */
+
+$("#downloadPoster").addEventListener("click", async () => {
+  await paintPoster();
+
+  canvas.toBlob(blob => {
+    if (!blob) return;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+      (draft.place.trim() || "dunhuang-memory")
+        .replace(/[\\/:*?"<>|]/g, "-") +
+      "-poster.png";
+
+    a.click();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 2000);
+
+  }, "image/png");
+});
+
+
+/* SAVED MEMORY LIST */
+
+function renderList() {
+  $("#memoryCount").textContent = entries.length;
+
+  $("#finishBook").disabled = entries.length === 0;
+
+  $("#memoryList").innerHTML = entries.length
+    ? entries.map((m, i) => `
+      <div class="memory-item">
+
+        ${
+          m.photos?.length
+            ? `<img src="${m.photos[0].data}" alt="">`
+            : `<div class="memory-thumb-fallback">✧</div>`
+        }
+
+        <div class="memory-info">
+
+          <strong>${esc(m.place)}</strong>
+          <small>${esc(m.date || "")}</small>
+
+          <div class="memory-tools">
+
+            <button type="button" data-edit="${esc(m.id)}">
+              ${esc(t().edit)}
+            </button>
+
+            <button type="button"
+                    data-up="${esc(m.id)}"
+                    ${i === 0 ? "disabled" : ""}>
+              ↑
+            </button>
+
+            <button type="button"
+                    data-down="${esc(m.id)}"
+                    ${i === entries.length - 1 ? "disabled" : ""}>
+              ↓
+            </button>
+
+            <button type="button" data-delete="${esc(m.id)}">
+              ${esc(t().delete)}
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    `).join("")
+    : `<div class="memory-empty">${esc(t().empty)}</div>`;
+}
+
+
+/* UPDATE PAGE ORDER */
+
+async function persistOrder() {
+  try {
+    for (let i = 0; i < entries.length; i++) {
+      entries[i].order = i;
+      await dbPut(entries[i]);
+    }
+  } catch (e) {
+    msg(t().saveFail);
+  }
+}
+
+
+/* EDIT / DELETE / REORDER */
+
+$("#memoryList").addEventListener("click", async e => {
+  const edit = e.target.closest("[data-edit]");
+
+  if (edit) {
+    const found = entries.find(
+      x => x.id === edit.dataset.edit
+    );
+
+    if (found) {
+      setDraft(found);
+
+      $("#workStage").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    return;
+  }
+
+  const del = e.target.closest("[data-delete]");
+
+  if (del) {
+    if (!confirm(t().confirmDelete)) return;
+
+    try {
+      await dbDelete(del.dataset.delete);
+
+      entries = entries.filter(
+        x => x.id !== del.dataset.delete
+      );
+
+      if (draft.id === del.dataset.delete) {
+        resetDraft();
+      }
+
+      await persistOrder();
+      renderList();
+
+    } catch (err) {
+      msg(t().saveFail);
+    }
+
+    return;
+  }
+
+  const step = e.target.closest("[data-up],[data-down]");
+
+  if (step) {
+    const id = step.dataset.up || step.dataset.down;
+
+    const index = entries.findIndex(
+      x => x.id === id
+    );
+
+    const next =
+      index + (step.hasAttribute("data-up") ? -1 : 1);
+
+    if (next < 0 || next >= entries.length) return;
+
+    [entries[index], entries[next]] =
+      [entries[next], entries[index]];
+
+    await persistOrder();
+    renderList();
+  }
+});
+
+
+/* SAVE MEMORY */
+
+$("#saveMemory").addEventListener("click", async () => {
+  if (!draft.place.trim()) {
+    msg(t().needPlace);
+    $("#memoryPlace").focus();
+    return;
+  }
+
+  try {
+    await paintPoster();
+
+    const record = {
+      ...draft,
+
+      id: draft.id || (
+        crypto.randomUUID
+          ? crypto.randomUUID()
+          : "m" + Date.now() + Math.random().toString(16).slice(2)
+      ),
+
+      place: draft.place.trim(),
+      diary: draft.diary.trim(),
+      caption: draft.caption.trim(),
+
+      posterData: canvas.toDataURL("image/jpeg", .85),
+
+      order: draft.id
+        ? (
+            entries.find(e => e.id === draft.id)?.order ??
+            entries.length
+          )
+        : entries.length
+    };
+
+    await dbPut(record);
+
+    const idx = entries.findIndex(
+      x => x.id === record.id
+    );
+
+    if (idx >= 0) {
+      entries[idx] = record;
+    } else {
+      entries.push(record);
+    }
+
+    entries.sort((a, b) => a.order - b.order);
+
+    renderList();
+    resetDraft();
+
+    msg(t().saved);
+
+  } catch (err) {
+    console.warn(err);
+    msg(t().saveFail);
+  }
+});
+
+
+/* FLIPBOOK */
+
+function renderBook() {
+  if ($("#bookStage").hidden) return;
+
+  const n = entries.length;
+  const el = $("#bookPage");
+
+  if (!el) return;
+
+  $("#pageCount").textContent =
+    `${bookIndex + 1} / ${n + 2}`;
+
+  $("#prevPage").disabled = bookIndex === 0;
+  $("#nextPage").disabled = bookIndex === n + 1;
+
+  /* COVER */
+
+  if (bookIndex === 0) {
+    el.innerHTML = `
+      <div class="book-meta">
+        <span>DUNHUANG · MEMORY BOOK</span>
+        <span>✦ 2026</span>
+      </div>
+
+      <div class="book-cover-content">
+        <div class="big-symbol">✧</div>
+
+        <h2>
+          MY DUNHUANG<br>
+          MEMORIES
+        </h2>
+
+        <p>${esc(t().coverSubtitle)}</p>
+
+        <span class="overline">
+          ${n} PLACES · ${n} MEMORIES
+        </span>
+      </div>
+    `;
+
+    return;
+  }
+
+  /* END PAGE */
+
+  if (bookIndex === n + 1) {
+    el.innerHTML = `
+      <div class="book-meta">
+        <span>DUNHUANG · THE END</span>
+        <span>✧</span>
+      </div>
+
+      <div class="book-cover-content">
+        <div class="end-symbol">✦</div>
+
+        <h2>${esc(t().endTitle)}</h2>
+        <p>${esc(t().endText)}</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  /* ONE PLACE PER PAGE */
+
+  const m = entries[bookIndex - 1];
+
+  const picture =
+    m.posterData ||
+    m.photos?.[m.photoIndex]?.data ||
+    m.photos?.[0]?.data;
+
+  el.innerHTML = `
+    <div class="book-meta">
+
+      <span>
+        MEMORY ${String(bookIndex).padStart(2, "0")}
+      </span>
+
+      <span>${esc(m.date || "")}</span>
+
+    </div>
+
+    ${
+      picture
+        ? `
+          <img
+            class="book-entry-image"
+            src="${picture}"
+            alt="${esc(m.place)}"
+          >
+        `
+        : `
+          <div class="book-entry-image memory-thumb-fallback">
+            ✧
+          </div>
+        `
+    }
+
+    <div class="book-entry-date">
+      DUNHUANG · TRAVEL JOURNAL
+    </div>
+
+    <h3 class="book-entry-title">
+      ${esc(m.place)}
+    </h3>
+
+    <div class="book-entry-diary">
+      ${esc(m.diary || t().diaryEmpty)}
+    </div>
+  `;
+}
+
+function flip(dir) {
+  bookIndex = Math.max(
+    0,
+    Math.min(entries.length + 1, bookIndex + dir)
+  );
+
+  renderBook();
+
+  const el = $("#bookPage");
+
+  el.classList.remove("flip-prev", "flip-next");
+
+  void el.offsetWidth;
+
+  el.classList.add(
+    dir > 0 ? "flip-next" : "flip-prev"
+  );
+}
+
+
+/* FINISH */
+
+$("#finishBook").addEventListener("click", () => {
+  if (!entries.length) {
+    msg(t().bookEmpty);
+    return;
+  }
+
+  if (dirty && !confirm(t().unsaved)) {
+    return;
+  }
+
+  bookIndex = 0;
+
+  $("#workStage").hidden = true;
+  $("#bookStage").hidden = false;
+
+  renderBook();
+
+  $("#bookStage").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
+$("#prevPage").addEventListener("click", () => {
+  flip(-1);
+});
+
+$("#nextPage").addEventListener("click", () => {
+  flip(1);
+});
+
+$("#editBook").addEventListener("click", () => {
+  $("#bookStage").hidden = true;
+  $("#workStage").hidden = false;
+
+  $("#workStage").scrollIntoView({
+    behavior: "smooth"
+  });
+});
+
+document.addEventListener("keydown", e => {
+  if ($("#bookStage").hidden) return;
+
+  if (e.key === "ArrowLeft") flip(-1);
+  if (e.key === "ArrowRight") flip(1);
+});
+
+
+/* INITIALIZATION */
+
+async function init() {
+  draft = blankDraft();
+
+  setDraft(draft);
+  setLanguage(language);
+
+  try {
+    db = await openDB();
+
+    entries = (await dbAll()).sort(
+      (a, b) => (a.order ?? 0) - (b.order ?? 0)
+    );
+
+    resetDraft();
+    renderList();
+
+  } catch (err) {
+    console.warn("Memory storage unavailable", err);
+
+    $("#storageNote").textContent = t().noStorage;
+    $("#saveMemory").disabled = true;
+
+    renderList();
+  }
+}
+
+init();
+
+})();
+</script>
+
+<!-- DUNHUANG · REVIEWS NAVIGATION -->
+
+<style>
+#dhReviews {
+  scroll-margin-top: 105px;
+}
+
+.navbar .nav-links {
+  gap: clamp(9px, 1.3vw, 22px);
+}
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const HOME_PAGE = "./Dunhuang improve.html";
+
+  const labels = {
+    en: "REVIEWS",
+    zh: "旅人说",
+    ms: "ULASAN"
+  };
+
+  const nav = document.querySelector(
+    ".navbar .nav-links, #navLinks"
+  );
+
+  if (!nav) return;
+
+  function getLanguage() {
+    const value = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (value.startsWith("zh")) return "zh";
+
+    if (
+      value.startsWith("ms") ||
+      value.startsWith("bm")
+    ) return "ms";
+
+    return "en";
+  }
+
+  function updateReviewsNavigation() {
+    const language = getLanguage();
+
+    const onHomepage =
+      document.getElementById("dhReviews") !== null;
+
+    const href = onHomepage
+      ? "#dhReviews"
+      : HOME_PAGE +
+        "?lang=" + language +
+        "#dhReviews";
+
+    let link = nav.querySelector(
+      '[data-dh-reviews-nav="true"]'
+    );
+
+    if (!link) {
+
+      link = document.createElement("a");
+
+      link.dataset.dhReviewsNav = "true";
+
+      // Find FAQ so Reviews appears before it.
+
+      const faq = Array.from(
+        nav.querySelectorAll("a")
+      ).find(a =>
+        a.getAttribute("href")?.includes("#faq") ||
+        a.dataset.i18n === "navFAQ"
+      );
+
+      // Support existing <ul><li> navigation
+      // and newer directly rendered <a> links.
+
+      if (nav.tagName === "UL") {
+
+        const li = document.createElement("li");
+        li.appendChild(link);
+
+        const faqItem = faq
+          ? faq.closest("li")
+          : null;
+
+        if (
+          faqItem &&
+          faqItem.parentElement === nav
+        ) {
+          nav.insertBefore(li, faqItem);
+        } else {
+          nav.appendChild(li);
+        }
+
+      } else {
+
+        if (faq && faq.parentElement === nav) {
+          nav.insertBefore(link, faq);
+        } else {
+          nav.appendChild(link);
+        }
+
+      }
+
+    }
+
+    if (link.textContent !== labels[language]) {
+      link.textContent = labels[language];
+    }
+
+    if (link.getAttribute("href") !== href) {
+      link.setAttribute("href", href);
+    }
+
+  }
+
+  // Re-add the link if a page rebuilds its
+  // navigation during language switching.
+
+  const navObserver = new MutationObserver(
+    updateReviewsNavigation
+  );
+
+  navObserver.observe(nav, {
+    childList: true
+  });
+
+  // Update wording when HTML language changes.
+
+  new MutationObserver(
+    updateReviewsNavigation
+  ).observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ["lang"]
+    }
+  );
+
+  // Support language buttons.
+
+  document.querySelectorAll(
+    "[data-lang]"
+  ).forEach(button => {
+
+    button.addEventListener("click", () => {
+      setTimeout(updateReviewsNavigation, 0);
+    });
+
+  });
+
+  updateReviewsNavigation();
+
+})();
+</script>
+
+<!-- END REVIEWS NAVIGATION -->
+
+<!-- ===================================
+   DUNHUANG · GLOBAL FLOATING TOOLS
+   AI GUIDE + BACK TO TOP
+=================================== -->
+
+<style>
+.dh-global-tools {
+  position: fixed !important;
+  right: 30px;
+  bottom: 30px;
+  z-index: 20000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: center;
+}
+
+.dh-global-tools button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform .3s ease;
+  box-shadow: 0 8px 25px #0004;
+}
+
+.dh-global-tools button:hover {
+  transform: translateY(-4px);
+}
+
+.dh-global-ai {
+  background: #171c19;
+  border: 2px solid #d8b47c;
+  color: #d8b47c;
+}
+
+.dh-global-top {
+  background: #d8b47c;
+  border: none;
+  color: #171c19;
+}
+
+/* AI CHAT WINDOW */
+
+.dh-global-chat {
+  position: fixed;
+  right: 120px;
+  bottom: 30px;
+  z-index: 20001;
+
+  width: min(450px, calc(100vw - 150px));
+  height: min(650px, calc(100dvh - 60px));
+
+  background: #fffaf0;
+  border: 1px solid #d8b47c;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px #0006;
+  overflow: hidden;
+}
+
+.dh-global-chat[hidden] {
+  display: none !important;
+}
+
+.dh-global-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fffaf0;
+}
+
+.dh-global-close {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #51342c;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.dh-global-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 35px;
+  text-align: center;
+  color: #85583c;
+  background: #fffaf0;
+  font-size: 14px;
+}
+
+/* SENIOR MODE */
+
+body.senior-mode .dh-global-tools button {
+  width: 82px;
+  height: 82px;
+  font-size: 38px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+  .dh-global-tools {
+    right: 18px;
+    bottom: 20px;
+    gap: 16px;
+  }
+
+  .dh-global-tools button {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+
+  .dh-global-chat {
+    right: 10px;
+    bottom: 160px;
+    width: calc(100vw - 20px);
+    height: min(560px, calc(100dvh - 180px));
+  }
+}
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  // 原本的敦煌首页文件名
+  const HOME_PAGE = "./Dunhuang%20AI.html";
+
+  // 避免在已有按钮的页面重复创建
+  const hasOriginalAI =
+    !!document.getElementById("aiFloating");
+
+  const hasOriginalTop =
+    !!document.querySelector(".floating-top");
+
+  if (hasOriginalAI && hasOriginalTop) return;
+
+  const tools = document.createElement("div");
+  tools.className = "dh-global-tools";
+
+  // Create buttons
+  const aiButton = document.createElement("button");
+  aiButton.className = "dh-global-ai";
+  aiButton.type = "button";
+  aiButton.textContent = "✦";
+  aiButton.title = "Dunhuang AI Guide";
+  aiButton.setAttribute("aria-label", "Open AI Guide");
+
+  const topButton = document.createElement("button");
+  topButton.className = "dh-global-top";
+  topButton.type = "button";
+  topButton.textContent = "↑";
+  topButton.title = "Back to Top";
+  topButton.setAttribute("aria-label", "Back to Top");
+
+  if (!hasOriginalAI) tools.appendChild(aiButton);
+  if (!hasOriginalTop) tools.appendChild(topButton);
+
+  document.body.appendChild(tools);
+
+  /* BACK TO TOP */
+
+  topButton.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  /* AI WINDOW */
+
+  if (hasOriginalAI) return;
+
+  const panel = document.createElement("div");
+  panel.className = "dh-global-chat";
+  panel.hidden = true;
+
+  const frame = document.createElement("iframe");
+  frame.className = "dh-global-frame";
+  frame.title = "Dunhuang AI Guide";
+
+  const close = document.createElement("button");
+  close.className = "dh-global-close";
+  close.type = "button";
+  close.textContent = "×";
+  close.setAttribute("aria-label", "Close AI Guide");
+
+  const loading = document.createElement("div");
+  loading.className = "dh-global-loading";
+  loading.textContent = "Opening Dunhuang AI Guide...";
+
+  panel.append(frame, loading, close);
+  document.body.appendChild(panel);
+
+  let loaded = false;
+
+  function getLanguage() {
+    const lang = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (lang.startsWith("zh")) return "zh";
+    if (lang.startsWith("ms") || lang.startsWith("bm")) return "ms";
+    return "en";
+  }
+
+  /* Reuse the real AI window from homepage */
+
+  frame.addEventListener("load", function () {
+
+    try {
+      const doc = frame.contentDocument;
+
+      if (!doc || !doc.getElementById("aiFloating")) {
+        throw new Error("Homepage AI not found");
+      }
+
+      // Hide homepage content inside the iframe.
+      // Show only the original AI chat.
+      const style = doc.createElement("style");
+
+      style.textContent = `
+        html, body {
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: hidden !important;
+          background: #fffaf0 !important;
+        }
+
+        body > :not(#aiWindow) {
+          display: none !important;
+        }
+
+        #aiWindow {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          max-width: none !important;
+          max-height: none !important;
+          border-radius: 0 !important;
+          display: flex !important;
+          box-shadow: none !important;
+          z-index: 100 !important;
+        }
+
+        #aiWindow[hidden] {
+          display: none !important;
+        }
+
+        #aiClose {
+          display: none !important;
+        }
+      `;
+
+      doc.head.appendChild(style);
+
+      // Set language to match the current page
+      const languageButton = doc.querySelector(
+        '.language-switcher button[data-lang="' +
+        getLanguage() + '"]'
+      );
+
+      languageButton?.click();
+
+      // Open homepage's existing AI functionality
+      const button = doc.getElementById("aiFloating");
+
+      const aiWindow = doc.getElementById("aiWindow");
+
+      if (aiWindow.hidden) {
+        button.click();
+      }
+
+      loaded = true;
+      loading.style.display = "none";
+
+    } catch (error) {
+
+      loading.innerHTML = "";
+
+      const fallback = document.createElement("a");
+      fallback.href = HOME_PAGE;
+      fallback.textContent = "Open AI on Homepage ↗";
+      fallback.style.color = "#96583f";
+
+      loading.appendChild(fallback);
+
+      console.warn("AI guide:", error);
+    }
+
+  });
+
+
+  /* OPEN AI */
+
+  function openAI() {
+
+    panel.hidden = false;
+    aiButton.setAttribute("aria-expanded", "true");
+
+    if (!loaded && !frame.src) {
+      frame.src = HOME_PAGE;
+    }
+
+  }
+
+
+  /* CLOSE AI */
+
+  function closeAI() {
+
+    panel.hidden = true;
+    aiButton.setAttribute("aria-expanded", "false");
+
+    try {
+      frame.contentWindow.speechSynthesis?.cancel();
+    } catch {}
+
+  }
+
+
+  aiButton.addEventListener("click", () => {
+
+    if (panel.hidden) {
+      openAI();
+    } else {
+      closeAI();
+    }
+
+  });
+
+  close.addEventListener("click", closeAI);
+
+  document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && !panel.hidden) {
+      closeAI();
+    }
+
+  });
+
+})();
+</script>
+
+<!-- END GLOBAL FLOATING TOOLS -->
+
+</body>
+</html>

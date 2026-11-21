@@ -1,0 +1,4341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171c19">
+<title>I'm in Dunhuang | DUNHUANG</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+:root {
+  --dark:#171c19;
+  --forest:#26342e;
+  --brown:#96583f;
+  --deep:#51342c;
+  --gold:#d8b47c;
+  --paper:#f7efe5;
+  --cream:#fffaf3;
+  --line:#e9d8c6;
+  --muted:#8b756a;
+  --serif:"Cormorant Garamond","Noto Serif SC",serif;
+  --sans:"DM Sans","Noto Sans SC",sans-serif;
+}
+
+* {box-sizing:border-box}
+
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:125px;
+}
+
+body {
+  margin:0;
+  background:var(--paper);
+  color:var(--deep);
+  font-family:var(--sans);
+}
+
+a {color:inherit;text-decoration:none}
+button,input,select,textarea {font:inherit}
+[hidden] {display:none!important}
+
+/* NAVIGATION */
+
+.navbar {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  min-height:90px;
+  padding:15px 4%;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:25px;
+  background:transparent;
+  color:white;
+  transition:background .25s;
+}
+
+.navbar.scrolled,
+body.senior-mode .navbar {
+  background:rgba(23,28,25,.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 5px 25px #0003;
+}
+
+.logo {
+  font:600 36px var(--serif);
+  letter-spacing:3px;
+  white-space:nowrap;
+}
+
+.logo span {color:var(--gold)}
+
+.nav-links {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:25px;
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.nav-links a {
+  display:block;
+  padding:10px 0;
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:1px;
+  color:white;
+  white-space:nowrap;
+}
+
+.nav-links a:hover {color:var(--gold)}
+
+.nav-actions,
+.language-switcher {
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.nav-actions {
+  justify-content:flex-end;
+  flex-wrap:nowrap;
+}
+
+.lang-btn,
+.senior-button {
+  min-height:46px;
+  padding:9px 13px;
+  border:1px solid #ffffff80;
+  background:transparent;
+  color:white;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.senior-button {
+  border-color:var(--gold);
+  border-radius:5px;
+}
+
+.lang-btn.active,
+.lang-btn:hover,
+.senior-button:hover,
+.senior-button.active {
+  background:var(--gold);
+  border-color:var(--gold);
+  color:var(--dark);
+}
+
+/* HERO */
+
+.hero {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:620px;
+  padding:155px 7% 100px;
+  color:var(--cream);
+  background:linear-gradient(
+    110deg,
+    #5e372f 0%,
+    #8e5d49 50%,
+    #c58960 100%
+  );
+}
+
+.hero::before {
+  content:"";
+  position:absolute;
+  width:620px;
+  height:620px;
+  right:-170px;
+  top:35px;
+  border:1px solid #f2cd9f50;
+  border-radius:50%;
+  z-index:-1;
+}
+
+.hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    #28130f08,
+    #3e1f1729
+  );
+  z-index:-1;
+  pointer-events:none;
+}
+
+.hero-inner {
+  max-width:1400px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:45px;
+  align-items:center;
+}
+
+.eyebrow {
+  display:block;
+  color:#e7c28a;
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:700;
+}
+
+.hero h1 {
+  font:500 clamp(58px,7vw,99px)/1.04 var(--serif);
+  margin:18px 0 24px;
+  color:#fff7ec;
+}
+
+.hero h1 em {
+  color:#e7c28a;
+  font-weight:400;
+}
+
+.hero-desc {
+  max-width:610px;
+  font-size:15px;
+  line-height:2.05;
+  color:#f4e5d7;
+}
+
+.hero-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:13px;
+  margin-top:30px;
+}
+
+.hero-btn,
+.outline-btn {
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  padding:13px 22px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.hero-btn {
+  background:#e7c28a;
+  color:#51342c;
+  border:1px solid #e7c28a;
+}
+
+.outline-btn {
+  background:transparent;
+  color:var(--cream);
+  border:1px solid #f2cd9f99;
+}
+
+.hero-btn:hover {background:#f6d7a7}
+.outline-btn:hover {background:#ffffff1a}
+
+.hero-art {
+  position:relative;
+  justify-self:center;
+  display:grid;
+  place-items:center;
+  width:min(320px,100%);
+  aspect-ratio:1;
+  border:1px solid #f2cd9f99;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    #e7c28a26,
+    transparent 65%
+  );
+}
+
+.hero-art::before {
+  content:"";
+  position:absolute;
+  inset:30px;
+  border:1px dashed #f2cd9f88;
+  border-radius:50%;
+}
+
+.hero-art::after {
+  content:"N  ·  E  ·  S  ·  W";
+  position:absolute;
+  bottom:34px;
+  color:#e7c28a;
+  font-size:10px;
+  letter-spacing:5px;
+}
+
+.hero-art-label {
+  position:absolute;
+  top:38px;
+  font-size:10px;
+  color:#e7c28a;
+  letter-spacing:3px;
+}
+
+.compass {
+  color:#e7c28a;
+  font:130px/1 var(--serif);
+  transform:translateY(-7px);
+}
+
+/* TRAVEL STAGES */
+
+.stage-strip {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(15px,4vw,70px);
+  flex-wrap:wrap;
+  padding:19px 20px;
+  background:#eadeca;
+  border-bottom:1px solid #d7c3ac;
+  color:#836c5a;
+}
+
+.stage-strip a,
+.stage-strip span {
+  font-size:11px;
+  letter-spacing:1.5px;
+  font-weight:700;
+}
+
+.stage-strip .current {color:var(--brown)}
+
+.stage-dot {
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#b89a7a;
+}
+
+/* MAIN */
+
+.main-container {
+  width:min(1380px,90%);
+  margin:auto;
+  padding:88px 0 100px;
+}
+
+.section-heading {
+  text-align:center;
+  max-width:760px;
+  margin:0 auto 45px;
+}
+
+.section-heading h2 {
+  font:500 clamp(46px,5.3vw,72px)/1.1 var(--serif);
+  margin:12px 0;
+}
+
+.section-heading p {
+  color:var(--muted);
+  font-size:14px;
+  line-height:2;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+}
+
+.feature-card {
+  display:flex;
+  flex-direction:column;
+  min-height:310px;
+  padding:31px;
+  background:var(--cream);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:0 14px 35px #6a3f2910;
+  transition:.2s;
+}
+
+.feature-card:hover {
+  transform:translateY(-5px);
+  border-color:#bb906d;
+}
+
+.card-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.card-icon {
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#f1e1cf;
+  font-size:28px;
+}
+
+.card-num {
+  font-size:11px;
+  color:#b68f71;
+  letter-spacing:2px;
+}
+
+.feature-card h3 {
+  font:600 31px var(--serif);
+  margin:26px 0 9px;
+}
+
+.feature-card p {
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.85;
+  margin:0 0 20px;
+}
+
+.card-link {
+  margin-top:auto;
+  font-size:12px;
+  font-weight:700;
+  color:var(--brown);
+}
+
+.detail-sections {
+  margin-top:65px;
+  display:grid;
+  gap:24px;
+}
+
+.detail-section {
+  scroll-margin-top:110px;
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr);
+  gap:28px;
+  padding:33px;
+  background:#fffdf9;
+  border:1px solid var(--line);
+  border-radius:13px;
+}
+
+.detail-label {
+  display:block;
+  margin:3px 0 10px;
+  color:#a78362;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:2px;
+}
+
+.detail-section h3 {
+  font:500 clamp(29px,3vw,40px)/1.15 var(--serif);
+  margin:0;
+}
+
+.detail-body {min-width:0}
+
+.detail-body>p {
+  color:var(--muted);
+  font-size:13px;
+  line-height:2;
+  margin:0 0 17px;
+}
+
+.text-link {
+  display:inline-block;
+  margin-top:13px;
+  color:var(--brown);
+  font-size:12px;
+  font-weight:700;
+  text-decoration:underline;
+}
+
+.bottom-banner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+  flex-wrap:wrap;
+  margin-top:65px;
+  padding:35px 42px;
+  background:var(--forest);
+  color:white;
+  border-radius:13px;
+}
+
+.bottom-banner h3 {
+  font:500 32px var(--serif);
+  margin:0 0 8px;
+}
+
+.bottom-banner p {
+  font-size:13px;
+  line-height:1.8;
+  color:#dfd7c9;
+  margin:0;
+}
+
+.bottom-banner a {
+  padding:13px 17px;
+  color:var(--gold);
+  border:1px solid #d8b47c88;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.footer {
+  padding:27px 20px;
+  text-align:center;
+  background:var(--dark);
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+/* IMPORTED STRATEGY */
+
+.dhci {
+  margin-top:20px;
+  color:var(--deep);
+}
+
+.dhci-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:20px;
+  padding:24px 26px;
+  background:linear-gradient(110deg,#674035,#a16b50);
+  border-radius:12px;
+  color:#fffaf3;
+}
+
+.dhci-head small {
+  letter-spacing:2px;
+  font-size:10px;
+  color:#ecd1a9;
+}
+
+.dhci-head h3 {
+  font:600 31px var(--serif);
+  margin:8px 0;
+}
+
+.dhci-head p {
+  font-size:12px;
+  color:#f1dfcf;
+  margin:0;
+}
+
+.dhci-head b {
+  padding:10px 13px;
+  border-radius:25px;
+  background:#f2dfc8;
+  color:#74432e;
+  font-size:12px;
+}
+
+.dhci-section-title,
+.dhci-progress-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:27px 0 13px;
+}
+
+.dhci-section-title h4,
+.dhci-progress-head h4 {
+  font:600 25px var(--serif);
+  margin:0;
+}
+
+.dhci-section-title span {
+  color:#99806d;
+  font-size:11px;
+}
+
+.dhci-route {
+  display:grid;
+  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:14px;
+}
+
+.dhci-route-list {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  max-height:400px;
+  overflow:auto;
+  min-width:0;
+}
+
+.dhci-airport,
+.dhci-stop {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid #e6d1bb;
+  border-radius:8px;
+  background:#fffaf3;
+  font-size:12px;
+}
+
+.dhci-airport {
+  background:#efe0ce;
+  color:#74452f;
+  font-weight:700;
+}
+
+.dhci-num {
+  width:29px;
+  height:29px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  background:#96583f;
+  border-radius:50%;
+  color:white;
+  font-size:11px;
+  font-weight:700;
+}
+
+.dhci-airport .dhci-num {background:#30473b}
+
+.dhci-stop button {
+  border:0;
+  background:none;
+  padding:0;
+  flex:1;
+  min-width:0;
+  text-align:left;
+  color:#674332;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.dhci-stop a,
+.dhci-item a {
+  color:#96583f;
+  text-decoration:underline;
+  font-size:11px;
+}
+
+.dhci-map {
+  height:400px;
+  min-width:0;
+  position:relative;
+  z-index:0;
+  overflow:hidden;
+  border:1px solid #e6d1bb;
+  border-radius:9px;
+  background:#e9e1d5;
+}
+
+.dhci-pin-wrap {
+  background:transparent;
+  border:none;
+}
+
+.dhci-pin {
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:2px solid white;
+  border-radius:50%;
+  background:#96583f;
+  color:white;
+  font-weight:700;
+  box-shadow:0 3px 10px #0004;
+}
+
+.dhci-pin.airport {background:#30473b}
+
+.dhci-note {
+  font-size:11px;
+  color:#937f6a;
+  line-height:1.7;
+}
+
+.dhci-progress-head b {
+  font-size:17px;
+  color:var(--brown);
+}
+
+.dhci-progress-track {
+  height:9px;
+  border-radius:30px;
+  overflow:hidden;
+  background:#e9d7c4;
+  margin-bottom:25px;
+}
+
+.dhci-progress-fill {
+  display:block;
+  height:100%;
+  width:0;
+  background:var(--brown);
+  transition:width .2s;
+}
+
+.dhci-group {margin-top:25px}
+
+.dhci-group h4 {
+  padding-bottom:12px;
+  border-bottom:1px solid #e3d2c0;
+  color:#694331;
+  font-size:17px;
+  margin:0 0 12px;
+}
+
+.dhci-group h4 span {
+  padding:5px 9px;
+  margin-left:8px;
+  border-radius:20px;
+  background:#f0deca;
+  color:#906247;
+  font-size:11px;
+}
+
+.dhci-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+.dhci-item {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:13px;
+  border:1px solid #e7d5c0;
+  border-radius:8px;
+  background:#fffaf3;
+}
+
+.dhci-item:has(input:checked) {
+  background:#f2e7d9;
+  border-color:#d3b99d;
+}
+
+.dhci-item input {
+  width:17px;
+  height:17px;
+  margin:3px 0 0;
+  accent-color:var(--brown);
+  flex-shrink:0;
+}
+
+.dhci-item-main {
+  flex:1;
+  min-width:0;
+}
+
+.dhci-item label {
+  display:block;
+  color:#674332;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.6;
+  cursor:pointer;
+}
+
+.dhci-item input:checked~.dhci-item-main label {
+  text-decoration:line-through;
+  opacity:.6;
+}
+
+.dhci-item a {
+  display:inline-block;
+  margin-top:5px;
+}
+
+.dhci-message {
+  padding:16px;
+  border:1px solid #e4ccb2;
+  border-radius:9px;
+  background:#f7eadb;
+  font-size:13px;
+  line-height:1.8;
+  color:#835a40;
+}
+
+/* NEXT STOP */
+
+.dh-next-main {
+  padding:23px;
+  border:1px solid #e6d0b8;
+  border-radius:12px;
+  background:linear-gradient(120deg,#f7ead9,#fffaf3);
+}
+
+.dh-next-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+}
+
+.dh-next-label {
+  display:block;
+  color:#a47c59;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.8px;
+}
+
+.dh-next-count {
+  padding:7px 11px;
+  background:#edddc9;
+  color:var(--brown);
+  border-radius:20px;
+  font-size:11px;
+}
+
+.dh-next-place {
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin:21px 0;
+}
+
+.dh-next-number {
+  width:53px;
+  height:53px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  background:var(--brown);
+  border-radius:50%;
+  color:white;
+  font:600 23px var(--serif);
+}
+
+.dh-next-place h3 {
+  font:600 clamp(25px,3vw,34px) var(--serif);
+  color:#674332;
+  margin:0 0 5px;
+}
+
+.dh-next-place p {
+  font-size:12px;
+  color:#967960;
+  margin:0;
+}
+
+.dh-next-actions,
+.dh-next-options {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+}
+
+.dh-next-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:11px 16px;
+  border:1px solid var(--brown);
+  border-radius:7px;
+  background:var(--brown);
+  color:white;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.dh-next-btn.secondary {
+  background:#fffaf3;
+  color:var(--brown);
+}
+
+.dh-next-others {
+  margin-top:20px;
+  padding-top:18px;
+  border-top:1px solid #e6d0b8;
+}
+
+.dh-next-others h4 {
+  font-size:14px;
+  color:#78513b;
+  margin:0 0 7px;
+}
+
+.dh-next-others p,
+.dh-next-note {
+  font-size:12px;
+  color:#9a806d;
+  line-height:1.8;
+}
+
+.dh-next-option {
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  padding:10px 13px;
+  border:1px solid #e2ccb5;
+  border-radius:7px;
+  background:#fffaf3;
+  color:#76503a;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.dh-next-option.active {
+  background:var(--brown);
+  border-color:var(--brown);
+  color:white;
+}
+
+.dh-next-empty {
+  padding:23px;
+  background:#f8eee3;
+  border:1px solid #e6d0b8;
+  border-radius:10px;
+  color:#78513b;
+  font-size:13px;
+  line-height:1.9;
+}
+
+/* HELP CENTER */
+
+.dh-help {color:#674332}
+
+.dh-help-head {
+  padding:22px;
+  background:#f7ebdd;
+  border:1px solid #e7d2bc;
+  border-radius:12px;
+}
+
+.dh-help-head span {
+  font-size:10px;
+  color:#a47958;
+  letter-spacing:2px;
+}
+
+.dh-help-head h3 {
+  font:600 27px var(--serif);
+  margin:9px 0;
+}
+
+.dh-help-head p {
+  margin:0;
+  color:#8d7564;
+  font-size:12px;
+  line-height:1.9;
+}
+
+.dh-help-tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:19px 0;
+}
+
+.dh-help-tab {
+  padding:11px 17px;
+  border:1px solid #e0c7ac;
+  border-radius:25px;
+  background:#fffaf3;
+  color:#85543c;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.dh-help-tab.active {
+  background:var(--brown);
+  border-color:var(--brown);
+  color:white;
+}
+
+.dh-help-layout {
+  display:grid;
+  grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:15px;
+  align-items:stretch;
+}
+
+.dh-help-list {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-height:510px;
+  overflow-y:auto;
+}
+
+.dh-help-phrase {
+  width:100%;
+  padding:14px 15px;
+  text-align:left;
+  border:1px solid #e5d0b9;
+  border-radius:8px;
+  background:#fffaf3;
+  color:#674332;
+  cursor:pointer;
+}
+
+.dh-help-phrase.active {
+  border-color:var(--brown);
+  background:#f2e3d1;
+}
+
+.dh-help-phrase small {
+  display:block;
+  margin-bottom:5px;
+  color:#a67e5c;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.dh-help-phrase strong {
+  font-size:12px;
+  line-height:1.7;
+}
+
+.dh-help-display {
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:20px;
+  min-height:275px;
+  padding:24px;
+  border:1px solid #e2cbb3;
+  border-radius:10px;
+  background:linear-gradient(135deg,#fff8ed,#f2e2cc);
+}
+
+.dh-help-display>div>span {
+  font-size:12px;
+  color:#a27b5c;
+}
+
+.dh-help-chinese {
+  font:600 clamp(23px,2.5vw,34px)/1.7 "Noto Serif SC",serif;
+  color:#674332;
+}
+
+.dh-help-translation {
+  font-size:12px;
+  line-height:1.9;
+  color:#927a66;
+}
+
+.dh-help-actions {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.dh-help-btn {
+  padding:10px 14px;
+  border:1px solid var(--brown);
+  border-radius:7px;
+  background:var(--brown);
+  color:white;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.dh-help-btn.secondary {
+  background:transparent;
+  color:var(--brown);
+}
+
+.dh-help-status {
+  min-height:16px;
+  margin-top:9px;
+  font-size:11px;
+  color:#7c674f;
+}
+
+.dh-help-location {
+  margin-top:20px;
+  padding:20px;
+  border:1px dashed #cba786;
+  border-radius:10px;
+  background:#faf1e5;
+}
+
+.dh-help-location h4,
+.dh-help-emergency h4 {
+  margin:0 0 8px;
+  color:#674332;
+  font-size:16px;
+}
+
+.dh-help-location p,
+.dh-help-emergency p {
+  font-size:12px;
+  line-height:1.8;
+  color:#8b7567;
+}
+
+.dh-help-coords {
+  display:block;
+  margin:11px 0;
+  color:#744b35;
+  font-size:12px;
+  font-weight:600;
+}
+
+.dh-help-map-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:10px;
+}
+
+.dh-help-map-links a {
+  font-size:12px;
+  color:var(--brown);
+  text-decoration:underline;
+}
+
+.dh-help-emergency {
+  margin-top:24px;
+  padding-top:20px;
+  border-top:1px solid #e9d7c5;
+}
+
+.dh-help-phones {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.dh-help-phone {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:17px 8px;
+  border:1px solid #e2cbb4;
+  border-radius:9px;
+  background:#fffaf3;
+  text-align:center;
+}
+
+.dh-help-phone strong {
+  color:var(--brown);
+  font-size:24px;
+}
+
+.dh-help-phone span {
+  font-size:11px;
+  color:#816a58;
+}
+
+/* TRANSLATOR */
+
+.dh-custom-translator {
+  margin-top:20px;
+  padding:23px;
+  border:1px solid #e5ceb6;
+  border-radius:12px;
+  background:#fffaf3;
+}
+
+.dh-custom-translator-header span {
+  font-size:10px;
+  color:#ac815f;
+  letter-spacing:1.7px;
+}
+
+.dh-custom-translator-header h4 {
+  font-size:20px;
+  margin:8px 0;
+  color:#674332;
+}
+
+.dh-custom-translator-header p {
+  margin:0;
+  color:#967c68;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.dh-custom-translator-body {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:10px;
+  margin-top:17px;
+}
+
+.dh-custom-translator-input {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width:0;
+}
+
+.dh-custom-translator-input label {
+  font-size:12px;
+  font-weight:600;
+  color:#79533e;
+}
+
+.dh-custom-translator-select,
+.dh-custom-translator-textarea {
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #dec6ac;
+  border-radius:8px;
+  background:#fffdf9;
+  color:#674332;
+  outline:none;
+  font-size:13px;
+}
+
+.dh-custom-translator-select {
+  max-width:290px;
+  margin-bottom:10px;
+}
+
+.dh-custom-translator-textarea {
+  min-height:110px;
+  resize:vertical;
+  line-height:1.8;
+}
+
+.dh-custom-translator-button {
+  padding:13px 20px;
+  border:1px solid var(--brown);
+  border-radius:8px;
+  background:var(--brown);
+  color:white;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.dh-custom-translator-button:disabled {
+  opacity:.55;
+  cursor:wait;
+}
+
+.dh-custom-result {
+  margin-top:19px;
+  padding:22px;
+  border:1px solid #e0c5a7;
+  border-radius:10px;
+  background:linear-gradient(120deg,#f7ead8,#f1dfc8);
+}
+
+.dh-custom-result>span {
+  font-size:10px;
+  color:#a57a56;
+  letter-spacing:1.5px;
+}
+
+.dh-custom-result-text {
+  display:block;
+  margin:11px 0;
+  font:600 clamp(23px,2.5vw,34px)/1.7 "Noto Serif SC",serif;
+  color:#674332;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.dh-custom-result-actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.dh-custom-result-actions button {
+  padding:10px 15px;
+  border:1px solid var(--brown);
+  border-radius:7px;
+  background:#fffaf3;
+  color:var(--brown);
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.dh-custom-status {
+  min-height:18px;
+  margin:12px 0 0;
+  color:#906c55;
+  font-size:12px;
+}
+
+.dh-custom-privacy {
+  font-size:10px;
+  color:#a18976;
+  line-height:1.8;
+}
+
+/* LARGE TEXT */
+
+.dh-custom-overlay {
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:#171c19de;
+  backdrop-filter:blur(5px);
+}
+
+.dh-custom-overlay-card {
+  position:relative;
+  width:min(760px,100%);
+  max-height:85vh;
+  overflow:auto;
+  padding:60px 35px;
+  background:#fffaf3;
+  border:4px double #b98b64;
+  border-radius:14px;
+  text-align:center;
+}
+
+.dh-custom-overlay-card h2 {
+  font:600 clamp(30px,5vw,56px)/1.75 "Noto Serif SC",serif;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.dh-custom-overlay-close {
+  position:absolute;
+  top:12px;
+  right:18px;
+  border:0;
+  background:transparent;
+  color:var(--brown);
+  font-size:30px;
+  cursor:pointer;
+}
+
+/* SENIOR MODE */
+
+body.senior-mode {font-size:20px}
+
+body.senior-mode .nav-links a,
+body.senior-mode .lang-btn,
+body.senior-mode .dh-help-btn,
+body.senior-mode .dhci-item label,
+body.senior-mode .dh-custom-translator-textarea {
+  font-size:18px;
+}
+
+body.senior-mode .detail-body p,
+body.senior-mode .feature-card p {
+  font-size:19px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1220px) {
+  .navbar {
+    grid-template-columns:auto 1fr;
+    row-gap:10px;
+  }
+  .nav-actions {
+    grid-column:2;
+    grid-row:1;
+  }
+  .nav-links {
+    grid-column:1/-1;
+    grid-row:2;
+  }
+}
+
+@media(max-width:850px) {
+  .hero-inner {
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+  .hero-desc {margin-inline:auto}
+  .hero-actions {justify-content:center}
+  .hero-art {width:220px}
+  .compass {font-size:92px}
+  .cards {grid-template-columns:1fr}
+  .detail-section {
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .dhci-route,
+  .dh-help-layout {
+    grid-template-columns:1fr;
+  }
+  .dhci-route-list,
+  .dh-help-list {max-height:280px}
+  .dhci-map {height:320px}
+  .dh-help-phones {
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px) {
+  .navbar {
+    grid-template-columns:1fr;
+    justify-items:center;
+    padding:13px 4%;
+  }
+  .logo,.nav-actions,.nav-links {
+    grid-column:1;
+    grid-row:auto;
+  }
+  .nav-actions {
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .nav-links {gap:7px 16px}
+  .nav-links a {font-size:12px}
+  .hero {
+    padding:165px 7% 70px;
+    min-height:auto;
+  }
+  .hero-art {width:210px}
+  .main-container {
+    width:92%;
+    padding-top:60px;
+  }
+  .feature-card {min-height:250px}
+  .detail-section {padding:22px}
+  .dhci-grid,
+  .dh-custom-translator-body {
+    grid-template-columns:1fr;
+  }
+  .dh-custom-translator-button {width:100%}
+  .dh-help-display,
+  .dh-help-head,
+  .dh-help-location,
+  .dh-custom-translator {padding:16px}
+  .dhci-head {padding:19px}
+  .dhci-head h3 {font-size:25px}
+  .bottom-banner {padding:26px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html {scroll-behavior:auto}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar" id="navbar" aria-label="Main navigation">
+  <a href="./Dunhuang Improve.html#home" class="logo">
+    DUNHUANG<span>.</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="./Dunhuang Improve.html#home" data-t="navHome">HOME</a></li>
+    <li><a href="./Dunhuang Improve.html#experiences" data-t="navExplore">EXPLORE</a></li>
+    <li><a href="./Dunhuang Improve.html#journey" data-t="navJourney">JOURNEY</a></li>
+    <li><a href="./Dunhuang Improve.html#storyJourney" data-t="navStories">STORIES</a></li>
+    <li><a href="./Dunhuang Improve.html#faq" data-t="navFAQ">FAQ</a></li>
+    <li><a href="./about.html" data-t="navAbout">ABOUT</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="language-switcher">
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="zh">中文</button>
+      <button type="button" class="lang-btn" data-lang="ms">BM</button>
+    </div>
+    <button type="button" class="senior-button" id="seniorButton">
+      👓 <span data-t="seniorMode">Senior Mode</span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow" data-t="heroLabel">
+        DUNHUANG · YOUR TRAVEL COMPANION
+      </span>
+
+      <h1 data-html="heroTitle">
+        Already in<br><em>Dunhuang?</em>
+      </h1>
+
+      <p class="hero-desc" data-t="heroDesc">
+        Your journey is happening now.
+        Keep your plans close, find your next stop,
+        and get help whenever you need it.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#features" class="hero-btn" data-t="startButton">
+          START EXPLORING ↗
+        </a>
+        <a href="./Dunhuang Improve.html#myJourney" class="outline-btn" data-t="backButton">
+          BACK TO STRATEGY
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <span class="hero-art-label">YOU ARE HERE</span>
+      <div class="compass">✧</div>
+    </div>
+  </div>
+</header>
+
+
+<style>
+/* ==========================================
+   DUNHUANG · THREE TRAVEL STAGES
+========================================== */
+
+.dh-stage-nav {
+  width: 100%;
+  background: #efe1cc;
+  border-top: 1px solid #d6b89b;
+  border-bottom: 1px solid #d6b89b;
+  padding: 17px 5%;
+}
+
+.dh-stage-inner {
+  max-width: 1150px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 12px;
+}
+
+.dh-stage-link {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-height: 70px;
+  padding: 11px 16px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  color: #967b67;
+  text-decoration: none;
+  text-align: center;
+
+  transition: background .2s, color .2s;
+}
+
+.dh-stage-number {
+  font-family: "DM Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  opacity: .8;
+}
+
+.dh-stage-text {
+  font-family:
+    "Noto Serif SC",
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.dh-stage-link:hover {
+  background: #f9f0e4;
+  color: #96583f;
+  border-color: #dcc1a5;
+}
+
+.dh-stage-link.active {
+  background: #96583f;
+  color: #fff8ea;
+  border-color: #96583f;
+}
+
+.dh-stage-link.active .dh-stage-number {
+  color: #e9c89b;
+}
+
+.dh-stage-link:focus-visible {
+  outline: 3px solid #b78655;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+
+  .dh-stage-nav {
+    padding: 12px 3%;
+  }
+
+  .dh-stage-inner {
+    gap: 6px;
+  }
+
+  .dh-stage-link {
+    padding: 10px 5px;
+    min-height: 76px;
+  }
+
+  .dh-stage-number {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .dh-stage-text {
+    font-size: 12px;
+  }
+}
+
+body.senior-mode .dh-stage-text {
+  font-size: 20px;
+}
+</style>
+
+
+<nav class="dh-stage-nav" aria-label="Travel stages">
+
+  <div class="dh-stage-inner">
+
+    <a
+      href="./strategy.html"
+      class="dh-stage-link"
+      data-stage="strategy"
+    >
+      <span class="dh-stage-number">
+        01 · STRATEGY
+      </span>
+
+      <span class="dh-stage-text"></span>
+    </a>
+
+
+    <a
+      href="./checkin.html"
+      class="dh-stage-link"
+      data-stage="checkin"
+    >
+      <span class="dh-stage-number">
+        02 · CHECK-IN
+      </span>
+
+      <span class="dh-stage-text"></span>
+    </a>
+
+
+    <a
+      href="./memories.html"
+      class="dh-stage-link"
+      data-stage="memories"
+    >
+      <span class="dh-stage-number">
+        03 · MEMORIES
+      </span>
+
+      <span class="dh-stage-text"></span>
+    </a>
+
+  </div>
+
+</nav>
+
+
+<script>
+(function () {
+  "use strict";
+
+  const bar = document.querySelector(".dh-stage-nav");
+
+  if (!bar) return;
+
+  const labels = {
+
+    zh: {
+      strategy: "把向往写成路线",
+      checkin: "把路线走成故事",
+      memories: "把故事留成回忆"
+    },
+
+    en: {
+      strategy: "Turn Dreams into Plans",
+      checkin: "Turn Plans into Stories",
+      memories: "Turn Stories into Memories"
+    },
+
+    ms: {
+      strategy: "Ubah Impian Jadi Rancangan",
+      checkin: "Ubah Rancangan Jadi Cerita",
+      memories: "Ubah Cerita Jadi Kenangan"
+    }
+
+  };
+
+
+  const currentFile = decodeURIComponent(
+    window.location.pathname.split("/").pop()
+  ).toLowerCase();
+
+
+  function updateStageBar() {
+
+    const pageLang =
+      document.documentElement.lang.toLowerCase();
+
+    const language = pageLang.startsWith("zh")
+      ? "zh"
+      : pageLang.startsWith("ms")
+        ? "ms"
+        : "en";
+
+
+    bar.querySelectorAll("[data-stage]").forEach(link => {
+
+      const stage = link.dataset.stage;
+
+      const text = link.querySelector(".dh-stage-text");
+
+      if (text) {
+        text.textContent = labels[language][stage];
+      }
+
+
+      const active = currentFile === stage + ".html";
+
+      link.classList.toggle("active", active);
+
+      if (active) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+
+    });
+
+  }
+
+
+  new MutationObserver(updateStageBar).observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ["lang"]
+    }
+  );
+
+
+  updateStageBar();
+
+})();
+</script>
+
+<main class="main-container">
+
+  <div class="section-heading" id="features">
+    <span class="eyebrow" style="color:var(--brown)" data-t="sectionLabel">
+      YOUR JOURNEY, YOUR WAY
+    </span>
+    <h2 data-t="sectionTitle">What do you need today?</h2>
+    <p data-t="sectionIntro">
+      Choose what helps you right now. You can change your plan at any time.
+    </p>
+  </div>
+
+  <div class="cards">
+
+    <a href="#checklist" class="feature-card">
+      <div class="card-top">
+        <div class="card-icon">✓</div>
+        <span class="card-num">01 / 03</span>
+      </div>
+      <h3 data-t="card1Title">My Travel Checklist</h3>
+      <p data-t="card1Desc">
+        Keep track of attractions, food, activities and shopping during your visit.
+      </p>
+      <span class="card-link" data-t="cardLink">
+        EXPLORE THIS SECTION ↗
+      </span>
+    </a>
+
+    <a href="#next-stop" class="feature-card">
+      <div class="card-top">
+        <div class="card-icon">⌖</div>
+        <span class="card-num">02 / 03</span>
+      </div>
+      <h3 data-t="card2Title">Where Should I Go Next?</h3>
+      <p data-t="card2Desc">
+        Find your next stop and navigate through Dunhuang.
+      </p>
+      <span class="card-link" data-t="cardLink">
+        EXPLORE THIS SECTION ↗
+      </span>
+    </a>
+
+    <a href="#help" class="feature-card">
+      <div class="card-top">
+        <div class="card-icon">✳</div>
+        <span class="card-num">03 / 03</span>
+      </div>
+      <h3 data-t="card3Title">I Need Help!</h3>
+      <p data-t="card3Desc">
+        Quick help for getting lost, language barriers and transport problems.
+      </p>
+      <span class="card-link" data-t="cardLink">
+        EXPLORE THIS SECTION ↗
+      </span>
+    </a>
+
+  </div>
+
+  <div class="detail-sections">
+
+    <section class="detail-section" id="checklist">
+      <div>
+        <span class="detail-label">01 · CHECKLIST</span>
+        <h3 data-t="card1Title">My Travel Checklist</h3>
+      </div>
+      <div class="detail-body">
+        <p data-t="checklistIntro">
+          Your Strategy choices and route appear here.
+        </p>
+        <div class="dhci" id="dhCheckinImport"></div>
+        <a href="./strategy.html" class="text-link" data-t="editGuide">
+          VIEW / EDIT MY GUIDE ↗
+        </a>
+      </div>
+    </section>
+
+    <section class="detail-section" id="next-stop">
+      <div>
+        <span class="detail-label">02 · NAVIGATION</span>
+        <h3 data-t="card2Title">Where Should I Go Next?</h3>
+      </div>
+      <div class="detail-body">
+        <p data-t="nextIntro">
+          Next stop is chosen from your unfinished attractions.
+        </p>
+        <div id="dhNextPanel"></div>
+      </div>
+    </section>
+
+    <section class="detail-section" id="help">
+      <div>
+        <span class="detail-label">03 · SUPPORT</span>
+        <h3 data-t="card3Title">I Need Help!</h3>
+      </div>
+      <div class="detail-body">
+        <p data-t="helpIntro">
+          Show a Chinese help card, listen to its pronunciation or translate your own message.
+        </p>
+        <div class="dh-help" id="dhHelpMount"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="bottom-banner">
+    <div>
+      <h3 data-t="bottomTitle">
+        Keep exploring, at your own pace.
+      </h3>
+      <p data-t="bottomDesc">
+        Your journey is yours to shape. Let Dunhuang surprise you along the way.
+      </p>
+    </div>
+
+    <a href="./Dunhuang Improve.html#myJourney" data-t="bottomLink">
+      BACK TO TRAVEL STRATEGY ↗
+    </a>
+  </div>
+
+</main>
+
+<footer class="footer">
+  DUNHUANG · THE SILK ROAD EXPERIENCE · 2026
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+(function() {
+"use strict";
+
+const $ = s => document.querySelector(s);
+
+const STORE = {
+  guide: "dunhuang-custom-travel-guide",
+  order: "dunhuang-personal-route-order",
+  done: "dunhuang-checkin-completed-v1",
+  lang: "dunhuang-language",
+  senior: "dunhuang-senior-mode"
+};
+
+const kinds = [
+  "attractions",
+  "food",
+  "activities",
+  "shopping"
+];
+
+const airport = {
+  pos: [40.16333, 94.81],
+  name: [
+    "Dunhuang Mogao International Airport",
+    "敦煌莫高国际机场",
+    "Lapangan Terbang Antarabangsa Dunhuang Mogao"
+  ]
+};
+
+function getJSON(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function esc(x) {
+  return String(x ?? "").replace(
+    /[&<>"']/g,
+    c => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[c]
+  );
+}
+
+function posOK(p) {
+  return Array.isArray(p) &&
+    p.length === 2 &&
+    p.every(x => Number.isFinite(Number(x)));
+}
+
+function textAt(x) {
+  if (Array.isArray(x)) {
+    return x[langIndex()] || x[1] || x[0] || "";
+  }
+  return String(x ?? "");
+}
+
+function chinaName(x) {
+  return Array.isArray(x)
+    ? (x[1] || x[0] || "")
+    : String(x || "");
+}
+
+function googleLink(item) {
+  return "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(
+      item.query || "敦煌 " + chinaName(item.name)
+    );
+}
+
+/* ==========================================
+   WEBSITE TRANSLATIONS
+========================================== */
+
+const ui = {
+
+  en: {
+    navHome: "HOME",
+    navExplore: "EXPLORE",
+    navJourney: "JOURNEY",
+    navStories: "STORIES",
+    navFAQ: "FAQ",
+    navAbout: "ABOUT",
+    seniorMode: "Senior Mode",
+
+    heroLabel: "DUNHUANG · YOUR TRAVEL COMPANION",
+    heroTitle: "Already in<br><em>Dunhuang?</em>",
+    heroDesc:
+      "Your journey is happening now. Keep your plans close, find your next stop, and get help whenever you need it.",
+    startButton: "START EXPLORING ↗",
+    backButton: "BACK TO STRATEGY",
+
+    stageBefore: "01 · BEFORE THE TRIP",
+    stageNow: "02 · IN DUNHUANG",
+    stageAfter: "03 · AFTER THE TRIP",
+
+    sectionLabel: "YOUR JOURNEY, YOUR WAY",
+    sectionTitle: "What do you need today?",
+    sectionIntro:
+      "You're already here. Choose what helps you now. You can change your plan any time.",
+
+    card1Title: "My Travel Checklist",
+    card1Desc:
+      "Keep track of attractions, food, activities and shopping during your visit.",
+    card2Title: "Where Should I Go Next?",
+    card2Desc:
+      "See your next stop and navigate through Dunhuang.",
+    card3Title: "I Need Help!",
+    card3Desc:
+      "Quick support for getting lost, language barriers and transport questions.",
+    cardLink: "EXPLORE THIS SECTION ↗",
+
+    checklistIntro:
+      "Your saved Strategy choices and visit order are shown below. Checking off places will not change the original plan.",
+    editGuide: "VIEW / EDIT MY GUIDE ↗",
+    nextIntro:
+      "Your next unfinished attraction, based on the order you chose in Strategy.",
+    helpIntro:
+      "Choose a help phrase, play it aloud, or translate your own words.",
+
+    bottomTitle: "Keep exploring, at your own pace.",
+    bottomDesc:
+      "Your journey is yours to shape. Let Dunhuang surprise you along the way.",
+    bottomLink: "BACK TO TRAVEL STRATEGY ↗",
+
+    guideTitle: "My Dunhuang Travel Guide",
+    guideSub: "Your original Strategy choices and route",
+    selected: "selected",
+    route: "My Attraction Route",
+    routeNote:
+      "✈ The airport is the starting point. The dashed line connects locations, not roads.",
+    checkTitle: "My Travel Checklist",
+    groups: ["Attractions", "Food", "Activities", "Shopping"],
+    empty: "You have not selected any places in Strategy yet.",
+    loadError:
+      "Cannot read attraction details. Keep strategy.html and checkin.html in one folder and use VS Code Live Server.",
+    mapError: "Map could not load; your checklist is still available.",
+
+    nextTitle: "Recommended Next Stop",
+    remaining: "attractions remaining",
+    changeNext: "Want a different stop?",
+    chooseNext: "You can choose any unfinished attraction.",
+    viewMap: "📍 Show on My Map",
+    navigate: "↗ Start Navigation",
+    allDone: "🎉 You've completed all selected attractions!",
+    noAttractions: "No attractions chosen yet.",
+
+    helpHeading: "Dunhuang Travel Help",
+    helpDescription:
+      "Choose a situation and show a Chinese phrase to a local person.",
+    helpTabs: ["📍 I'm Lost", "💬 Language Help", "🚕 Transport Help"],
+    showPhrase: "SHOW THIS TO A LOCAL PERSON",
+    copyChinese: "Copy Chinese",
+    readChinese: "🔊 Play Chinese",
+    stopVoice: "■ Stop Voice",
+    showLarge: "Show Large Text",
+    close: "Close",
+    copied: "Copied!",
+    copyFail: "Copy failed",
+
+    locationTitle: "📍 Where Am I?",
+    locationInfo:
+      "Click to request browser location permission. Your coordinates are not sent automatically.",
+    findLocation: "Find My Location",
+    finding: "Finding your location…",
+    locationFail:
+      "Location unavailable. Check permissions and internet access.",
+    locationFound: "My GPS Coordinates",
+
+    emergency: "Emergency & Help Numbers",
+    emergencyInfo:
+      "110 police, 120 ambulance, 119 fire. 12345 is for non-emergency government/tourism enquiries.",
+    phones: ["Police", "Ambulance", "Fire", "Government / Tourism"],
+
+    translatorTitle: "Can't Find the Right Phrase? Write Your Own!",
+    translatorDesc: "Translate between English, Malay and Chinese.",
+    direction: "Translation direction",
+    message: "What would you like to say?",
+    placeholder:
+      "For example: I lost my passport. Can you help me?",
+    translate: "✧ Translate",
+    translating: "Translating…",
+    translation: "TRANSLATION RESULT",
+    copyTranslation: "Copy Translation",
+    readTranslation: "🔊 Play Translation",
+    emptyInput: "Enter a message first.",
+    tooLong: "Please shorten the message to 450 bytes.",
+    translationFailed:
+      "Online translation is unavailable. Please try again.",
+    voiceFailed:
+      "Speech is not supported or a matching voice is unavailable.",
+    privacy:
+      "Online translation sends your text to the third-party MyMemory service. Do not enter passports, passwords or sensitive details."
+  },
+
+  zh: {
+    navHome: "首页",
+    navExplore: "探索",
+    navJourney: "旅程",
+    navStories: "历史故事",
+    navFAQ: "常见问题",
+    navAbout: "关于我们",
+    seniorMode: "长辈模式",
+
+    heroLabel: "敦煌 · 你的旅行随行助手",
+    heroTitle: "我已经<br><em>在敦煌！</em>",
+    heroDesc:
+      "旅途已经开始。带着你的攻略清单，寻找下一站，也可以在需要时快速获取帮助。",
+    startButton: "开始探索 ↗",
+    backButton: "返回旅行攻略",
+
+    stageBefore: "01 · 旅行前",
+    stageNow: "02 · 我已经在敦煌",
+    stageAfter: "03 · 旅行后",
+
+    sectionLabel: "我的旅程 · 自由探索",
+    sectionTitle: "现在你想做什么？",
+    sectionIntro:
+      "你已经来到敦煌。按照自己的需要选择功能，随时可以改变计划。",
+
+    card1Title: "我的旅行清单",
+    card1Desc:
+      "记录已经去过的景点、尝过的美食、完成的体验和购买的纪念品。",
+    card2Title: "我的下一站去哪？",
+    card2Desc:
+      "查看下一站的方向和地图，为接下来的旅程做准备。",
+    card3Title: "我需要帮助！",
+    card3Desc:
+      "遇到迷路、语言不通或交通问题时，快速找到需要的帮助。",
+    cardLink: "查看这个功能 ↗",
+
+    checklistIntro:
+      "这里直接读取你在 Strategy 里选择的攻略及景点顺序。完成打卡不会修改原攻略。",
+    editGuide: "查看／修改我的攻略 ↗",
+    nextIntro:
+      "根据你原来安排的游览顺序，自动推荐尚未完成的下一站。",
+    helpIntro:
+      "遇到困难时，可以出示中文求助卡，也可以输入文字翻译。",
+
+    bottomTitle: "按照自己的节奏继续探索。",
+    bottomDesc:
+      "旅程不需要完全照着计划走，也可以发现意料之外的敦煌。",
+    bottomLink: "返回旅行攻略 ↗",
+
+    guideTitle: "我的敦煌旅行攻略",
+    guideSub: "来自 Strategy 的原始选择与游览顺序",
+    selected: "项已选择",
+    route: "我的景点路线",
+    routeNote:
+      "✈ 机场为固定起点；虚线只表示位置顺序，不是实际道路导航。",
+    checkTitle: "我的旅行打卡清单",
+    groups: ["景点打卡", "美食探索", "游玩体验", "购物清单"],
+    empty: "你还没有在 Strategy 选择项目。",
+    loadError:
+      "无法读取 strategy.html 的景点详情。请把两个文件放在同一文件夹，用 VS Code Live Server 运行。",
+    mapError: "地图暂时不能加载，清单仍然可以使用。",
+
+    nextTitle: "推荐下一站",
+    remaining: "个景点未完成",
+    changeNext: "想换一站？",
+    chooseNext:
+      "下面都是你还没完成的景点，点击即可切换。",
+    viewMap: "📍 在我的地图上查看",
+    navigate: "↗ 开始导航",
+    allDone: "🎉 你选择的景点已经全部打卡完成！",
+    noAttractions: "还没有选择景点。",
+
+    helpHeading: "敦煌随身求助卡",
+    helpDescription:
+      "选择问题，向当地人出示中文求助卡。",
+    helpTabs: ["📍 我迷路了", "💬 语言沟通", "🚕 交通问题"],
+    showPhrase: "向当地人出示这句话",
+    copyChinese: "复制中文",
+    readChinese: "🔊 播放中文",
+    stopVoice: "■ 停止播放",
+    showLarge: "放大展示",
+    close: "关闭",
+    copied: "已复制！",
+    copyFail: "复制失败",
+
+    locationTitle: "📍 我现在在哪里？",
+    locationInfo:
+      "点击后浏览器才会请求定位权限。坐标不会自动发送给别人。",
+    findLocation: "获取我的位置",
+    finding: "正在获取位置……",
+    locationFail:
+      "无法获取位置，请检查定位权限、浏览器和网络。",
+    locationFound: "我的 GPS 坐标",
+
+    emergency: "紧急联系电话",
+    emergencyInfo:
+      "110 报警、120 急救、119 消防；12345 为非紧急政务及旅游咨询。",
+    phones: ["报警", "医疗急救", "消防救援", "政务及旅游咨询"],
+
+    translatorTitle: "没有合适的句子？自己输入！",
+    translatorDesc:
+      "支持英语、马来语与中文之间的双向翻译。",
+    direction: "选择翻译方向",
+    message: "请输入你想说的话",
+    placeholder:
+      "例如：I lost my passport. Can you help me?",
+    translate: "✧ 开始翻译",
+    translating: "正在翻译……",
+    translation: "翻译结果",
+    copyTranslation: "复制译文",
+    readTranslation: "🔊 播放译文",
+    emptyInput: "请先输入文字。",
+    tooLong: "输入太长，请缩短至 450 字节以内。",
+    translationFailed:
+      "翻译服务暂时不可用，请检查网络后重试。",
+    voiceFailed:
+      "浏览器不支持语音，或缺少对应语言语音包。",
+    privacy:
+      "在线翻译会将输入内容发送给第三方 MyMemory 服务，请勿输入护照号码、密码等敏感信息。"
+  },
+
+  ms: {
+    navHome: "LAMAN UTAMA",
+    navExplore: "TEROKAI",
+    navJourney: "PERJALANAN",
+    navStories: "CERITA",
+    navFAQ: "SOALAN LAZIM",
+    navAbout: "TENTANG KAMI",
+    seniorMode: "Mod Warga Emas",
+
+    heroLabel: "DUNHUANG · TEMAN PERJALANAN ANDA",
+    heroTitle: "Saya Sudah<br><em>di Dunhuang!</em>",
+    heroDesc:
+      "Perjalanan anda sudah bermula. Simpan pilihan anda, cari destinasi seterusnya dan dapatkan bantuan apabila perlu.",
+    startButton: "MULA TEROKAI ↗",
+    backButton: "KEMBALI KE STRATEGI",
+
+    stageBefore: "01 · SEBELUM PERJALANAN",
+    stageNow: "02 · DI DUNHUANG",
+    stageAfter: "03 · SELEPAS PERJALANAN",
+
+    sectionLabel: "PERJALANAN ANDA, PILIHAN ANDA",
+    sectionTitle: "Apa yang anda perlukan sekarang?",
+    sectionIntro:
+      "Pilih fungsi yang anda perlukan. Anda boleh mengubah rancangan pada bila-bila masa.",
+
+    card1Title: "Senarai Semak Perjalanan",
+    card1Desc:
+      "Jejaki tempat menarik, makanan, aktiviti dan cenderamata semasa lawatan.",
+    card2Title: "Ke Mana Seterusnya?",
+    card2Desc:
+      "Cari destinasi seterusnya di Dunhuang.",
+    card3Title: "Saya Perlukan Bantuan!",
+    card3Desc:
+      "Bantuan pantas untuk sesat, bahasa dan pengangkutan.",
+    cardLink: "TEROKAI BAHAGIAN INI ↗",
+
+    checklistIntro:
+      "Pilihan Strategy dan urutan perjalanan anda dipaparkan di sini. Menanda selesai tidak mengubah pelan asal.",
+    editGuide: "LIHAT / UBAH PANDUAN ↗",
+    nextIntro:
+      "Destinasi yang belum dilawati dicadangkan berdasarkan urutan asal.",
+    helpIntro:
+      "Tunjukkan kad bantuan atau terjemahkan mesej sendiri.",
+
+    bottomTitle: "Teruskan meneroka mengikut rentak anda.",
+    bottomDesc:
+      "Anda bebas mengubah perjalanan dan menemui pengalaman baharu di Dunhuang.",
+    bottomLink: "KEMBALI KE STRATEGI ↗",
+
+    guideTitle: "Panduan Perjalanan Dunhuang Saya",
+    guideSub: "Pilihan dan urutan asal daripada Strategy",
+    selected: "dipilih",
+    route: "Laluan Tempat Menarik",
+    routeNote:
+      "✈ Lapangan terbang ialah titik mula. Garis putus-putus bukan laluan jalan sebenar.",
+    checkTitle: "Senarai Semak Perjalanan",
+    groups: ["Tempat Menarik", "Makanan", "Aktiviti", "Beli-belah"],
+    empty: "Anda belum memilih item dalam Strategy.",
+    loadError:
+      "Tidak dapat membaca strategy.html. Simpan kedua-dua fail dalam folder sama dan buka dengan Live Server.",
+    mapError:
+      "Peta tidak tersedia, tetapi senarai masih boleh digunakan.",
+
+    nextTitle: "Hentian Seterusnya",
+    remaining: "tempat belum selesai",
+    changeNext: "Mahu tukar destinasi?",
+    chooseNext:
+      "Pilih mana-mana tempat yang belum selesai.",
+    viewMap: "📍 Lihat pada Peta Saya",
+    navigate: "↗ Mulakan Navigasi",
+    allDone: "🎉 Anda telah melawat semua tempat pilihan!",
+    noAttractions: "Belum ada tempat menarik dipilih.",
+
+    helpHeading: "Bantuan Perjalanan Dunhuang",
+    helpDescription:
+      "Pilih masalah dan tunjukkan ayat Cina kepada orang tempatan.",
+    helpTabs: [
+      "📍 Saya Sesat",
+      "💬 Bantuan Bahasa",
+      "🚕 Bantuan Pengangkutan"
+    ],
+    showPhrase: "TUNJUKKAN KEPADA ORANG TEMPATAN",
+    copyChinese: "Salin Bahasa Cina",
+    readChinese: "🔊 Mainkan Bahasa Cina",
+    stopVoice: "■ Hentikan Suara",
+    showLarge: "Paparkan Teks Besar",
+    close: "Tutup",
+    copied: "Disalin!",
+    copyFail: "Gagal menyalin",
+
+    locationTitle: "📍 Di Mana Saya?",
+    locationInfo:
+      "Klik untuk meminta kebenaran lokasi. Koordinat tidak dihantar secara automatik.",
+    findLocation: "Cari Lokasi Saya",
+    finding: "Mencari lokasi…",
+    locationFail:
+      "Lokasi tidak tersedia. Semak kebenaran dan rangkaian.",
+    locationFound: "Koordinat GPS Saya",
+
+    emergency: "Nombor Kecemasan & Bantuan",
+    emergencyInfo:
+      "110 polis, 120 ambulans, 119 bomba. 12345 untuk bantuan bukan kecemasan.",
+    phones: [
+      "Polis",
+      "Ambulans",
+      "Bomba",
+      "Bantuan Kerajaan / Pelancongan"
+    ],
+
+    translatorTitle: "Tiada Ayat Sesuai? Tulis Sendiri!",
+    translatorDesc:
+      "Terjemah antara bahasa Inggeris, Melayu dan Cina.",
+    direction: "Arah terjemahan",
+    message: "Apakah yang anda ingin katakan?",
+    placeholder:
+      "Contoh: Saya kehilangan pasport. Boleh bantu saya?",
+    translate: "✧ Terjemah",
+    translating: "Sedang menterjemah…",
+    translation: "Hasil terjemahan",
+    copyTranslation: "Salin Terjemahan",
+    readTranslation: "🔊 Mainkan Terjemahan",
+    emptyInput: "Sila masukkan mesej dahulu.",
+    tooLong:
+      "Mesej terlalu panjang. Sila pendekkan kepada 450 bait.",
+    translationFailed:
+      "Terjemahan tidak tersedia. Semak internet dan cuba lagi.",
+    voiceFailed:
+      "Suara tidak disokong atau suara bahasa yang sesuai tiada.",
+    privacy:
+      "Terjemahan dalam talian menghantar teks ke MyMemory. Jangan masukkan nombor pasport, kata laluan atau maklumat sensitif."
+  }
+
+};
+
+/* ==========================================
+   BASIC PAGE SETTINGS
+========================================== */
+
+let currentLang = getJSON(STORE.lang, "en");
+
+if (!ui[currentLang]) {
+  currentLang = "en";
+}
+
+function langIndex() {
+  return {
+    en: 0,
+    zh: 1,
+    ms: 2
+  }[currentLang];
+}
+
+function W() {
+  return ui[currentLang];
+}
+
+let selectedNext = null;
+
+let routeMap = null;
+let routeMarkers = new Map();
+let database = null;
+
+let chosen = {
+  attractions: [],
+  food: [],
+  activities: [],
+  shopping: []
+};
+
+let ordered = [];
+
+function setLanguage(code) {
+  if (!ui[code]) return;
+
+  currentLang = code;
+
+  document.documentElement.lang =
+    code === "zh" ? "zh-CN" : code;
+
+  document.title =
+    (
+      code === "zh"
+        ? "我已经在敦煌"
+        : code === "ms"
+          ? "Saya Sudah di Dunhuang"
+          : "I'm in Dunhuang"
+    ) + " | DUNHUANG";
+
+  document.querySelectorAll("[data-t]").forEach(el => {
+    const value = W()[el.dataset.t];
+
+    if (value !== undefined) {
+      el.textContent = value;
+    }
+  });
+
+  document.querySelectorAll("[data-html]").forEach(el => {
+    const value = W()[el.dataset.html];
+
+    if (value !== undefined) {
+      el.innerHTML = value;
+    }
+  });
+
+  document.querySelectorAll("[data-lang]").forEach(b => {
+    const active = b.dataset.lang === code;
+    b.classList.toggle("active", active);
+    b.setAttribute("aria-pressed", String(active));
+  });
+
+  localStorage.setItem(STORE.lang, code);
+
+  renderGuide();
+  renderNext();
+  renderHelp();
+}
+
+document.querySelectorAll("[data-lang]").forEach(b => {
+  b.addEventListener("click", () => {
+    setLanguage(b.dataset.lang);
+  });
+});
+
+function setSenior(value) {
+  document.body.classList.toggle("senior-mode", value);
+
+  $("#seniorButton").classList.toggle("active", value);
+
+  localStorage.setItem(
+    STORE.senior,
+    String(value)
+  );
+}
+
+$("#seniorButton").addEventListener("click", () => {
+  setSenior(
+    !document.body.classList.contains("senior-mode")
+  );
+});
+
+setSenior(
+  localStorage.getItem(STORE.senior) === "true"
+);
+
+function updateNavbar() {
+  const nav = $("#navbar");
+
+  nav.classList.toggle(
+    "scrolled",
+    window.scrollY > 30
+  );
+
+  document.documentElement.style.scrollPaddingTop =
+    (nav.offsetHeight + 20) + "px";
+}
+
+window.addEventListener("scroll", updateNavbar, {
+  passive: true
+});
+
+window.addEventListener("resize", updateNavbar);
+
+updateNavbar();
+
+/* ==========================================
+   READ STRATEGY DATA
+========================================== */
+
+function extractItems(source) {
+  const match = /\bconst\s+items\s*=\s*\{/.exec(source);
+
+  if (!match) {
+    throw Error("Strategy items not found");
+  }
+
+  const start =
+    match.index + match[0].lastIndexOf("{");
+
+  let depth = 0;
+  let quote = "";
+  let escaped = false;
+  let line = false;
+  let block = false;
+
+  for (let i = start; i < source.length; i++) {
+    const c = source[i];
+    const n = source[i + 1];
+
+    if (line) {
+      if (c === "\n") line = false;
+      continue;
+    }
+
+    if (block) {
+      if (c === "*" && n === "/") {
+        block = false;
+        i++;
+      }
+      continue;
+    }
+
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+
+      if (c === "\\") {
+        escaped = true;
+        continue;
+      }
+
+      if (c === quote) {
+        quote = "";
+      }
+
+      continue;
+    }
+
+    if (c === "/" && n === "/") {
+      line = true;
+      i++;
+      continue;
+    }
+
+    if (c === "/" && n === "*") {
+      block = true;
+      i++;
+      continue;
+    }
+
+    if (c === '"' || c === "'" || c === "`") {
+      quote = c;
+      continue;
+    }
+
+    if (c === "{") depth++;
+
+    if (c === "}" && --depth === 0) {
+      return source.slice(start, i + 1);
+    }
+  }
+
+  throw Error("Incomplete Strategy items");
+}
+
+async function loadDatabase() {
+  try {
+    const response = await fetch("./strategy.html", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw Error("HTTP " + response.status);
+    }
+
+    const source = await response.text();
+
+    database = Function(
+      '"use strict";return (' +
+      extractItems(source) +
+      ');'
+    )();
+
+    if (
+      !kinds.every(k => Array.isArray(database[k]))
+    ) {
+      throw Error("Incorrect Strategy data");
+    }
+
+  } catch (e) {
+    database = null;
+    console.warn("Strategy item details:", e);
+  }
+
+  refreshGuide();
+}
+
+/* ==========================================
+   BUILD THE SAVED GUIDE
+========================================== */
+
+function refreshGuide() {
+  const saved = getJSON(STORE.guide, {});
+  const manual = getJSON(STORE.order, []);
+
+  chosen = Object.fromEntries(
+    kinds.map(k => {
+      const ids = Array.isArray(saved[k])
+        ? saved[k]
+        : [];
+
+      const lookup = new Map(
+        (database?.[k] || []).map(item => [
+          item.id,
+          item
+        ])
+      );
+
+      return [
+        k,
+        ids.map(id =>
+          lookup.get(id) || {
+            id,
+            name: [id, id, id],
+            icon: "✦",
+            pos: null,
+            query: "敦煌 " + id
+          }
+        )
+      ];
+    })
+  );
+
+  const lookup = new Map(
+    chosen.attractions.map(item => [
+      item.id,
+      item
+    ])
+  );
+
+  const seen = new Set();
+  ordered = [];
+
+  if (Array.isArray(manual)) {
+    for (const id of manual) {
+      if (lookup.has(id) && !seen.has(id)) {
+        seen.add(id);
+        ordered.push(lookup.get(id));
+      }
+    }
+  }
+
+  for (const item of chosen.attractions) {
+    if (!seen.has(item.id)) {
+      seen.add(item.id);
+      ordered.push(item);
+    }
+  }
+
+  renderGuide();
+  renderNext();
+}
+
+function renderGuide() {
+  const root = $("#dhCheckinImport");
+
+  if (!root) return;
+
+  if (routeMap) {
+    routeMap.remove();
+    routeMap = null;
+  }
+
+  routeMarkers.clear();
+
+  const t = W();
+
+  const total = kinds.reduce(
+    (sum, k) => sum + chosen[k].length,
+    0
+  );
+
+  if (!total) {
+    root.innerHTML = `
+      <div class="dhci-message">
+        ${esc(t.empty)}
+      </div>
+    `;
+    return;
+  }
+
+  const done = new Set(
+    getJSON(STORE.done, [])
+  );
+
+  const routeList = ordered.map((item, i) => `
+    <div class="dhci-stop">
+      <span class="dhci-num">${i + 1}</span>
+
+      <button
+        type="button"
+        data-route-focus="${esc(item.id)}"
+      >
+        ${esc(textAt(item.name))}
+      </button>
+
+      <a
+        href="${esc(googleLink(item))}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >↗</a>
+    </div>
+  `).join("");
+
+  const groups = kinds.map((k, idx) => {
+    const items =
+      k === "attractions" ? ordered : chosen[k];
+
+    if (!items.length) return "";
+
+    return `
+      <section class="dhci-group">
+        <h4>
+          ${["⌖", "♨", "✧", "♢"][idx]}
+          ${esc(t.groups[idx])}
+          <span>${items.length}</span>
+        </h4>
+
+        <div class="dhci-grid">
+          ${items.map(item => {
+            const key = k + ":" + item.id;
+
+            return `
+              <div class="dhci-item">
+                <input
+                  type="checkbox"
+                  data-done="${esc(key)}"
+                  id="dhcheck-${esc(key)}"
+                  ${done.has(key) ? "checked" : ""}
+                >
+
+                <div class="dhci-item-main">
+                  <label for="dhcheck-${esc(key)}">
+                    ${esc(item.icon || "✦")}
+                    ${esc(textAt(item.name))}
+                  </label>
+
+                  ${
+                    k === "attractions" || k === "food"
+                      ? `
+                        <a
+                          href="${esc(googleLink(item))}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Google Maps ↗
+                        </a>
+                      `
+                      : ""
+                  }
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `;
+  }).join("");
+
+  root.innerHTML = `
+    <div class="dhci-head">
+      <div>
+        <small>DUNHUANG · EXPLORER'S PASS</small>
+        <h3>${esc(t.guideTitle)}</h3>
+        <p>${esc(t.guideSub)}</p>
+      </div>
+
+      <b>${total} ${esc(t.selected)}</b>
+    </div>
+
+    <div class="dhci-section-title">
+      <h4>${esc(t.route)}</h4>
+      <span>${ordered.length} / ${total}</span>
+    </div>
+
+    <div class="dhci-route">
+      <div class="dhci-route-list">
+        <div class="dhci-airport">
+          <span class="dhci-num">✈</span>
+          ${esc(textAt(airport.name))}
+        </div>
+
+        ${routeList}
+      </div>
+
+      <div class="dhci-map" id="dhciMap"></div>
+    </div>
+
+    <p class="dhci-note">
+      ${esc(t.routeNote)}
+    </p>
+
+    <div class="dhci-progress-head">
+      <h4>${esc(t.checkTitle)}</h4>
+      <b id="dhciCounter"></b>
+    </div>
+
+    <div class="dhci-progress-track">
+      <i
+        class="dhci-progress-fill"
+        id="dhciFill"
+      ></i>
+    </div>
+
+    ${groups}
+
+    ${
+      !database
+        ? `<p class="dhci-message">${esc(t.loadError)}</p>`
+        : ""
+    }
+  `;
+
+  updateProgress();
+  drawRoute();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll(
+    "#dhCheckinImport input[data-done]"
+  );
+
+  const n = [...all].filter(x => x.checked).length;
+
+  const counter = $("#dhciCounter");
+  const fill = $("#dhciFill");
+
+  if (counter) {
+    counter.textContent = n + " / " + all.length;
+  }
+
+  if (fill) {
+    fill.style.width =
+      (all.length ? n / all.length * 100 : 0) + "%";
+  }
+}
+
+/* ==========================================
+   LEAFLET MAP
+========================================== */
+
+function drawRoute() {
+  const el = $("#dhciMap");
+
+  if (!el) return;
+
+  if (!window.L) {
+    el.textContent = W().mapError;
+    return;
+  }
+
+  routeMap = L.map(el, {
+    scrollWheelZoom: false
+  });
+
+  L.tileLayer(
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 18,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }
+  ).addTo(routeMap);
+
+  const points = [airport.pos];
+
+  function marker(position, number, name, id) {
+    const m = L.marker(position, {
+      icon: L.divIcon({
+        className: "dhci-pin-wrap",
+
+        html: `
+          <span class="dhci-pin ${number === 0 ? "airport" : ""}">
+            ${number === 0 ? "✈" : number}
+          </span>
+        `,
+
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
+      })
+    }).addTo(routeMap).bindPopup(esc(name));
+
+    if (id) {
+      routeMarkers.set(id, m);
+    }
+  }
+
+  marker(
+    airport.pos,
+    0,
+    textAt(airport.name)
+  );
+
+  ordered.forEach((item, i) => {
+    if (posOK(item.pos)) {
+      points.push(item.pos);
+
+      marker(
+        item.pos,
+        i + 1,
+        textAt(item.name),
+        item.id
+      );
+    }
+  });
+
+  if (points.length > 1) {
+    L.polyline(points, {
+      color: "#96583f",
+      weight: 3,
+      dashArray: "7 7"
+    }).addTo(routeMap);
+
+    routeMap.fitBounds(
+      L.latLngBounds(points),
+      {
+        padding: [40, 40],
+        maxZoom: 12
+      }
+    );
+  } else {
+    routeMap.setView(airport.pos, 11);
+  }
+
+  setTimeout(() => {
+    routeMap?.invalidateSize();
+  }, 100);
+}
+
+$("#dhCheckinImport").addEventListener("change", e => {
+  const box = e.target.closest("[data-done]");
+
+  if (!box) return;
+
+  const done = new Set(
+    getJSON(STORE.done, [])
+  );
+
+  if (box.checked) {
+    done.add(box.dataset.done);
+  } else {
+    done.delete(box.dataset.done);
+  }
+
+  localStorage.setItem(
+    STORE.done,
+    JSON.stringify([...done])
+  );
+
+  updateProgress();
+  renderNext();
+});
+
+$("#dhCheckinImport").addEventListener("click", e => {
+  const button = e.target.closest(
+    "[data-route-focus]"
+  );
+
+  if (!button) return;
+
+  const marker = routeMarkers.get(
+    button.dataset.routeFocus
+  );
+
+  if (marker && routeMap) {
+    routeMap.flyTo(
+      marker.getLatLng(),
+      12,
+      { duration: .5 }
+    );
+
+    marker.openPopup();
+  }
+});
+
+/* ==========================================
+   NEXT STOP
+========================================== */
+
+function renderNext() {
+  const panel = $("#dhNextPanel");
+
+  if (!panel) return;
+
+  const t = W();
+
+  if (!ordered.length) {
+    panel.innerHTML = `
+      <div class="dh-next-empty">
+        ${esc(t.noAttractions)}
+      </div>
+    `;
+    return;
+  }
+
+  const done = new Set(
+    getJSON(STORE.done, [])
+  );
+
+  const remaining = ordered.map((item, i) => ({
+    ...item,
+    number: i + 1
+  })).filter(
+    item => !done.has("attractions:" + item.id)
+  );
+
+  if (!remaining.length) {
+    panel.innerHTML = `
+      <div class="dh-next-empty">
+        ${esc(t.allDone)}
+      </div>
+    `;
+    return;
+  }
+
+  if (!remaining.some(x => x.id === selectedNext)) {
+    selectedNext = remaining[0].id;
+  }
+
+  const target = remaining.find(
+    x => x.id === selectedNext
+  );
+
+  const nav =
+    "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent(
+      target.query ||
+      "敦煌 " + chinaName(target.name)
+    ) +
+    "&travelmode=driving";
+
+  panel.innerHTML = `
+    <div class="dh-next-main">
+      <div class="dh-next-top">
+        <span class="dh-next-label">
+          YOUR NEXT DESTINATION
+        </span>
+
+        <span class="dh-next-count">
+          ${remaining.length} ${esc(t.remaining)}
+        </span>
+      </div>
+
+      <div class="dh-next-place">
+        <span class="dh-next-number">
+          ${target.number}
+        </span>
+
+        <div>
+          <span class="dh-next-label">
+            ${esc(t.nextTitle)}
+          </span>
+          <h3>${esc(textAt(target.name))}</h3>
+        </div>
+      </div>
+
+      <div class="dh-next-actions">
+        <button
+          class="dh-next-btn secondary"
+          type="button"
+          id="dhNextMap"
+        >
+          ${esc(t.viewMap)}
+        </button>
+
+        <a
+          class="dh-next-btn"
+          href="${esc(nav)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${esc(t.navigate)}
+        </a>
+      </div>
+
+      <div class="dh-next-others">
+        <h4>${esc(t.changeNext)}</h4>
+        <p>${esc(t.chooseNext)}</p>
+
+        <div class="dh-next-options">
+          ${remaining.map(item => `
+            <button
+              type="button"
+              class="dh-next-option ${item.id === selectedNext ? "active" : ""}"
+              data-next="${esc(item.id)}"
+            >
+              <span>${String(item.number).padStart(2, "0")}</span>
+              ${esc(textAt(item.name))}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+
+      <p class="dh-next-note">
+        ${esc(t.routeNote)}
+      </p>
+    </div>
+  `;
+}
+
+$("#dhNextPanel").addEventListener("click", e => {
+  const button = e.target.closest("[data-next]");
+
+  if (button) {
+    selectedNext = button.dataset.next;
+    renderNext();
+    return;
+  }
+
+  if (e.target.closest("#dhNextMap")) {
+    const el = $("#dhciMap");
+
+    el?.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+    setTimeout(() => {
+      const marker = routeMarkers.get(selectedNext);
+
+      if (marker && routeMap) {
+        routeMap.flyTo(
+          marker.getLatLng(),
+          12,
+          { duration: .5 }
+        );
+
+        marker.openPopup();
+      }
+    }, 400);
+  }
+});
+
+/* ==========================================
+   HELP PHRASES
+========================================== */
+
+const phraseRows = {
+
+  lost: [
+    [
+      "您好，我迷路了，请帮我确认现在的位置。",
+      "Hello, I'm lost. Could you help me find where I am?",
+      "Maaf, saya sesat. Boleh bantu saya cari lokasi saya?"
+    ],
+    [
+      "请问最近的游客服务中心在哪里？",
+      "Where is the nearest tourist information centre?",
+      "Di manakah pusat maklumat pelancong terdekat?"
+    ],
+    [
+      "我找不到回酒店的路，可以帮我吗？",
+      "I cannot find my way back to the hotel. Can you help?",
+      "Saya tidak tahu jalan pulang ke hotel. Boleh bantu saya?"
+    ],
+    [
+      "我需要帮助，请帮我联系警察。",
+      "I need help. Please contact the police for me.",
+      "Saya perlukan bantuan. Tolong hubungi polis."
+    ],
+    [
+      "请问我现在是在敦煌市区吗？",
+      "Am I in downtown Dunhuang?",
+      "Adakah saya berada di pusat bandar Dunhuang?"
+    ],
+    [
+      "可以帮我在地图上指出我所在的位置吗？",
+      "Could you show me my location on the map?",
+      "Boleh tunjukkan lokasi saya pada peta?"
+    ],
+    [
+      "请问最近的警务站在哪里？",
+      "Where is the nearest police station?",
+      "Di manakah balai polis terdekat?"
+    ],
+    [
+      "我的手机快没电了，请问哪里可以充电？",
+      "My phone battery is low. Where can I charge it?",
+      "Bateri telefon saya hampir habis. Di mana saya boleh mengecas?"
+    ],
+    [
+      "请问最近的公共卫生间在哪里？",
+      "Where is the nearest public toilet?",
+      "Di manakah tandas awam terdekat?"
+    ],
+    [
+      "我和同行的人走散了，请问哪里适合等候？",
+      "I got separated from my group. Where should I wait?",
+      "Saya terpisah daripada kumpulan saya. Di mana saya patut menunggu?"
+    ],
+    [
+      "我找不到出口，请问出口在哪里？",
+      "I cannot find the exit. Where is it?",
+      "Saya tidak jumpa pintu keluar. Di manakah ia?"
+    ],
+    [
+      "可以帮我联系酒店前台吗？",
+      "Could you help me contact my hotel reception?",
+      "Boleh bantu saya menghubungi kaunter hotel?"
+    ]
+  ],
+
+  language: [
+    [
+      "我不太会说中文，可以说慢一点吗？",
+      "I don't speak much Chinese. Could you speak slowly?",
+      "Saya tidak fasih berbahasa Cina. Boleh bercakap perlahan?"
+    ],
+    [
+      "请问您会说英语吗？",
+      "Excuse me, do you speak English?",
+      "Maaf, adakah anda boleh berbahasa Inggeris?"
+    ],
+    [
+      "可以帮我把地址写下来吗？",
+      "Could you please write down the address for me?",
+      "Boleh tuliskan alamat itu untuk saya?"
+    ],
+    [
+      "请问这里可以使用支付宝或微信支付吗？",
+      "Can I pay here using Alipay or WeChat Pay?",
+      "Bolehkah saya membayar menggunakan Alipay atau WeChat Pay?"
+    ],
+    [
+      "可以帮我看一下这段翻译吗？",
+      "Could you check this translation for me?",
+      "Boleh semak terjemahan ini untuk saya?"
+    ],
+    [
+      "请问这道菜里面有什么食材？",
+      "What ingredients are in this dish?",
+      "Apakah bahan dalam hidangan ini?"
+    ],
+    [
+      "请问这道菜辣吗？",
+      "Is this dish spicy?",
+      "Adakah hidangan ini pedas?"
+    ],
+    [
+      "我对花生过敏，请帮我确认食物里有没有花生。",
+      "I'm allergic to peanuts. Please check whether the food contains peanuts.",
+      "Saya alah kepada kacang tanah. Tolong semak sama ada makanan ini mengandungi kacang tanah."
+    ],
+    [
+      "可以把价格写给我看吗？",
+      "Could you write down the price for me?",
+      "Boleh tuliskan harga untuk saya?"
+    ],
+    [
+      "请问这里有无线网络吗？",
+      "Is Wi-Fi available here?",
+      "Adakah Wi-Fi tersedia di sini?"
+    ],
+    [
+      "请问哪里可以买到饮用水？",
+      "Where can I buy drinking water?",
+      "Di manakah saya boleh membeli air minuman?"
+    ],
+    [
+      "我们可以用手机翻译软件交流吗？",
+      "Can we communicate using a translation app?",
+      "Bolehkah kita berkomunikasi menggunakan aplikasi terjemahan?"
+    ]
+  ],
+
+  transport: [
+    [
+      "请问在哪里可以打车？",
+      "Where can I get a taxi?",
+      "Di manakah saya boleh mendapatkan teksi?"
+    ],
+    [
+      "请带我去莫高窟数字展示中心。",
+      "Please take me to the Mogao Caves Digital Exhibition Centre.",
+      "Tolong bawa saya ke Pusat Pameran Digital Gua Mogao."
+    ],
+    [
+      "请问去敦煌火车站怎么走？",
+      "How can I get to Dunhuang Railway Station?",
+      "Bagaimana hendak pergi ke Stesen Kereta Api Dunhuang?"
+    ],
+    [
+      "出发之前，可以告诉我大概需要多少钱吗？",
+      "Could you tell me the approximate fare before we leave?",
+      "Boleh beritahu anggaran tambang sebelum bertolak?"
+    ],
+    [
+      "请问有公交车去鸣沙山月牙泉吗？",
+      "Is there a bus to Mingsha Mountain and Crescent Lake?",
+      "Adakah bas ke Gunung Mingsha dan Tasik Bulan Sabit?"
+    ],
+    [
+      "请问这辆车去莫高窟数字展示中心吗？",
+      "Does this vehicle go to the Mogao Digital Exhibition Centre?",
+      "Adakah kenderaan ini pergi ke Pusat Pameran Digital Mogao?"
+    ],
+    [
+      "请问回敦煌市区的末班车是几点？",
+      "What time is the last bus back to downtown Dunhuang?",
+      "Pukul berapakah bas terakhir pulang ke bandar Dunhuang?"
+    ],
+    [
+      "请问哪里可以乘坐去鸣沙山月牙泉的公交车？",
+      "Where can I take a bus to Mingsha Mountain and Crescent Lake?",
+      "Di mana saya boleh menaiki bas ke Gunung Mingsha dan Tasik Bulan Sabit?"
+    ],
+    [
+      "可以帮我叫一辆正规的出租车吗？",
+      "Could you help me call a licensed taxi?",
+      "Boleh bantu saya mendapatkan teksi berlesen?"
+    ],
+    [
+      "请问到这里大概需要多长时间？",
+      "Approximately how long will it take to get there?",
+      "Berapa lama anggaran perjalanan ke sana?"
+    ],
+    [
+      "请问这段路可以步行吗？",
+      "Is it possible to walk there?",
+      "Bolehkah saya berjalan kaki ke sana?"
+    ],
+    [
+      "请在前面安全的地方让我下车。",
+      "Please let me off at a safe place ahead.",
+      "Tolong turunkan saya di tempat yang selamat di hadapan."
+    ],
+    [
+      "我要去敦煌莫高国际机场，请问怎么走？",
+      "How can I get to Dunhuang Mogao International Airport?",
+      "Bagaimana saya boleh pergi ke Lapangan Terbang Antarabangsa Dunhuang Mogao?"
+    ]
+  ]
+
+};
+
+/* ==========================================
+   TRANSLATION DIRECTIONS
+========================================== */
+
+const helpTabs = [
+  "lost",
+  "language",
+  "transport"
+];
+
+const pairs = {
+  "en-zh": {
+    from: "en",
+    to: "zh-CN",
+    voice: "zh-CN",
+    name: "中文"
+  },
+
+  "ms-zh": {
+    from: "ms",
+    to: "zh-CN",
+    voice: "zh-CN",
+    name: "中文"
+  },
+
+  "zh-en": {
+    from: "zh-CN",
+    to: "en",
+    voice: "en-US",
+    name: "English"
+  },
+
+  "zh-ms": {
+    from: "zh-CN",
+    to: "ms",
+    voice: "ms-MY",
+    name: "Bahasa Melayu"
+  }
+};
+
+const helpState = {
+  tab: "lost",
+  index: 0,
+  coords: null,
+
+  trans: Object.fromEntries(
+    helpTabs.map(tab => [
+      tab,
+      {
+        pair: "en-zh",
+        input: "",
+        output: "",
+        status: "",
+        loading: false
+      }
+    ])
+  )
+};
+
+let speechNow = null;
+let speechKind = null;
+let requestNumber = 0;
+let requestController = null;
+
+function currentPhrase() {
+  return phraseRows[helpState.tab][helpState.index];
+}
+
+function phraseText(row, language) {
+  return row[{
+    en: 1,
+    zh: 0,
+    ms: 2
+  }[language]];
+}
+
+/* ==========================================
+   SPEECH SYNTHESIS
+========================================== */
+
+function stopSpeech() {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+
+  speechNow = null;
+  speechKind = null;
+  updateSpeechButtons();
+}
+
+function updateSpeechButtons() {
+  const a = $("#dhReadPhrase");
+  const b = $("#dhCustomRead");
+
+  if (a) {
+    a.textContent =
+      speechKind === "phrase"
+        ? W().stopVoice
+        : W().readChinese;
+  }
+
+  if (b) {
+    b.textContent =
+      speechKind === "custom"
+        ? W().stopVoice
+        : W().readTranslation;
+  }
+}
+
+function say(text, locale, kind) {
+  if (
+    !window.speechSynthesis ||
+    typeof SpeechSynthesisUtterance === "undefined"
+  ) {
+    setHelpStatus(W().voiceFailed);
+    return;
+  }
+
+  const utter = new SpeechSynthesisUtterance(text);
+
+  utter.lang = locale;
+  utter.rate = .88;
+  utter.pitch = 1;
+  utter.volume = 1;
+
+  const voices = speechSynthesis.getVoices();
+
+  const same =
+    voices.find(
+      v => v.lang.toLowerCase() === locale.toLowerCase()
+    ) ||
+    voices.find(
+      v =>
+        v.lang.toLowerCase().split("-")[0] ===
+        locale.toLowerCase().split("-")[0]
+    );
+
+  if (same) {
+    utter.voice = same;
+  }
+
+  utter.onend = utter.onerror = () => {
+    if (speechNow === utter) {
+      speechNow = null;
+      speechKind = null;
+      updateSpeechButtons();
+    }
+  };
+
+  speechSynthesis.cancel();
+
+  speechNow = utter;
+  speechKind = kind;
+
+  updateSpeechButtons();
+
+  speechSynthesis.speak(utter);
+}
+
+function setHelpStatus(msg) {
+  const s = $("#dhHelpStatus");
+
+  if (s) {
+    s.textContent = msg;
+  }
+}
+
+/* ==========================================
+   COPY TEXT
+========================================== */
+
+async function copyMessage(value) {
+  try {
+    if (
+      navigator.clipboard &&
+      window.isSecureContext
+    ) {
+      await navigator.clipboard.writeText(value);
+    } else {
+      const box = document.createElement("textarea");
+
+      box.value = value;
+      box.style.cssText = "position:fixed;opacity:0";
+
+      document.body.appendChild(box);
+      box.select();
+
+      const ok = document.execCommand("copy");
+
+      box.remove();
+
+      if (!ok) throw Error("Copy failed");
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/* ==========================================
+   LARGE TEXT OVERLAY
+========================================== */
+
+const overlay = document.createElement("div");
+
+overlay.className = "dh-custom-overlay";
+overlay.hidden = true;
+
+overlay.innerHTML = `
+  <div
+    class="dh-custom-overlay-card"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Translation or help message"
+  >
+    <button
+      type="button"
+      class="dh-custom-overlay-close"
+      data-close-large
+      aria-label="Close"
+    >×</button>
+
+    <h2 id="dhLargeText"></h2>
+
+    <button
+      type="button"
+      class="dh-custom-translator-button"
+      data-close-large
+    >✕</button>
+  </div>
+`;
+
+document.body.appendChild(overlay);
+
+function showLarge(value) {
+  $("#dhLargeText").textContent = value;
+  overlay.hidden = false;
+
+  overlay.querySelector(
+    "[data-close-large]"
+  ).focus();
+}
+
+function closeLarge() {
+  overlay.hidden = true;
+}
+
+overlay.addEventListener("click", e => {
+  if (
+    e.target === overlay ||
+    e.target.closest("[data-close-large]")
+  ) {
+    closeLarge();
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (
+    e.key === "Escape" &&
+    !overlay.hidden
+  ) {
+    closeLarge();
+  }
+});
+
+/* ==========================================
+   LOCATION
+========================================== */
+
+function locationHTML() {
+  if (!helpState.coords) {
+    return `<div id="dhLocationResult"></div>`;
+  }
+
+  const { latitude, longitude } = helpState.coords;
+
+  const lat = latitude.toFixed(5);
+  const lon = longitude.toFixed(5);
+
+  const google =
+    "https://www.google.com/maps?q=" +
+    encodeURIComponent(lat + "," + lon);
+
+  const osm =
+    "https://www.openstreetmap.org/?mlat=" +
+    lat +
+    "&mlon=" +
+    lon +
+    "#map=16/" +
+    lat +
+    "/" +
+    lon;
+
+  return `
+    <div id="dhLocationResult">
+
+      <span class="dh-help-coords">
+        ${esc(W().locationFound)}:
+        ${lat}, ${lon}
+      </span>
+
+      <button
+        type="button"
+        class="dh-help-btn secondary"
+        data-copy-location
+      >
+        ${esc(W().copyChinese)}
+      </button>
+
+      <div class="dh-help-map-links">
+
+        <a
+          href="${google}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google Maps ↗
+        </a>
+
+        <a
+          href="${osm}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          OpenStreetMap ↗
+        </a>
+
+      </div>
+    </div>
+  `;
+}
+
+/* ==========================================
+   RENDER HELP CENTER
+========================================== */
+
+function renderHelp() {
+  const root = $("#dhHelpMount");
+
+  if (!root) return;
+
+  const t = W();
+  const row = currentPhrase();
+  const tr = helpState.trans[helpState.tab];
+
+  root.innerHTML = `
+
+    <div class="dh-help-head">
+      <span>DUNHUANG · HELP & SAFETY</span>
+      <h3>${esc(t.helpHeading)}</h3>
+      <p>${esc(t.helpDescription)}</p>
+    </div>
+
+    <div class="dh-help-tabs">
+      ${helpTabs.map((tab, i) => `
+        <button
+          type="button"
+          class="dh-help-tab ${helpState.tab === tab ? "active" : ""}"
+          data-help-tab="${tab}"
+        >
+          ${esc(t.helpTabs[i])}
+        </button>
+      `).join("")}
+    </div>
+
+    <div class="dh-help-layout">
+
+      <div class="dh-help-list">
+        ${phraseRows[helpState.tab].map((p, i) => `
+          <button
+            type="button"
+            class="dh-help-phrase ${helpState.index === i ? "active" : ""}"
+            data-phrase="${i}"
+          >
+            <small>
+              PHRASE ${String(i + 1).padStart(2, "0")}
+            </small>
+
+            <strong>
+              ${esc(phraseText(p, currentLang))}
+            </strong>
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="dh-help-display">
+
+        <div>
+          <span>${esc(t.showPhrase)}</span>
+
+          <div class="dh-help-chinese">
+            ${esc(row[0])}
+          </div>
+
+          <p class="dh-help-translation">
+            ${esc(phraseText(row, currentLang))}
+          </p>
+        </div>
+
+        <div>
+          <div class="dh-help-actions">
+
+            <button
+              type="button"
+              class="dh-help-btn"
+              id="dhCopyPhrase"
+            >
+              ${esc(t.copyChinese)}
+            </button>
+
+            <button
+              type="button"
+              class="dh-help-btn secondary"
+              id="dhShowPhrase"
+            >
+              ${esc(t.showLarge)}
+            </button>
+
+            <button
+              type="button"
+              class="dh-help-btn secondary"
+              id="dhReadPhrase"
+            >
+              ${esc(t.readChinese)}
+            </button>
+
+          </div>
+
+          <p
+            class="dh-help-status"
+            id="dhHelpStatus"
+            role="status"
+          ></p>
+        </div>
+
+      </div>
+    </div>
+
+    <section class="dh-custom-translator">
+
+      <div class="dh-custom-translator-header">
+        <span>YOUR WORDS · YOUR VOICE</span>
+
+        <h4>${esc(t.translatorTitle)}</h4>
+
+        <p>${esc(t.translatorDesc)}</p>
+      </div>
+
+      <div class="dh-custom-translator-body">
+
+        <div class="dh-custom-translator-input">
+
+          <label for="dhCustomSource">
+            ${esc(t.direction)}
+          </label>
+
+          <select
+            id="dhCustomSource"
+            class="dh-custom-translator-select"
+          >
+
+            <option value="en-zh">
+              English → 中文
+            </option>
+
+            <option value="ms-zh">
+              Bahasa Melayu → 中文
+            </option>
+
+            <option value="zh-en">
+              中文 → English
+            </option>
+
+            <option value="zh-ms">
+              中文 → Bahasa Melayu
+            </option>
+
+          </select>
+
+          <label for="dhCustomInput">
+            ${esc(t.message)}
+          </label>
+
+          <textarea
+            id="dhCustomInput"
+            class="dh-custom-translator-textarea"
+            rows="3"
+            placeholder="${esc(t.placeholder)}"
+          ></textarea>
+
+        </div>
+
+        <button
+          type="button"
+          class="dh-custom-translator-button"
+          id="dhTranslate"
+        >
+          ${esc(t.translate)}
+        </button>
+
+      </div>
+
+      <div
+        class="dh-custom-result"
+        id="dhCustomResult"
+        ${tr.output ? "" : "hidden"}
+      >
+
+        <span id="dhResultLabel">
+          ${esc(t.translation)} ·
+          ${esc(pairs[tr.pair].name)}
+        </span>
+
+        <strong
+          class="dh-custom-result-text"
+          id="dhResultText"
+        >
+          ${esc(tr.output)}
+        </strong>
+
+        <div class="dh-custom-result-actions">
+
+          <button type="button" id="dhCopyTranslation">
+            ${esc(t.copyTranslation)}
+          </button>
+
+          <button type="button" id="dhCustomRead">
+            ${esc(t.readTranslation)}
+          </button>
+
+          <button type="button" id="dhShowTranslation">
+            ${esc(t.showLarge)}
+          </button>
+
+        </div>
+      </div>
+
+      <p
+        class="dh-custom-status"
+        id="dhTranslateStatus"
+        role="status"
+      >
+        ${esc(tr.status)}
+      </p>
+
+      <p class="dh-custom-privacy">
+        ${esc(t.privacy)}
+      </p>
+
+    </section>
+
+    ${
+      helpState.tab === "lost"
+        ? `
+          <div class="dh-help-location">
+
+            <h4>${esc(t.locationTitle)}</h4>
+
+            <p>${esc(t.locationInfo)}</p>
+
+            <button
+              type="button"
+              class="dh-help-btn"
+              id="dhFindLocation"
+            >
+              ${esc(t.findLocation)}
+            </button>
+
+            ${locationHTML()}
+
+          </div>
+        `
+        : ""
+    }
+
+    <div class="dh-help-emergency">
+
+      <h4>☎ ${esc(t.emergency)}</h4>
+
+      <p>${esc(t.emergencyInfo)}</p>
+
+      <div class="dh-help-phones">
+        
+        ${["110", "120", "119", "12345"].map(
+        (num, i) => `
+            <div class="dh-help-phone">
+            <strong>${num}</strong>
+            <span>${esc(t.phones[i])}</span>
+            </div>
+        `
+        ).join("")}
+      </div>
+
+    </div>
+  `;
+
+  $("#dhCustomSource").value = tr.pair;
+  $("#dhCustomInput").value = tr.input;
+
+  updateSpeechButtons();
+}
+
+/* ==========================================
+   UPDATE TRANSLATION RESULT
+========================================== */
+
+function updateTranslationPanel() {
+  const state = helpState.trans[helpState.tab];
+  const t = W();
+
+  const btn = $("#dhTranslate");
+  const result = $("#dhCustomResult");
+
+  if (!btn || !result) return;
+
+  btn.disabled = state.loading;
+
+  btn.textContent =
+    state.loading ? t.translating : t.translate;
+
+  result.hidden = !state.output;
+
+  $("#dhResultText").textContent = state.output;
+
+  $("#dhResultLabel").textContent =
+    t.translation + " · " + pairs[state.pair].name;
+
+  $("#dhTranslateStatus").textContent = state.status;
+
+  updateSpeechButtons();
+}
+
+/* ==========================================
+   CANCEL OLD TRANSLATION
+========================================== */
+
+function cancelRequest() {
+  requestNumber++;
+
+  requestController?.abort();
+  requestController = null;
+
+  for (const item of Object.values(helpState.trans)) {
+    item.loading = false;
+  }
+}
+
+/* ==========================================
+   ONLINE TRANSLATION
+========================================== */
+
+async function translateCustom() {
+  const state = helpState.trans[helpState.tab];
+  const t = W();
+
+  const input = state.input.trim();
+
+  if (!input) {
+    state.status = t.emptyInput;
+    updateTranslationPanel();
+    return;
+  }
+
+  if (new TextEncoder().encode(input).length > 450) {
+    state.status = t.tooLong;
+    updateTranslationPanel();
+    return;
+  }
+
+  stopSpeech();
+  cancelRequest();
+
+  const myRequest = ++requestNumber;
+  const tab = helpState.tab;
+  const pair = pairs[state.pair];
+
+  state.loading = true;
+  state.status = t.translating;
+  state.output = "";
+
+  updateTranslationPanel();
+
+  try {
+    requestController = new AbortController();
+
+    const url = new URL(
+      "https://api.mymemory.translated.net/get"
+    );
+
+    url.searchParams.set("q", input);
+
+    url.searchParams.set(
+      "langpair",
+      pair.from + "|" + pair.to
+    );
+
+    const response = await fetch(
+      url.toString(),
+      {
+        cache: "no-store",
+        signal: requestController.signal
+      }
+    );
+
+    if (!response.ok) {
+      throw Error("HTTP " + response.status);
+    }
+
+    const json = await response.json();
+
+    if (
+      Number(json.responseStatus) !== 200 ||
+      !json.responseData?.translatedText
+    ) {
+      throw Error(
+        json.responseDetails || "No translation"
+      );
+    }
+
+    const decoder = document.createElement("textarea");
+
+    decoder.innerHTML = String(
+      json.responseData.translatedText
+    );
+
+    const output = decoder.value.trim();
+
+    if (!output) {
+      throw Error("Empty result");
+    }
+
+    if (myRequest !== requestNumber) return;
+
+    state.output = output;
+    state.status = "";
+
+  } catch (error) {
+    if (myRequest !== requestNumber) return;
+
+    console.warn("Translation:", error);
+
+    state.status = W().translationFailed;
+    state.output = "";
+
+  } finally {
+    if (myRequest === requestNumber) {
+      state.loading = false;
+
+      if (helpState.tab === tab) {
+        updateTranslationPanel();
+      }
+    }
+  }
+}
+
+/* ==========================================
+   HELP BUTTON EVENTS
+========================================== */
+
+$("#dhHelpMount").addEventListener("click", async e => {
+
+  const tab = e.target.closest("[data-help-tab]");
+
+  if (tab) {
+    stopSpeech();
+    cancelRequest();
+
+    helpState.tab = tab.dataset.helpTab;
+    helpState.index = 0;
+
+    renderHelp();
+    return;
+  }
+
+  const phrase = e.target.closest("[data-phrase]");
+
+  if (phrase) {
+    stopSpeech();
+
+    helpState.index = Number(
+      phrase.dataset.phrase
+    );
+
+    renderHelp();
+    return;
+  }
+
+  if (e.target.closest("#dhCopyPhrase")) {
+    const success = await copyMessage(
+      currentPhrase()[0]
+    );
+
+    setHelpStatus(
+      success ? W().copied : W().copyFail
+    );
+    return;
+  }
+
+  if (e.target.closest("#dhShowPhrase")) {
+    showLarge(currentPhrase()[0]);
+    return;
+  }
+
+  if (e.target.closest("#dhReadPhrase")) {
+    if (speechKind === "phrase") {
+      stopSpeech();
+    } else {
+      stopSpeech();
+
+      say(
+        currentPhrase()[0],
+        "zh-CN",
+        "phrase"
+      );
+    }
+
+    return;
+  }
+
+  if (e.target.closest("#dhTranslate")) {
+    translateCustom();
+    return;
+  }
+
+  if (e.target.closest("#dhCopyTranslation")) {
+    const x = helpState.trans[helpState.tab];
+
+    if (x.output) {
+      const success = await copyMessage(x.output);
+
+      x.status =
+        success ? W().copied : W().copyFail;
+
+      updateTranslationPanel();
+    }
+
+    return;
+  }
+
+  if (e.target.closest("#dhShowTranslation")) {
+    const x = helpState.trans[helpState.tab];
+
+    if (x.output) {
+      showLarge(x.output);
+    }
+
+    return;
+  }
+
+  if (e.target.closest("#dhCustomRead")) {
+    const x = helpState.trans[helpState.tab];
+
+    if (!x.output) return;
+
+    if (speechKind === "custom") {
+      stopSpeech();
+    } else {
+      stopSpeech();
+
+      say(
+        x.output,
+        pairs[x.pair].voice,
+        "custom"
+      );
+    }
+
+    return;
+  }
+
+  if (e.target.closest("#dhFindLocation")) {
+    const output = $("#dhLocationResult");
+
+    if (
+      !navigator.geolocation ||
+      !window.isSecureContext
+    ) {
+      if (output) {
+        output.textContent = W().locationFail;
+      }
+
+      return;
+    }
+
+    if (output) {
+      output.textContent = W().finding;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      p => {
+        helpState.coords = {
+          latitude: p.coords.latitude,
+          longitude: p.coords.longitude
+        };
+
+        const target = $("#dhLocationResult");
+
+        if (target) {
+          target.outerHTML = locationHTML();
+        }
+      },
+
+      () => {
+        const target = $("#dhLocationResult");
+
+        if (target) {
+          target.textContent = W().locationFail;
+        }
+      },
+
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 60000
+      }
+    );
+
+    return;
+  }
+
+  if (e.target.closest("[data-copy-location]")) {
+    const c = helpState.coords;
+
+    if (c) {
+      const success = await copyMessage(
+        "我的GPS坐标：" +
+        c.latitude.toFixed(5) +
+        ", " +
+        c.longitude.toFixed(5)
+      );
+
+      setHelpStatus(
+        success ? W().copied : W().copyFail
+      );
+    }
+  }
+
+});
+
+/* ==========================================
+   CUSTOM INPUT EVENTS
+========================================== */
+
+$("#dhHelpMount").addEventListener("input", e => {
+  if (e.target.id !== "dhCustomInput") return;
+
+  const state = helpState.trans[helpState.tab];
+
+  cancelRequest();
+  stopSpeech();
+
+  state.input = e.target.value;
+  state.output = "";
+  state.status = "";
+
+  updateTranslationPanel();
+});
+
+$("#dhHelpMount").addEventListener("change", e => {
+  if (e.target.id !== "dhCustomSource") return;
+
+  const state = helpState.trans[helpState.tab];
+
+  cancelRequest();
+  stopSpeech();
+
+  state.pair = e.target.value;
+  state.output = "";
+  state.status = "";
+
+  updateTranslationPanel();
+});
+
+/* ==========================================
+   PAGE INITIALIZATION
+========================================== */
+
+window.addEventListener("pagehide", () => {
+  stopSpeech();
+  cancelRequest();
+});
+
+window.addEventListener("pageshow", () => {
+  refreshGuide();
+});
+
+window.addEventListener("storage", e => {
+  if (
+    [
+      STORE.guide,
+      STORE.order,
+      STORE.done
+    ].includes(e.key)
+  ) {
+    refreshGuide();
+  }
+});
+
+setLanguage(currentLang);
+refreshGuide();
+loadDatabase();
+
+})();
+</script>
+
+</body>
+</html>
