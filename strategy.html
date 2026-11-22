@@ -3590,6 +3590,47 @@ body.senior-mode .sb-shopping-notice {
 }
 
 </style>
+
+<!-- Drag and Drop Sorting -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
+<style>
+/* Drag handle */
+.dhr-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 38px;
+  color: #a27857;
+  font-size: 23px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.dhr-drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Dragging card */
+.dhr-sort-chosen {
+  background: #f4e2cc !important;
+  border-color: #96583f !important;
+}
+
+.dhr-sort-ghost {
+  opacity: .35;
+  background: #dfc3a4 !important;
+  border: 2px dashed #96583f !important;
+}
+
+.dhr-stop {
+  transition: background .2s;
+}
+</style>
+
 </head>
 
 
@@ -9645,6 +9686,386 @@ function renderRoutePlanner() {
 
   left.append(manual);
 
+/* ==========================================
+   REMOVE ROUTE ITEM + UNDO
+========================================== */
+
+const undoLabels = {
+
+  zh: {
+    removed: "已从攻略移除：",
+    undo: "↶ 撤回",
+    close: "关闭"
+  },
+
+  en: {
+    removed: "Removed from guide: ",
+    undo: "↶ Undo",
+    close: "Close"
+  },
+
+  ms: {
+    removed: "Dibuang daripada panduan: ",
+    undo: "↶ Buat asal",
+    close: "Tutup"
+  }
+
+}[lang()] || {
+  removed: "Removed: ",
+  undo: "↶ Undo",
+  close: "Close"
+};
+
+
+/* Prevent duplicate notifications */
+
+document.getElementById(
+  "dhrUndoToast"
+)?.remove();
+
+
+const undoToast = dhrMake(
+  "div",
+  "dhr-undo-toast"
+);
+
+undoToast.id = "dhrUndoToast";
+undoToast.hidden = true;
+undoToast.setAttribute("role", "status");
+
+
+const undoMessage = dhrMake(
+  "span",
+  "undo-message",
+  ""
+);
+
+
+const undoButton = dhrMake(
+  "button",
+  "undo-action",
+  undoLabels.undo
+);
+
+undoButton.type = "button";
+
+
+const undoClose = dhrMake(
+  "button",
+  "undo-close",
+  "×"
+);
+
+undoClose.type = "button";
+undoClose.title = undoLabels.close;
+
+
+undoToast.append(
+  undoMessage,
+  undoButton,
+  undoClose
+);
+
+document.body.appendChild(undoToast);
+
+
+/* Store the latest removed item */
+
+let lastRemoved = null;
+
+
+/* Update the guide statistics */
+
+function updateRouteStats() {
+
+  const stats = content.querySelector(
+    ".dh-pass-stats"
+  );
+
+  if (!stats) return;
+
+  const numbers = stats.querySelectorAll(
+    "strong"
+  );
+
+  const total = categoryOrder.reduce(
+    (sum, category) =>
+      sum + saved[category].length,
+    0
+  );
+
+  const chapters = categoryOrder.filter(
+    category =>
+      saved[category].length > 0
+  ).length;
+
+  if (numbers[0]) {
+    numbers[0].textContent = total;
+  }
+
+  if (numbers[1]) {
+    numbers[1].textContent = chapters;
+  }
+
+}
+
+
+/* Save and refresh the route */
+
+function saveRouteChange() {
+
+  DHR.mode = "mine";
+
+  /* Require reconfirmation after editing */
+  DHR.confirmed = false;
+
+  /* Save visit order */
+  dhrSave();
+
+  /* Save selected attractions */
+  saveToBrowser();
+
+  /* Refresh lists, markers and route */
+  repaint();
+
+  updateRouteStats();
+
+}
+
+
+/* REMOVE ATTRACTION */
+
+function removeRouteItem(id) {
+
+  const index = DHR.order.indexOf(id);
+
+  if (index === -1) return;
+
+  const place = items.attractions.find(
+    item => item.id === id
+  );
+
+  if (!place) return;
+
+  const selectedIndex =
+    saved.attractions.indexOf(id);
+
+
+  /* Remember original positions */
+
+  lastRemoved = {
+    id: id,
+    routeIndex: index,
+    selectedIndex: selectedIndex
+  };
+
+
+  /* Remove from my route */
+
+  DHR.order.splice(index, 1);
+
+
+  /* Remove from Strategy selections */
+
+  if (selectedIndex !== -1) {
+    saved.attractions.splice(
+      selectedIndex,
+      1
+    );
+  }
+
+
+  /* Save everything */
+
+  saveRouteChange();
+
+
+  /* Show undo notification */
+
+  undoMessage.textContent =
+    undoLabels.removed +
+    dhrItemName(place);
+
+  undoToast.hidden = false;
+
+}
+
+
+/* UNDO REMOVAL */
+
+undoButton.addEventListener(
+  "click",
+  () => {
+
+    if (!lastRemoved) return;
+
+    const previous = lastRemoved;
+
+    lastRemoved = null;
+
+
+    /* Restore the selected attraction */
+
+    if (
+      !saved.attractions.includes(
+        previous.id
+      )
+    ) {
+
+      const selectedPosition = Math.max(
+        0,
+        Math.min(
+          previous.selectedIndex < 0
+            ? saved.attractions.length
+            : previous.selectedIndex,
+          saved.attractions.length
+        )
+      );
+
+      saved.attractions.splice(
+        selectedPosition,
+        0,
+        previous.id
+      );
+
+    }
+
+
+    /* Restore its original route position */
+
+    if (
+      !DHR.order.includes(previous.id)
+    ) {
+
+      const position = Math.max(
+        0,
+        Math.min(
+          previous.routeIndex,
+          DHR.order.length
+        )
+      );
+
+      DHR.order.splice(
+        position,
+        0,
+        previous.id
+      );
+
+    }
+
+
+    /* Refresh and save */
+
+    saveRouteChange();
+
+    undoToast.hidden = true;
+
+  }
+);
+
+
+/* CLOSE NOTIFICATION */
+
+undoClose.addEventListener(
+  "click",
+  () => {
+
+    lastRemoved = null;
+    undoToast.hidden = true;
+
+  }
+);
+
+/* END REMOVE + UNDO */
+
+/* ======================================
+   DRAG TO REORDER ATTRACTIONS
+====================================== */
+
+const dragTips = {
+  zh: "拖动左侧手柄，自由调整景点顺序。机场始终为起点。",
+  en: "Drag the handle to change the visit order. The airport stays first.",
+  ms: "Seret pemegang untuk mengubah urutan. Lapangan terbang kekal pertama."
+};
+
+const tipElement = left.querySelector(".dhr-small");
+
+if (tipElement) {
+  tipElement.textContent =
+    dragTips[lang()] || dragTips.en;
+}
+
+if (window.Sortable) {
+
+  Sortable.create(manual, {
+
+    animation: 200,
+
+    draggable: ".dhr-stop",
+
+    handle: ".dhr-drag-handle",
+
+    ghostClass: "dhr-sort-ghost",
+
+    chosenClass: "dhr-sort-chosen",
+
+    forceFallback: false,
+
+    onEnd: function () {
+
+      /* Read the new visual order */
+
+      const newOrder = Array.from(
+        manual.querySelectorAll(".dhr-stop")
+      ).map(row => row.dataset.id);
+
+
+      /* Nothing changed */
+
+      if (
+        newOrder.join("|") ===
+        DHR.order.join("|")
+      ) {
+        return;
+      }
+
+
+      /* Update the actual route */
+
+      DHR.order = newOrder;
+
+
+      /* Return to my route mode */
+
+      DHR.mode = "mine";
+
+
+      /* Order must be confirmed again */
+
+      DHR.confirmed = false;
+
+
+      /* Save to localStorage */
+
+      dhrSave();
+
+
+      /* Refresh list, map and buttons */
+
+      repaint();
+
+    }
+
+  });
+
+} else {
+
+  console.warn(
+    "SortableJS unavailable. Arrow sorting remains enabled."
+  );
+
+}
+
 
   // ======================================
   // 右侧：地图 + 建议排序
@@ -9725,9 +10146,10 @@ const adviceColumn = dhrMake(
 
 adviceColumn.append(
   adviceTitle,
-  adviceList,
-  adoptButton
+  adoptButton,
+  adviceList
 );
+
 
 cols.append(
   left,
@@ -9905,6 +10327,19 @@ cols.append(
 
       row.dataset.id = id;
 
+/* Drag handle */
+
+const grip = dhrMake(
+  "span",
+  "dhr-drag-handle",
+  "⠿"
+);
+
+grip.title = "Drag to reorder";
+grip.setAttribute("aria-hidden", "true");
+
+row.appendChild(grip);
+
 
       const focus = dhrMake(
         "button",
@@ -9983,6 +10418,45 @@ cols.append(
 
       });
 
+
+/* ======================================
+   DELETE BUTTON FOR EACH ATTRACTION
+====================================== */
+
+const deleteButton = dhrMake(
+  "button",
+  "dhr-delete-btn",
+  "×"
+);
+
+deleteButton.type = "button";
+
+deleteButton.title =
+  lang() === "zh"
+    ? "从我的攻略中移除"
+    : lang() === "ms"
+      ? "Buang daripada panduan"
+      : "Remove from my guide";
+
+deleteButton.setAttribute(
+  "aria-label",
+  deleteButton.title
+);
+
+deleteButton.addEventListener(
+  "click",
+  event => {
+
+    event.stopPropagation();
+
+    removeRouteItem(id);
+
+  }
+);
+
+/* Place after the sorting arrows */
+
+controls.append(deleteButton);
 
       row.append(
         focus,
@@ -10161,161 +10635,287 @@ cols.append(
   }
 
 
-  /* ======================================
-     UPDATE MAP MARKERS AND ROUTE
-  ====================================== */
 
-  function repaintMap() {
+/* ==========================================
+   STRATEGY MAP · FIX OVERLAPPING MARKERS
+   Keep all route points visible
+========================================== */
 
-    if (!DHR.map || !DHR.group) {
+function repaintMap() {
+
+  if (!DHR.map || !DHR.group) return;
+
+  // Remove the old marker event
+  if (DHR.spreadHandler) {
+    DHR.map.off(
+      "moveend",
+      DHR.spreadHandler
+    );
+  }
+
+  DHR.group.clearLayers();
+
+
+  /* 01 · KEEP ORIGINAL ROUTE ORDER */
+
+  const places = [{
+    pos: DHR_AIRPORT,
+    number: 0,
+    title: t.start,
+    id: null
+  }];
+
+  const missing = [];
+
+  currentOrder().forEach((id, index) => {
+
+    const place = items.attractions.find(
+      item => item.id === id
+    );
+
+    if (!place || !dhrPos(place)) {
+      missing.push(id);
       return;
     }
 
+    places.push({
+      pos: place.pos,
+      number: index + 1,
+      title: dhrItemName(place),
+      id
+    });
 
-    DHR.group.clearLayers();
+  });
 
 
-    const points = [
+  /* 02 · DRAW REAL ROUTE */
+
+  if (places.length > 1) {
+
+    L.polyline(
+      places.map(p => p.pos),
       {
-        pos: DHR_AIRPORT,
-        number: 0,
-        title: t.start,
-        id: null
+        color: "#96583f",
+        weight: 3,
+        opacity: 0.8,
+        dashArray: "6 7",
+        interactive: false
       }
-    ];
+    ).addTo(DHR.group);
 
-
-    currentOrder().forEach((id, index) => {
-
-      const place = items.attractions.find(
-        item => item.id === id
-      );
-
-      if (dhrPos(place)) {
-
-        points.push({
-          pos: place.pos,
-          number: index + 1,
-          title: dhrItemName(place),
-          id: id
-        });
-
+    DHR.map.fitBounds(
+      L.latLngBounds(
+        places.map(p => p.pos)
+      ),
+      {
+        padding: [48, 48],
+        maxZoom: 12
       }
+    );
+
+  } else {
+
+    DHR.map.setView(
+      DHR_AIRPORT,
+      10
+    );
+
+  }
+
+  mapTip.textContent =
+    t.note +
+    (missing.length ? " " + t.unknown : "");
+
+
+  /* 03 · CREATE NUMBERED MARKERS */
+
+  const records = places.map(point => {
+
+    const icon = L.divIcon({
+
+      className: "dhr-marker-wrap",
+
+      html: `
+        <span class="dhr-marker${
+          point.number === 0
+            ? " airport"
+            : ""
+        }">
+          ${
+            point.number === 0
+              ? "✈"
+              : point.number
+          }
+        </span>
+      `,
+
+      iconSize: [34, 34],
+      iconAnchor: [17, 17]
 
     });
 
+    const marker = L.marker(
+      point.pos,
+      {
+        icon,
+        riseOnHover: true
+      }
+    )
+      .addTo(DHR.group)
+      .bindTooltip(point.title);
 
-    // ------------------------------------
-    // 创建地图数字标记
-    // ------------------------------------
+    if (point.id) {
 
-    points.forEach(point => {
-
-      const icon = L.divIcon({
-
-        className: "dhr-marker-wrap",
-
-        html: `
-          <span class="dhr-marker${
-            point.number === 0
-              ? " airport"
-              : ""
-          }">
-            ${
-              point.number === 0
-                ? "✈"
-                : point.number
-            }
-          </span>
-        `,
-
-        iconSize: [34, 34],
-        iconAnchor: [17, 17]
-
+      marker.on("click", () => {
+        focusPlace(point.id);
       });
 
+    }
 
-      const marker = L.marker(
-        point.pos,
-        { icon: icon }
-      ).addTo(DHR.group);
+    // A thin line connecting the number
+    // to its real location
+    const line = L.polyline([], {
+      color: "#b18a68",
+      weight: 1.5,
+      opacity: 0.8,
+      dashArray: "2 4",
+      interactive: false
+    }).addTo(DHR.group);
+
+    return {
+      point,
+      marker,
+      line
+    };
+
+  });
 
 
-      marker.bindTooltip(
-        point.title
+  /* 04 · SEPARATE OVERLAPPING MARKERS */
+
+  function spreadMarkers() {
+
+    if (!DHR.map) return;
+
+    const groups = [];
+
+    // Minimum distance between marker centres
+    const threshold = 44;
+
+    for (const rec of records) {
+
+      const screen =
+        DHR.map.latLngToLayerPoint(
+          rec.point.pos
+        );
+
+      let group = groups.find(g =>
+        g.some(other =>
+          screen.distanceTo(
+            other.screen
+          ) < threshold
+        )
       );
 
+      if (!group) {
+        group = [];
+        groups.push(group);
+      }
 
-      // 点击地图标记，高亮左侧项目
+      group.push({
+        rec,
+        screen
+      });
 
-      if (point.id) {
+    }
 
-        marker.on("click", () => {
-          focusPlace(point.id);
-        });
+
+    /* Arrange nearby markers in a circle */
+
+    for (const group of groups) {
+
+      if (group.length === 1) {
+
+        const record = group[0].rec;
+
+        record.marker.setLatLng(
+          record.point.pos
+        );
+
+        record.line.setLatLngs([]);
+
+        continue;
 
       }
 
-    });
+      const center = group.reduce(
+        (sum, entry) => {
 
+          sum.x += entry.screen.x;
+          sum.y += entry.screen.y;
 
-    // ------------------------------------
-    // 绘制路线示意虚线
-    // ------------------------------------
+          return sum;
 
-    if (points.length > 1) {
-
-      L.polyline(
-        points.map(point => point.pos),
-        {
-          color: "#96583f",
-          weight: 3,
-          dashArray: "6 7",
-          opacity: 0.9
-        }
-      ).addTo(DHR.group);
-
-    }
-
-
-    // ------------------------------------
-    // 地图范围自动调整
-    // ------------------------------------
-
-    if (points.length > 1) {
-
-      DHR.map.fitBounds(
-        points.map(point => point.pos),
-        {
-          padding: [34, 34],
-          maxZoom: 12
-        }
+        },
+        { x: 0, y: 0 }
       );
 
-    } else {
+      center.x /= group.length;
+      center.y /= group.length;
 
-      DHR.map.setView(
-        DHR_AIRPORT,
-        10
+      const radius = Math.max(
+        40,
+        Math.min(95, group.length * 11)
       );
 
-    }
+      group.forEach(({ rec }, index) => {
 
+        const angle =
+          -Math.PI / 2 +
+          index * Math.PI * 2 /
+          group.length;
 
-    // 没有坐标的景点提示
+        const display =
+          DHR.map.layerPointToLatLng(
+            L.point(
+              center.x +
+                radius * Math.cos(angle),
 
-    if (
-      dhrSelectedPlaces().some(
-        item => !dhrPos(item)
-      )
-    ) {
+              center.y +
+                radius * Math.sin(angle)
+            )
+          );
 
-      mapTip.textContent =
-        t.note + " " + t.unknown;
+        // Move visual number only
+        rec.marker.setLatLng(display);
+
+        // Keep connection to real location
+        rec.line.setLatLngs([
+          rec.point.pos,
+          display
+        ]);
+
+      });
 
     }
 
   }
+
+
+  /* 05 · UPDATE WHEN MAP ZOOMS OR MOVES */
+
+  DHR.spreadHandler = spreadMarkers;
+
+  DHR.map.on(
+    "moveend",
+    spreadMarkers
+  );
+
+  requestAnimationFrame(
+    spreadMarkers
+  );
+
+}
 
 
   /* ======================================
@@ -10884,7 +11484,9 @@ function dhrDownloadPng() {
 
 
     text(
-      i === 0 ? "✈" : point.n,
+      i === 0
+      ? (window.DH_START_ICON || "✈")
+      : point.n,
       sx(i),
       sy(i) + 5,
       14,
@@ -12514,6 +13116,734 @@ $("sbCopy").addEventListener("click", async () => {
 
 
 /* ==========================================
+   DUNHUANG · CUSTOM STARTING POINT
+   Strategy + Explorer's Pass
+   English / Chinese / Malay
+========================================== */
+
+const DH_ORIGIN_KEY = "dunhuang-start-location-v2";
+
+/* 01 · STARTING LOCATIONS */
+
+const DH_ORIGINS = {
+
+  airport: {
+    pos: [40.16333, 94.81000],
+    icon: "✈",
+    names: [
+      "Dunhuang Mogao International Airport",
+      "敦煌莫高国际机场",
+      "Lapangan Terbang Dunhuang Mogao"
+    ]
+  },
+
+  railway: {
+    pos: [40.16778, 94.783472],
+    icon: "🚆",
+    names: [
+      "Dunhuang Railway Station",
+      "敦煌站",
+      "Stesen Kereta Api Dunhuang"
+    ]
+  },
+
+  liuyuan: {
+    pos: [41.1003944, 95.4706833],
+    icon: "🚄",
+    names: [
+      "Liuyuan South Railway Station",
+      "柳园南站",
+      "Stesen Liuyuan South"
+    ]
+  },
+
+  city: {
+    pos: [40.1411, 94.6639],
+    icon: "🏨",
+    names: [
+      "Dunhuang City / Hotel / Bus Arrival",
+      "敦煌市区／酒店／巴士抵达",
+      "Bandar Dunhuang / Hotel / Bas"
+    ]
+  }
+
+};
+
+
+/* 02 · THREE LANGUAGES */
+
+const DH_ORIGIN_LANG = {
+
+  en: {
+    title: "📍 Where does your journey begin?",
+    desc: "Choose your arrival point. Your route and map will update.",
+    custom: "📍 Custom location",
+    place: "Place name (e.g. My hotel)",
+    lat: "Latitude",
+    lon: "Longitude",
+    save: "Set starting point",
+    note: "Enter coordinates, or select Custom and click the route map.",
+    invalid: "Enter a valid latitude and longitude.",
+    intro: "Choose your starting point, then plan your own route.",
+    advice: "From Your Starting Point · Suggested Order"
+  },
+
+  zh: {
+    title: "📍 我的旅行从哪里开始？",
+    desc: "选择抵达地点，路线地图和建议顺序会自动调整。",
+    custom: "📍 自定义出发地点",
+    place: "地点名称，例如：我的酒店",
+    lat: "纬度 Latitude",
+    lon: "经度 Longitude",
+    save: "确认自定义起点",
+    note: "填写经纬度，或选中自定义后直接在路线地图上点选。",
+    invalid: "请输入有效的纬度与经度。",
+    intro: "先选出发地点，再自由安排景点顺序。",
+    advice: "所选起点 · 建议排序"
+  },
+
+  ms: {
+    title: "📍 Di mana perjalanan anda bermula?",
+    desc: "Pilih tempat ketibaan untuk mengemas kini peta dan laluan.",
+    custom: "📍 Tempat mula sendiri",
+    place: "Nama tempat (cth. Hotel Saya)",
+    lat: "Latitud",
+    lon: "Longitud",
+    save: "Tetapkan lokasi mula",
+    note: "Masukkan koordinat atau pilih lokasi pada peta.",
+    invalid: "Masukkan koordinat yang sah.",
+    intro: "Pilih tempat mula dan susun perjalanan anda.",
+    advice: "Dari Tempat Mula · Urutan Cadangan"
+  }
+
+};
+
+
+/* 03 · RESTORE SAVED LOCATION */
+
+let dhOrigin = {
+  key: "airport",
+  pos: [...DH_ORIGINS.airport.pos],
+  name: ""
+};
+
+try {
+
+  const old = JSON.parse(
+    localStorage.getItem(DH_ORIGIN_KEY)
+  );
+
+  if (old && DH_ORIGINS[old.key]) {
+
+    dhOrigin = {
+      key: old.key,
+      pos: [...DH_ORIGINS[old.key].pos],
+      name: ""
+    };
+
+  } else if (
+    old?.key === "custom" &&
+    Array.isArray(old.pos) &&
+    old.pos.length === 2 &&
+    old.pos.every(v => Number.isFinite(Number(v))) &&
+    Math.abs(Number(old.pos[0])) <= 90 &&
+    Math.abs(Number(old.pos[1])) <= 180
+  ) {
+
+    dhOrigin = {
+      key: "custom",
+      pos: old.pos.map(Number),
+      name: String(old.name || "").slice(0, 60)
+    };
+
+  }
+
+} catch (error) {}
+
+let dhSelectingOnMap = false;
+
+
+/* 04 · LOCATION NAME */
+
+function dhOriginName(language) {
+
+  if (dhOrigin.key === "custom") {
+
+    return dhOrigin.name || (
+      language === "zh"
+        ? "自定义起点"
+        : "Custom Starting Point"
+    );
+
+  }
+
+  return DH_ORIGINS[dhOrigin.key].names[
+    ["en", "zh", "ms"].indexOf(language)
+  ];
+
+}
+
+function dhOriginIcon() {
+
+  return dhOrigin.key === "custom"
+    ? "📍"
+    : DH_ORIGINS[dhOrigin.key].icon;
+
+}
+
+
+/* 05 · CONNECT TO EXISTING ROUTE SYSTEM */
+
+function dhSyncOrigin() {
+
+  // Update original airport coordinates
+  // without replacing the const array
+
+  DHR_AIRPORT[0] = Number(dhOrigin.pos[0]);
+  DHR_AIRPORT[1] = Number(dhOrigin.pos[1]);
+
+  // Update PNG starting-point icon
+
+  window.DH_START_ICON = dhOriginIcon();
+
+  // Update original labels
+
+  for (const code of ["en", "zh", "ms"]) {
+
+    DHR_TEXT[code].start = dhOriginName(code);
+
+    DHR_TEXT[code].intro =
+      DH_ORIGIN_LANG[code].intro;
+
+    DHR_TEXT[code].advice =
+      DH_ORIGIN_LANG[code].advice;
+
+  }
+
+}
+
+
+/* 06 · APPLY AND SAVE NEW START */
+
+function dhSetOrigin(key, pos, name = "") {
+
+  if (
+    !Array.isArray(pos) ||
+    pos.length !== 2 ||
+    pos.some(v => !Number.isFinite(Number(v))) ||
+    Math.abs(Number(pos[0])) > 90 ||
+    Math.abs(Number(pos[1])) > 180
+  ) return;
+
+  dhOrigin = {
+    key,
+    pos: pos.map(Number),
+    name: String(name).slice(0, 60)
+  };
+
+  try {
+
+    localStorage.setItem(
+      DH_ORIGIN_KEY,
+      JSON.stringify(dhOrigin)
+    );
+
+  } catch (error) {}
+
+  dhSelectingOnMap = false;
+
+  dhSyncOrigin();
+
+  // Keep all existing selected attractions
+
+  DHR.mode = "mine";
+
+  // Order must be confirmed after changing start
+
+  DHR.confirmed = false;
+
+  // Rebuild the original route planner
+
+  if (
+    document.querySelector(
+      "#sbGuideContent .dhr-planner"
+    )
+  ) {
+
+    renderRoutePlanner();
+
+  }
+
+  dhDrawOriginControls();
+
+}
+
+
+/* 07 · STYLES */
+
+const dhOriginCSS = document.createElement("style");
+
+dhOriginCSS.textContent = `
+
+.dh-origin-picker {
+  margin: 0 0 24px;
+  padding: 22px;
+
+  border: 1px solid #e2c9af;
+  border-radius: 12px;
+
+  background: #f8eee3;
+  color: #674332;
+}
+
+.dh-origin-picker h3 {
+  margin: 0 0 7px;
+  font: 600 21px "Noto Serif SC", serif;
+}
+
+.dh-origin-picker p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #886b58;
+}
+
+.dh-origin-picker select,
+.dh-origin-picker input {
+  box-sizing: border-box;
+
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #d8ba9a;
+  border-radius: 7px;
+
+  background: #fffaf3;
+  color: #674332;
+
+  font-size: 13px;
+}
+
+.dh-origin-custom {
+  margin-top: 12px;
+  padding: 14px;
+
+  border: 1px dashed #d8ba9a;
+  border-radius: 8px;
+
+  background: #fffaf3;
+}
+
+.dh-origin-custom[hidden] {
+  display: none !important;
+}
+
+.dh-origin-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dh-origin-fields input:first-child {
+  grid-column: 1 / -1;
+}
+
+.dh-origin-picker button {
+  padding: 10px 16px;
+
+  border: 0;
+  border-radius: 7px;
+
+  color: white;
+  background: #96583f;
+
+  cursor: pointer;
+}
+
+.dh-origin-picker button:hover {
+  background: #75432f;
+}
+
+.dh-origin-current {
+  display: block;
+  margin-top: 12px;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #80543d;
+}
+
+@media (max-width: 600px) {
+
+  .dh-origin-picker {
+    padding: 16px;
+  }
+
+  .dh-origin-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .dh-origin-fields input:first-child {
+    grid-column: auto;
+  }
+
+}
+
+`;
+
+document.head.appendChild(dhOriginCSS);
+
+
+/* 08 · CREATE STARTING-POINT SELECTOR */
+
+function dhMakeOriginPicker(heading) {
+
+  if (!heading) return;
+
+  const existing = heading.nextElementSibling;
+
+  if (
+    existing?.classList.contains("dh-origin-picker")
+  ) {
+    existing.remove();
+  }
+
+  const language = lang();
+  const tr = DH_ORIGIN_LANG[language];
+
+  const box = document.createElement("section");
+  box.className = "dh-origin-picker";
+
+  const title = document.createElement("h3");
+  title.textContent = tr.title;
+
+  const info = document.createElement("p");
+  info.textContent = tr.desc;
+
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", tr.title);
+
+  // Starting-point options
+
+  for (const [key, place] of Object.entries(DH_ORIGINS)) {
+
+    const option = new Option(
+      place.icon + " " +
+      place.names[
+        ["en", "zh", "ms"].indexOf(language)
+      ],
+      key
+    );
+
+    select.add(option);
+
+  }
+
+  select.add(
+    new Option(tr.custom, "custom")
+  );
+
+  select.value = dhOrigin.key;
+
+  // Current starting point
+
+  const current = document.createElement("span");
+  current.className = "dh-origin-current";
+
+  current.textContent =
+    dhOriginIcon() +
+    " 0 · " +
+    dhOriginName(language);
+
+
+  /* CUSTOM LOCATION PANEL */
+
+  const panel = document.createElement("div");
+  panel.className = "dh-origin-custom";
+  panel.hidden = dhOrigin.key !== "custom";
+
+  const fields = document.createElement("div");
+  fields.className = "dh-origin-fields";
+
+  const name = document.createElement("input");
+  name.placeholder = tr.place;
+  name.maxLength = 60;
+
+  const lat = document.createElement("input");
+  lat.type = "number";
+  lat.step = "any";
+  lat.placeholder = tr.lat;
+
+  const lon = document.createElement("input");
+  lon.type = "number";
+  lon.step = "any";
+  lon.placeholder = tr.lon;
+
+  if (dhOrigin.key === "custom") {
+
+    name.value = dhOrigin.name;
+
+    lat.value = dhOrigin.pos[0];
+    lon.value = dhOrigin.pos[1];
+
+  }
+
+  fields.append(name, lat, lon);
+
+  const save = document.createElement("button");
+  save.type = "button";
+  save.textContent = tr.save;
+
+  const note = document.createElement("p");
+  note.textContent = tr.note;
+  note.style.marginTop = "10px";
+
+  const warning = document.createElement("p");
+  warning.setAttribute("role", "status");
+
+  panel.append(
+    fields,
+    save,
+    note,
+    warning
+  );
+
+  box.append(
+    title,
+    info,
+    select,
+    panel,
+    current
+  );
+
+  heading.after(box);
+
+
+  /* SELECT PRESET */
+
+  select.addEventListener("change", () => {
+
+    const key = select.value;
+
+    if (key === "custom") {
+
+      panel.hidden = false;
+      dhSelectingOnMap = true;
+
+      return;
+
+    }
+
+    panel.hidden = true;
+
+    dhSetOrigin(
+      key,
+      DH_ORIGINS[key].pos
+    );
+
+  });
+
+
+  /* SAVE CUSTOM COORDINATES */
+
+  save.addEventListener("click", () => {
+
+    const coordinates = [
+      lat.value.trim(),
+      lon.value.trim()
+    ];
+
+    if (coordinates.some(v => v === "")) {
+
+      warning.textContent = tr.invalid;
+      return;
+
+    }
+
+    const point = coordinates.map(Number);
+
+    if (
+      point.some(v => !Number.isFinite(v)) ||
+      Math.abs(point[0]) > 90 ||
+      Math.abs(point[1]) > 180
+    ) {
+
+      warning.textContent = tr.invalid;
+      return;
+
+    }
+
+    dhSetOrigin(
+      "custom",
+      point,
+      name.value.trim() || (
+        language === "zh"
+          ? "我的酒店／自定义位置"
+          : "My Custom Location"
+      )
+    );
+
+  });
+
+}
+
+
+/* 09 · SHOW ON BOTH PARTS OF THE WEBSITE */
+
+function dhDrawOriginControls() {
+
+  // Main Strategy page
+
+  dhMakeOriginPicker(
+    document.querySelector(
+      "#planner > .section-heading"
+    )
+  );
+
+  // Explorer's Pass route planner
+
+  dhMakeOriginPicker(
+    document.querySelector(
+      "#sbGuideContent .dhr-planner .dhr-heading"
+    )
+  );
+
+  const icon = dhOriginIcon();
+
+  // Update starting-point labels
+
+  document.querySelectorAll(
+    "#sbGuideContent .dhr-airport"
+  ).forEach(element => {
+
+    element.textContent =
+      icon +
+      " 0 · " +
+      dhOriginName(lang());
+
+  });
+
+  // Update marker number 0
+
+  document.querySelectorAll(
+    "#sbGuideContent .dhr-marker.airport"
+  ).forEach(element => {
+
+    if (
+      element.textContent.trim() !== icon
+    ) {
+
+      element.textContent = icon;
+
+    }
+
+  });
+
+}
+
+
+/* 10 · CONNECT ORIGINAL ROUTE PLANNER */
+
+const dhOriginalRoutePlanner = renderRoutePlanner;
+
+renderRoutePlanner = function (...args) {
+
+  const result = dhOriginalRoutePlanner(...args);
+
+  dhDrawOriginControls();
+
+  return result;
+
+};
+
+
+/* 11 · SUPPORT LANGUAGE CHANGES */
+
+const dhOriginalLanguageChange = changeLanguage;
+
+changeLanguage = function (...args) {
+
+  const result = dhOriginalLanguageChange(...args);
+
+  dhDrawOriginControls();
+
+  return result;
+
+};
+
+
+/* 12 · UPDATE LEAFLET MARKER */
+
+const dhOriginGuide = document.getElementById(
+  "sbGuideContent"
+);
+
+if (dhOriginGuide) {
+
+  new MutationObserver(() => {
+
+    const marker = dhOriginGuide.querySelector(
+      ".dhr-marker.airport"
+    );
+
+    if (
+      marker &&
+      marker.textContent.trim() !== dhOriginIcon()
+    ) {
+
+      marker.textContent = dhOriginIcon();
+
+    }
+
+  }).observe(dhOriginGuide, {
+    childList: true,
+    subtree: true
+  });
+
+
+  /* CUSTOM START BY CLICKING THE MAP */
+
+  dhOriginGuide.addEventListener("click", event => {
+
+    if (
+      !dhSelectingOnMap ||
+      !DHR.map ||
+      !event.target.closest(".dhr-map")
+    ) return;
+
+    const point = DHR.map.mouseEventToLatLng(event);
+
+    const customBox = dhOriginGuide.querySelector(
+      ".dh-origin-picker .dh-origin-fields input"
+    );
+
+    const customName =
+      customBox?.value.trim() ||
+      (
+        lang() === "zh"
+          ? "地图选定位置"
+          : "Selected Map Point"
+      );
+
+    dhSetOrigin(
+      "custom",
+      [point.lat, point.lng],
+      customName
+    );
+
+  });
+
+}
+
+
+/* 13 · INITIALIZE */
+
+dhSyncOrigin();
+
+/* END CUSTOM STARTING POINT */
+
+/* ==========================================
    17. INITIALISE
 ========================================== */
 
@@ -13501,20 +14831,33 @@ html:lang(ms) .dh-ready-label--ms {
 
     <span class="dh-ready-star">✧</span>
 
-    <span class="dh-ready-label dh-ready-label--en">
-      I'm Ready!<br>
-      Let's Go!
-    </span>
 
-    <span class="dh-ready-label dh-ready-label--zh">
-      我准备好<br>
-      去旅行了！
-    </span>
+<!-- English -->
+<span class="dh-ready-label dh-ready-label--en">
+  I'm Ready!<br>
+  Let's Go!
+  <span class="ready-subtitle">
+    Go to Check-in
+  </span>
+</span>
 
-    <span class="dh-ready-label dh-ready-label--ms">
-      Saya Sedia!<br>
-      Jom Pergi!
-    </span>
+<!-- 中文 -->
+<span class="dh-ready-label dh-ready-label--zh">
+  我准备好<br>
+  去旅行了！
+  <span class="ready-subtitle">
+    前往 Check-in
+  </span>
+</span>
+
+<!-- Bahasa Melayu -->
+<span class="dh-ready-label dh-ready-label--ms">
+  Saya Sedia!<br>
+  Jom Pergi!
+  <span class="ready-subtitle">
+    Ke Halaman Check-in
+  </span>
+</span>
 
     <span class="dh-ready-arrow">↗</span>
 
@@ -13896,7 +15239,7 @@ body.senior-mode .dh-global-tools button {
   "use strict";
 
   // 原本的敦煌首页文件名
-  const HOME_PAGE = "./Dunhuang%20AI.html";
+  const HOME_PAGE = "./index.html";
 
   // 避免在已有按钮的页面重复创建
   const hasOriginalAI =
@@ -14116,6 +15459,649 @@ body.senior-mode .dh-global-tools button {
 </script>
 
 <!-- END GLOBAL FLOATING TOOLS -->
+
+<!-- ==========================================
+     FLOATING GENERATE GUIDE BUTTON
+     DUNHUANG STRATEGY
+========================================== -->
+
+<style>
+
+/* Hide the old bottom generate button.
+   Keep its JavaScript functionality. */
+
+#sbGenerate {
+  display: none !important;
+}
+
+/* Floating circle */
+
+.dh-generate-float {
+  position: fixed;
+  top: 325px;
+  right: 36px;
+  z-index: 951;
+
+  width: 120px;
+  height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 12px;
+
+  border: 5px double #ba8c62;
+  border-radius: 50%;
+
+  background: linear-gradient(
+    145deg,
+    #fffaf1,
+    #f1dfc6
+  );
+
+  color: #674332;
+
+  box-shadow:
+    0 0 0 3px rgba(255,244,227,.65),
+    0 9px 24px rgba(69,39,26,.22);
+
+  cursor: pointer;
+
+  transition:
+    transform .3s ease,
+    background .3s ease,
+    box-shadow .3s ease;
+}
+
+/* Hover */
+
+.dh-generate-float:hover {
+  transform: translateY(-5px) scale(1.04);
+
+  background: #f8e5ca;
+
+  box-shadow:
+    0 0 0 4px rgba(255,244,227,.8),
+    0 14px 30px rgba(69,39,26,.3);
+}
+
+/* Symbol */
+
+.dh-generate-icon {
+  font-size: 20px;
+  color: #ad8055;
+  line-height: 1;
+}
+
+/* Button text */
+
+.dh-generate-text {
+  font-family:
+    "Noto Serif SC",
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Arrow */
+
+.dh-generate-arrow {
+  font-size: 17px;
+  color: #96583f;
+  line-height: 1;
+}
+
+/* Senior Mode */
+
+body.senior-mode .dh-generate-float {
+  width: 145px;
+  height: 145px;
+}
+
+body.senior-mode .dh-generate-text {
+  font-size: 19px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .dh-generate-float {
+    top: 125px;
+    right: 15px;
+
+    width: 90px;
+    height: 90px;
+
+    padding: 8px;
+    border-width: 4px;
+  }
+
+  .dh-generate-icon {
+    font-size: 14px;
+  }
+
+  .dh-generate-text {
+    font-size: 11px;
+  }
+
+  .dh-generate-arrow {
+    font-size: 12px;
+  }
+
+}
+
+/* Accessibility */
+
+.dh-generate-float:focus-visible {
+  outline: 3px solid #96583f;
+  outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dh-generate-float {
+    transition: none;
+  }
+}
+
+</style>
+
+
+<!-- FLOATING GENERATE BUTTON -->
+
+<button
+  type="button"
+  class="dh-generate-float"
+  id="dhGenerateFloating"
+  aria-label="Generate My Travel Guide"
+>
+
+  <span class="dh-generate-icon">✧</span>
+
+  <span class="dh-generate-text"
+        id="dhGenerateFloatingText">
+    Generate<br>My Guide
+  </span>
+
+  <span class="dh-generate-arrow">↗</span>
+
+</button>
+
+
+<script>
+(function () {
+  "use strict";
+
+  const button = document.getElementById(
+    "dhGenerateFloating"
+  );
+
+  const label = document.getElementById(
+    "dhGenerateFloatingText"
+  );
+
+  if (!button || !label) return;
+
+  /* Three language labels */
+
+  const translations = {
+
+    en: {
+      label: "Generate My Guide",
+      lines: ["Generate", "My Guide"]
+    },
+
+    zh: {
+      label: "随时生成我的攻略",
+      lines: ["生成我的", "旅行攻略"]
+    },
+
+    ms: {
+      label: "Jana Panduan Saya",
+      lines: ["Jana", "Panduan"]
+    }
+
+  };
+
+
+  function getLanguage() {
+
+    const lang = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (lang.startsWith("zh")) return "zh";
+    if (lang.startsWith("ms")) return "ms";
+
+    return "en";
+
+  }
+
+
+  function updateLanguage() {
+
+    const t = translations[getLanguage()];
+
+    label.replaceChildren(
+      document.createTextNode(t.lines[0]),
+      document.createElement("br"),
+      document.createTextNode(t.lines[1])
+    );
+
+    button.setAttribute(
+      "aria-label",
+      t.label
+    );
+
+    button.title = t.label;
+
+  }
+
+
+  /* Follow website language changes */
+
+  new MutationObserver(
+    updateLanguage
+  ).observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ["lang"]
+    }
+  );
+
+  updateLanguage();
+
+
+  /* ======================================
+     GENERATE THE ORIGINAL GUIDE
+  ====================================== */
+
+  button.addEventListener("click", () => {
+
+    const original = document.getElementById(
+      "sbGenerate"
+    );
+
+    if (!original) {
+      console.error(
+        "Original generate button not found."
+      );
+      return;
+    }
+
+    /* Use the existing Strategy function */
+
+    original.click();
+
+  });
+
+})();
+</script>
+
+<!-- END FLOATING GENERATE BUTTON -->
+
+<style>
+/* Check-in subtitle inside pendant */
+
+.dh-ready-circle .ready-subtitle {
+  display: block;
+  margin-top: 5px;
+  font-family: "DM Sans", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #96583f;
+}
+
+/* English & Malay text */
+.dh-ready-label--en .ready-subtitle,
+.dh-ready-label--ms .ready-subtitle {
+  font-size: 9px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .dh-ready-circle .ready-subtitle {
+    font-size: 8px;
+    margin-top: 3px;
+  }
+}
+</style>
+
+<style>
+/* MATCH BOTH FLOATING BUTTON HOVER EFFECTS */
+
+/* Smooth transition */
+.dh-ready-circle {
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+  transform-origin: center;
+}
+
+/* Same hover effect as Generate My Guide */
+.dh-ready-pendant:hover .dh-ready-circle {
+  transform: translateY(-5px) scale(1.04);
+
+  background: #f8e5ca;
+
+  box-shadow:
+    0 0 0 4px rgba(255,244,227,0.8),
+    0 14px 30px rgba(69,39,26,0.3);
+}
+</style>
+
+<!-- ==========================================
+     DUNHUANG · FOLLOWING ROUTE MAP
+     Map follows page scrolling
+========================================== -->
+
+<style>
+
+/* Desktop: map follows the long lists */
+
+@media (min-width: 1151px) {
+
+  #sbSummary .dhr-columns >
+  .dhr-column:nth-child(2) {
+
+    position: relative !important;
+    top: auto !important;
+
+    transform: translate3d(
+      0,
+      var(--dh-map-follow, 0px),
+      0
+    ) !important;
+
+    z-index: 5;
+
+  }
+
+}
+
+/* Disable following on smaller screens */
+
+@media (max-width: 1150px) {
+
+  #sbSummary .dhr-columns >
+  .dhr-column:nth-child(2) {
+
+    position: static !important;
+    top: auto !important;
+    transform: none !important;
+
+  }
+
+}
+
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  /* Distance below the top navigation */
+  const TOP_SPACE = 110;
+
+  let ticking = false;
+
+  function updateFollowingMap() {
+
+    ticking = false;
+
+    const columns = document.querySelector(
+      "#sbSummary .dhr-columns"
+    );
+
+    if (!columns) return;
+
+    const mapColumn = columns.querySelector(
+      ".dhr-column:nth-child(2)"
+    );
+
+    if (!mapColumn) return;
+
+
+    /* Desktop only */
+
+    if (window.innerWidth <= 1150) {
+
+      mapColumn.style.removeProperty(
+        "--dh-map-follow"
+      );
+
+      return;
+    }
+
+
+    /* Get planner position */
+
+    const plannerRect =
+      columns.getBoundingClientRect();
+
+
+    const plannerHeight =
+      columns.offsetHeight;
+
+
+    const mapHeight =
+      mapColumn.offsetHeight;
+
+
+    /* Maximum distance the map can travel */
+
+    const maxMove = Math.max(
+      0,
+      plannerHeight - mapHeight
+    );
+
+
+    /* How far the user has scrolled */
+
+    const wantedMove =
+      TOP_SPACE - plannerRect.top;
+
+
+    /* Keep map inside the planner */
+
+    const move = Math.max(
+      0,
+      Math.min(wantedMove, maxMove)
+    );
+
+
+    /* Move only the middle map column */
+
+    mapColumn.style.setProperty(
+      "--dh-map-follow",
+      move.toFixed(1) + "px"
+    );
+
+  }
+
+
+  /* Smooth scroll updates */
+
+  function scheduleUpdate() {
+
+    if (ticking) return;
+
+    ticking = true;
+
+    requestAnimationFrame(
+      updateFollowingMap
+    );
+
+  }
+
+
+  /* Follow scrolling */
+
+  window.addEventListener(
+    "scroll",
+    scheduleUpdate,
+    { passive: true }
+  );
+
+
+  /* Follow window resizing */
+
+  window.addEventListener(
+    "resize",
+    scheduleUpdate,
+    { passive: true }
+  );
+
+
+  /* Refresh after opening or editing guide */
+
+  document.addEventListener(
+    "click",
+    function () {
+
+      setTimeout(
+        scheduleUpdate,
+        200
+      );
+
+      setTimeout(
+        scheduleUpdate,
+        900
+      );
+
+    },
+    { passive: true }
+  );
+
+
+  /* Detect newly generated guide */
+
+  const content = document.getElementById(
+    "sbGuideContent"
+  );
+
+  if (content) {
+
+    const observer = new MutationObserver(
+      scheduleUpdate
+    );
+
+    observer.observe(content, {
+      childList: true
+    });
+
+  }
+
+
+  /* Initial calculation */
+
+  scheduleUpdate();
+
+})();
+</script>
+
+<!-- END FOLLOWING ROUTE MAP -->
+
+<style>
+/* ======================================
+   ROUTE DELETE & UNDO
+====================================== */
+
+/* Delete button */
+
+.dhr-move .dhr-delete-btn {
+  color: #b15d4c;
+  border-color: #e9c9bd;
+  background: #fff8f4;
+  flex-shrink: 0;
+}
+
+.dhr-move .dhr-delete-btn:hover {
+  background: #b15d4c;
+  color: white;
+  border-color: #b15d4c;
+}
+
+/* Undo notification */
+
+.dhr-undo-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+
+  z-index: 20000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  width: max-content;
+  max-width: calc(100vw - 30px);
+  padding: 14px 18px;
+
+  background: #51342c;
+  color: #fff7ed;
+
+  border: 1px solid #c99b73;
+  border-radius: 12px;
+
+  box-shadow: 0 12px 35px rgba(0,0,0,.22);
+  font-size: 13px;
+}
+
+.dhr-undo-toast[hidden] {
+  display: none !important;
+}
+
+.dhr-undo-toast .undo-message {
+  line-height: 1.6;
+}
+
+.dhr-undo-toast .undo-action {
+  flex-shrink: 0;
+  padding: 8px 13px;
+  border: 1px solid #e7c59d;
+  border-radius: 7px;
+  background: #f0d6b2;
+  color: #674332;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dhr-undo-toast .undo-action:hover {
+  background: white;
+}
+
+.dhr-undo-toast .undo-close {
+  border: none;
+  background: transparent;
+  color: #ead2b9;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .dhr-undo-toast {
+    bottom: 15px;
+    gap: 10px;
+    font-size: 12px;
+    padding: 11px;
+  }
+}
+</style>
 
 </body>
 </html>
