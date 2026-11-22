@@ -4699,5 +4699,702 @@ body.senior-mode .dh-floating-home-icon {
 
 <!-- END FLOATING HOME BUTTON -->
 
+<!-- ==========================================
+     CHECK-IN · FLOATING BUTTONS
+     HOME + AI + BACK TO TOP
+     WITH SENIOR MODE SUPPORT
+========================================== -->
+
+<style>
+
+/* ======================================
+   01 · FLOATING BUTTON GROUP
+====================================== */
+
+.dh-checkin-tools {
+  position: fixed !important;
+
+  right: 30px;
+  bottom: 30px;
+
+  z-index: 20000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Same size for all three buttons */
+
+.dh-checkin-tools > a,
+.dh-checkin-tools > button {
+  position: static !important;
+
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+
+  width: 65px !important;
+  height: 65px !important;
+  min-width: 65px;
+  min-height: 65px;
+
+  padding: 0;
+  margin: 0;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  border-radius: 50%;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+
+  transition:
+    transform .3s ease,
+    background .3s ease;
+}
+
+.dh-checkin-tools > a:hover,
+.dh-checkin-tools > button:hover {
+  transform: translateY(-4px);
+}
+
+/* ======================================
+   02 · HOME BUTTON
+   Reuse existing HOME
+====================================== */
+
+.dh-checkin-tools .dh-floating-home {
+  background: #96583f;
+  color: #fffaf3;
+  border: 2px solid #d8b47c;
+
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ======================================
+   03 · AI BUTTON
+====================================== */
+
+.dh-checkin-ai-btn {
+  background: #171c19;
+  color: #d8b47c;
+
+  border: 2px solid #d8b47c;
+
+  font-size: 30px;
+}
+
+/* ======================================
+   04 · BACK TO TOP
+====================================== */
+
+.dh-checkin-top-btn {
+  background: #d8b47c;
+  color: #171c19;
+
+  border: none;
+
+  font-size: 32px;
+}
+
+/* ======================================
+   05 · AI CHAT WINDOW
+====================================== */
+
+.dh-checkin-ai-window {
+  position: fixed;
+
+  right: 115px;
+  bottom: 30px;
+
+  width: min(450px, calc(100vw - 150px));
+  height: min(650px, calc(100dvh - 60px));
+
+  z-index: 20001;
+
+  background: #fffaf0;
+
+  border: 1px solid #d8b47c;
+  border-radius: 16px;
+
+  box-shadow: 0 15px 50px rgba(0,0,0,.3);
+
+  overflow: hidden;
+}
+
+.dh-checkin-ai-window[hidden] {
+  display: none !important;
+}
+
+.dh-checkin-ai-frame {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  border: none;
+  background: #fffaf0;
+}
+
+.dh-checkin-ai-close {
+  position: absolute;
+
+  right: 10px;
+  top: 10px;
+
+  width: 36px;
+  height: 36px;
+
+  z-index: 5;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #51342c;
+  color: white;
+
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.dh-checkin-ai-loading {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 25px;
+
+  background: #fffaf0;
+  color: #80543d;
+
+  text-align: center;
+  font-size: 13px;
+}
+
+.dh-checkin-ai-loading[hidden] {
+  display: none !important;
+}
+
+/* ======================================
+   06 · SENIOR MODE
+   All three buttons enlarge together
+====================================== */
+
+body.senior-mode .dh-checkin-tools > a,
+body.senior-mode .dh-checkin-tools > button {
+  width: 82px !important;
+  height: 82px !important;
+  min-width: 82px;
+  min-height: 82px;
+}
+
+body.senior-mode .dh-checkin-ai-btn,
+body.senior-mode .dh-checkin-top-btn {
+  font-size: 39px;
+}
+
+body.senior-mode .dh-checkin-tools {
+  gap: 20px;
+}
+
+/* ======================================
+   07 · MOBILE
+====================================== */
+
+@media (max-width: 700px) {
+
+  .dh-checkin-tools {
+    right: 18px;
+    bottom: 20px;
+    gap: 15px;
+  }
+
+  .dh-checkin-tools > a,
+  .dh-checkin-tools > button {
+    width: 55px !important;
+    height: 55px !important;
+    min-width: 55px;
+    min-height: 55px;
+  }
+
+  .dh-checkin-ai-btn,
+  .dh-checkin-top-btn {
+    font-size: 26px;
+  }
+
+  body.senior-mode .dh-checkin-tools > a,
+  body.senior-mode .dh-checkin-tools > button {
+    width: 70px !important;
+    height: 70px !important;
+    min-width: 70px;
+    min-height: 70px;
+  }
+
+  body.senior-mode .dh-checkin-ai-btn,
+  body.senior-mode .dh-checkin-top-btn {
+    font-size: 33px;
+  }
+
+  .dh-checkin-ai-window {
+    right: 10px;
+    bottom: 10px;
+
+    width: calc(100vw - 20px);
+    height: min(570px, calc(100dvh - 20px));
+  }
+
+}
+
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  function initCheckinFloatingTools() {
+
+    /* ==================================
+       01 · PREVENT DUPLICATES
+    ================================== */
+
+    if (
+      document.getElementById("dhCheckinTools")
+    ) return;
+
+
+    /* ==================================
+       02 · CREATE GROUP
+    ================================== */
+
+    const group = document.createElement("div");
+
+    group.id = "dhCheckinTools";
+    group.className = "dh-checkin-tools";
+
+
+    /* ==================================
+       03 · REUSE EXISTING HOME
+    ================================== */
+
+    let home = document.querySelector(
+      ".dh-floating-home"
+    );
+
+    if (!home) {
+
+      home = document.createElement("a");
+
+      home.className = "dh-floating-home";
+      home.innerHTML = `
+        <span class="dh-floating-home-icon">⌂</span>
+        <span class="dh-floating-home-text">HOME</span>
+      `;
+
+    }
+
+    home.href = "./index.html";
+
+    group.appendChild(home);
+
+
+    /* ==================================
+       04 · CREATE AI BUTTON
+    ================================== */
+
+    const aiButton = document.createElement("button");
+
+    aiButton.type = "button";
+    aiButton.className = "dh-checkin-ai-btn";
+
+    aiButton.innerHTML = "✦";
+
+    aiButton.title = "Dunhuang AI Guide";
+
+    aiButton.setAttribute(
+      "aria-label",
+      "Open AI Guide"
+    );
+
+    aiButton.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    group.appendChild(aiButton);
+
+
+    /* ==================================
+       05 · CREATE BACK TO TOP
+    ================================== */
+
+    const topButton = document.createElement("button");
+
+    topButton.type = "button";
+    topButton.className = "dh-checkin-top-btn";
+
+    topButton.innerHTML = "↑";
+
+    topButton.title = "Back to Top";
+
+    topButton.setAttribute(
+      "aria-label",
+      "Back to Top"
+    );
+
+    group.appendChild(topButton);
+
+
+    document.body.appendChild(group);
+
+
+    /* ==================================
+       06 · BACK TO TOP FUNCTION
+    ================================== */
+
+    topButton.addEventListener("click", function () {
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    });
+
+
+    /* ==================================
+       07 · CREATE AI CHAT
+    ================================== */
+
+    const aiWindow = document.createElement("div");
+
+    aiWindow.className = "dh-checkin-ai-window";
+    aiWindow.hidden = true;
+
+
+    const frame = document.createElement("iframe");
+
+    frame.className = "dh-checkin-ai-frame";
+    frame.title = "Dunhuang AI Guide";
+
+
+    const closeButton = document.createElement("button");
+
+    closeButton.type = "button";
+    closeButton.className = "dh-checkin-ai-close";
+    closeButton.textContent = "×";
+
+    closeButton.setAttribute(
+      "aria-label",
+      "Close AI Guide"
+    );
+
+
+    const loading = document.createElement("div");
+
+    loading.className = "dh-checkin-ai-loading";
+    loading.textContent = "Opening Dunhuang AI Guide...";
+
+
+    aiWindow.append(
+      frame,
+      closeButton,
+      loading
+    );
+
+    document.body.appendChild(aiWindow);
+
+
+    /* ==================================
+       08 · AI PAGE SOURCES
+
+       First try index.html.
+       Then try original AI homepage.
+    ================================== */
+
+    const aiSources = [
+      "./index.html",
+      "./Dunhuang AI.html"
+    ];
+
+    let sourceIndex = 0;
+    let loaded = false;
+
+
+    function getLanguage() {
+
+      const code = (
+        document.documentElement.lang || "en"
+      ).toLowerCase();
+
+      if (code.startsWith("zh")) return "zh";
+
+      if (
+        code.startsWith("ms") ||
+        code.startsWith("bm")
+      ) return "ms";
+
+      return "en";
+    }
+
+
+    /* ==================================
+       09 · LOAD ORIGINAL AI CHAT
+    ================================== */
+
+    frame.addEventListener("load", function () {
+
+      try {
+
+        const doc = frame.contentDocument;
+
+        if (!doc) {
+          throw new Error("AI page is not accessible");
+        }
+
+        const originalAI = doc.getElementById(
+          "aiFloating"
+        );
+
+        const originalWindow = doc.getElementById(
+          "aiWindow"
+        );
+
+        if (!originalAI || !originalWindow) {
+
+          throw new Error(
+            "Original AI interface not found"
+          );
+
+        }
+
+
+        /* Hide other homepage sections */
+
+        const style = doc.createElement("style");
+
+        style.textContent = `
+
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+
+            width: 100% !important;
+            height: 100% !important;
+
+            overflow: hidden !important;
+            background: #fffaf0 !important;
+          }
+
+          body > :not(#aiWindow) {
+            display: none !important;
+          }
+
+          #aiWindow {
+            position: fixed !important;
+            inset: 0 !important;
+
+            width: 100% !important;
+            height: 100% !important;
+
+            max-width: none !important;
+            max-height: none !important;
+
+            border: none !important;
+            border-radius: 0 !important;
+
+            box-shadow: none !important;
+          }
+
+          #aiWindow:not([hidden]) {
+            display: flex !important;
+          }
+
+          #aiClose {
+            display: none !important;
+          }
+
+        `;
+
+        doc.head.appendChild(style);
+
+
+        /* Set the correct language */
+
+        const languageButton = doc.querySelector(
+          '.language-switcher [data-lang="' +
+          getLanguage() +
+          '"]'
+        );
+
+        languageButton?.click();
+
+
+        /* Activate original AI */
+
+        if (originalWindow.hidden) {
+
+          originalAI.click();
+
+        }
+
+        loaded = true;
+        loading.hidden = true;
+
+
+      } catch (error) {
+
+        console.warn("AI loading:", error);
+
+        sourceIndex++;
+
+        if (sourceIndex < aiSources.length) {
+
+          frame.src = aiSources[sourceIndex];
+
+        } else {
+
+          loading.innerHTML = "";
+
+          const link = document.createElement("a");
+
+          link.href = "./index.html";
+          link.textContent = "Open AI on Homepage ↗";
+          link.style.color = "#96583f";
+
+          loading.appendChild(link);
+
+        }
+
+      }
+
+    });
+
+
+    /* ==================================
+       10 · OPEN AI CHAT
+    ================================== */
+
+    function openAI() {
+
+      aiWindow.hidden = false;
+
+      aiButton.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+      if (!loaded && !frame.src) {
+
+        frame.src = aiSources[0];
+
+      }
+
+    }
+
+
+    /* ==================================
+       11 · CLOSE AI CHAT
+    ================================== */
+
+    function closeAI() {
+
+      aiWindow.hidden = true;
+
+      aiButton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      try {
+
+        frame.contentWindow.speechSynthesis?.cancel();
+
+      } catch (error) {}
+
+    }
+
+
+    /* ==================================
+       12 · BUTTON EVENTS
+    ================================== */
+
+    aiButton.addEventListener("click", function () {
+
+      if (aiWindow.hidden) {
+
+        openAI();
+
+      } else {
+
+        closeAI();
+
+      }
+
+    });
+
+
+    closeButton.addEventListener(
+      "click",
+      closeAI
+    );
+
+
+    document.addEventListener("keydown", function (event) {
+
+      if (
+        event.key === "Escape" &&
+        !aiWindow.hidden
+      ) {
+
+        closeAI();
+
+      }
+
+    });
+
+  }
+
+
+  /* ======================================
+     13 · INITIALIZATION
+  ====================================== */
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initCheckinFloatingTools
+    );
+
+  } else {
+
+    initCheckinFloatingTools();
+
+  }
+
+})();
+</script>
+
+<!-- END CHECK-IN FLOATING BUTTONS -->
+
 </body>
 </html>
