@@ -16103,5 +16103,368 @@ body.senior-mode .dh-generate-text {
 }
 </style>
 
+<!-- ==========================================
+     DUNHUANG · FLOATING HOME BUTTON
+     Homepage: index.html
+     EN / 中文 / BM
+========================================== -->
+
+<style>
+
+/* ======================================
+   HOME BUTTON DESIGN
+====================================== */
+
+.dh-floating-home {
+  width: 65px;
+  height: 65px;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  box-sizing: border-box;
+  border: 2px solid #d8b47c;
+  border-radius: 50%;
+
+  background: #96583f;
+  color: #fffaf3;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+
+  transition:
+    background .3s,
+    transform .3s,
+    box-shadow .3s;
+}
+
+.dh-floating-home:hover {
+  background: #75432f;
+  color: white;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.3);
+}
+
+.dh-floating-home:focus-visible {
+  outline: 3px solid #d8b47c;
+  outline-offset: 4px;
+}
+
+.dh-floating-home-icon {
+  font-size: 27px;
+  line-height: 1;
+}
+
+.dh-floating-home-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+/* If no floating container exists */
+
+.dh-floating-home.dh-home-standalone {
+  position: fixed;
+  right: 30px;
+  bottom: 205px;
+  z-index: 20000;
+}
+
+/* Senior Mode */
+
+body.senior-mode .dh-floating-home {
+  width: 82px;
+  height: 82px;
+}
+
+body.senior-mode .dh-floating-home-icon {
+  font-size: 34px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .dh-floating-home {
+    width: 55px;
+    height: 55px;
+  }
+
+  .dh-floating-home-icon {
+    font-size: 23px;
+  }
+
+  .dh-floating-home-text {
+    font-size: 9px;
+  }
+
+  .dh-floating-home.dh-home-standalone {
+    right: 18px;
+    bottom: 170px;
+  }
+
+  body.senior-mode .dh-floating-home {
+    width: 65px;
+    height: 65px;
+  }
+
+}
+
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  /* ======================================
+     01 · HOMEPAGE
+  ====================================== */
+
+  const HOME_PAGE = "./index.html";
+
+
+  /* ======================================
+     02 · HIDE ON HOMEPAGE
+  ====================================== */
+
+  const filename = decodeURIComponent(
+    window.location.pathname.split("/").pop() || ""
+  ).toLowerCase();
+
+  const homeFiles = [
+    "index.html",
+    ""
+  ];
+
+  if (homeFiles.includes(filename)) {
+    return;
+  }
+
+
+  /* ======================================
+     03 · THREE LANGUAGES
+  ====================================== */
+
+  const translations = {
+
+    en: {
+      text: "HOME",
+      title: "Back to Homepage"
+    },
+
+    zh: {
+      text: "主页",
+      title: "返回主页"
+    },
+
+    ms: {
+      text: "UTAMA",
+      title: "Kembali ke Laman Utama"
+    }
+
+  };
+
+
+  function getLanguage() {
+
+    const code = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (code.startsWith("zh")) {
+      return "zh";
+    }
+
+    if (
+      code.startsWith("ms") ||
+      code.startsWith("bm")
+    ) {
+      return "ms";
+    }
+
+    return "en";
+
+  }
+
+
+  /* ======================================
+     04 · CREATE HOME BUTTON
+  ====================================== */
+
+  function initHomeButton() {
+
+    /* Prevent duplicate buttons */
+
+    if (
+      document.querySelector(".dh-floating-home")
+    ) {
+      return;
+    }
+
+
+    const home = document.createElement("a");
+
+    home.className = "dh-floating-home";
+    home.href = HOME_PAGE;
+
+
+    const icon = document.createElement("span");
+
+    icon.className = "dh-floating-home-icon";
+    icon.textContent = "⌂";
+
+
+    const label = document.createElement("span");
+
+    label.className = "dh-floating-home-text";
+
+
+    home.append(icon, label);
+
+
+    /* ==================================
+       05 · PLACE ABOVE AI BUTTON
+    ================================== */
+
+    const floatingControls =
+      document.querySelector(
+        ".dh-global-tools, .floating-controls"
+      );
+
+
+    if (floatingControls) {
+
+      /* Home → AI → Back to Top */
+
+      floatingControls.prepend(home);
+
+    } else {
+
+      /* Support pages with another layout */
+
+      home.classList.add(
+        "dh-home-standalone"
+      );
+
+      document.body.appendChild(home);
+
+
+      function positionAboveAI() {
+
+        const ai = document.querySelector(
+          "#aiFloating, .dh-global-ai, .ai-floating"
+        );
+
+        if (!ai) return;
+
+        const rect =
+          ai.getBoundingClientRect();
+
+        if (!rect.width || !rect.height) {
+          return;
+        }
+
+        const size = home.offsetWidth;
+
+        home.style.bottom =
+          Math.max(
+            12,
+            window.innerHeight -
+            rect.top +
+            18
+          ) + "px";
+
+        home.style.right =
+          Math.max(
+            12,
+            window.innerWidth -
+            rect.right +
+            (rect.width - size) / 2
+          ) + "px";
+
+      }
+
+
+      positionAboveAI();
+
+      window.addEventListener(
+        "resize",
+        positionAboveAI
+      );
+
+    }
+
+
+    /* ==================================
+       06 · LANGUAGE UPDATE
+    ================================== */
+
+    function updateHomeLanguage() {
+
+      const t =
+        translations[getLanguage()];
+
+      label.textContent = t.text;
+
+      home.title = t.title;
+
+      home.setAttribute(
+        "aria-label",
+        t.title
+      );
+
+    }
+
+
+    const observer =
+      new MutationObserver(
+        updateHomeLanguage
+      );
+
+    observer.observe(
+      document.documentElement,
+      {
+        attributes: true,
+        attributeFilter: ["lang"]
+      }
+    );
+
+
+    updateHomeLanguage();
+
+  }
+
+
+  /* ======================================
+     07 · INITIALIZATION
+  ====================================== */
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initHomeButton
+    );
+
+  } else {
+
+    initHomeButton();
+
+  }
+
+})();
+</script>
+
+<!-- END FLOATING HOME BUTTON -->
+
 </body>
 </html>
