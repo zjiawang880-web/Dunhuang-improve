@@ -4061,5 +4061,128 @@ body.senior-mode .dh-global-tools button {
 
 <!-- END GLOBAL FLOATING TOOLS -->
 
+<!-- ==========================================
+     DUNHUANG MEMORY BOOK
+     PORTRAIT POSTER DISPLAY FIX
+========================================== -->
+
+<style>
+
+/* 01. 调整回忆书整体比例 */
+
+#bookStage .book {
+    width: min(560px, 100%);
+    min-height: 0;
+
+    margin: 0 auto;
+
+    padding: 13px 13px 13px 24px;
+
+    border-radius: 6px 21px 21px 6px;
+}
+
+
+/* 02. 调整内部书页 */
+
+#bookStage .book-page {
+    min-height: 740px;
+
+    padding: 30px 32px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* 03. 恢复旅行海报的竖版比例 */
+
+#bookStage img.book-entry-image {
+    display: block;
+
+    width: min(100%, 420px);
+    height: auto;
+
+    aspect-ratio: 9 / 11;
+
+    object-fit: contain;
+    object-position: center;
+
+    margin: 22px auto 26px;
+
+    background: transparent;
+
+    border: 1px solid #e3ccb0;
+    border-radius: 5px;
+
+    box-shadow:
+        0 10px 25px rgba(83, 52, 35, 0.12);
+}
+
+
+/* 04. 无照片时的占位区域 */
+
+#bookStage .book-entry-image.memory-thumb-fallback {
+    width: min(100%, 420px);
+    aspect-ratio: 9 / 11;
+    height: auto;
+    min-height: 300px;
+
+    margin: 22px auto 26px;
+}
+
+
+/* 05. 文字继续放在海报下方 */
+
+#bookStage .book-entry-date,
+#bookStage .book-entry-title,
+#bookStage .book-entry-diary {
+    width: 100%;
+    text-align: left;
+}
+
+#bookStage .book-entry-title {
+    margin: 12px 0 17px;
+}
+
+
+/* 06. 保持原来的翻页动画 */
+
+#bookStage .book-page.flip-next,
+#bookStage .book-page.flip-prev {
+    backface-visibility: hidden;
+}
+
+
+/* 07. 手机适配 */
+
+@media (max-width: 640px) {
+
+    #bookStage .book {
+        width: 100%;
+        padding: 10px 10px 10px 18px;
+    }
+
+    #bookStage .book-page {
+        min-height: 0;
+        padding: 22px 17px;
+    }
+
+    #bookStage img.book-entry-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 11;
+
+        margin: 20px auto;
+    }
+
+    #bookStage .book-entry-title {
+        font-size: 32px;
+    }
+}
+
+</style>
+
+<!-- END MEMORY BOOK PORTRAIT FIX -->
+
 </body>
 </html>
