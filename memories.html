@@ -3503,6 +3503,592 @@ document.addEventListener("keydown", e => {
 });
 
 
+/* ==========================================
+   DUNHUANG MEMORY BOOK
+   EXPORT COMPLETE BOOK AS PDF
+
+   Cover + Memory Pages + Ending
+   English / Chinese / Malay
+========================================== */
+
+(function () {
+
+  "use strict";
+
+  /* ======================================
+     01 · EXPORT BUTTON
+  ====================================== */
+
+  const editButton = document.getElementById(
+    "editBook"
+  );
+
+  if (!editButton) return;
+
+  if (document.getElementById(
+    "dhExportMemoryPDF"
+  )) return;
+
+
+  const exportButton = document.createElement(
+    "button"
+  );
+
+  exportButton.type = "button";
+  exportButton.id = "dhExportMemoryPDF";
+  exportButton.className = "btn secondary";
+
+
+  /* Place after Edit My Memories */
+
+  editButton.after(exportButton);
+
+
+  /* ======================================
+     02 · BUTTON STYLE
+  ====================================== */
+
+  const style = document.createElement("style");
+
+  style.textContent = `
+
+    #dhExportMemoryPDF {
+      background: #96583f;
+      color: #fffaf3;
+
+      border: 1px solid #96583f;
+      border-radius: 8px;
+
+      padding: 13px 22px;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        background .25s,
+        transform .25s;
+    }
+
+    #dhExportMemoryPDF:hover {
+      background: #74412f;
+      transform: translateY(-3px);
+    }
+
+    #dhExportMemoryPDF:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+
+    /* Print content is hidden on screen */
+
+    #dhMemoryPrintRoot {
+      display: none;
+    }
+
+
+    /* ==================================
+       COMPLETE BOOK PDF LAYOUT
+    ================================== */
+
+    @media print {
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      html,
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: white !important;
+      }
+
+      body > :not(#dhMemoryPrintRoot) {
+        display: none !important;
+      }
+
+      #dhMemoryPrintRoot {
+        display: block !important;
+
+        width: 100% !important;
+        position: static !important;
+      }
+
+      #dhMemoryPrintRoot,
+      #dhMemoryPrintRoot * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+
+      /* One book page per PDF page */
+
+      .dh-memory-print-sheet {
+        width: 210mm;
+        min-height: 297mm;
+
+        box-sizing: border-box;
+        padding: 10mm;
+
+        background: #f7efe5 !important;
+
+        break-after: page;
+        page-break-after: always;
+      }
+
+      .dh-memory-print-sheet:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+
+      /* Brown book frame */
+
+      .dh-memory-print-book {
+        position: relative;
+
+        width: 100%;
+        min-height: 277mm;
+
+        box-sizing: border-box;
+
+        padding:
+          4mm 4mm 4mm 7mm;
+
+        background: #764a36 !important;
+
+        border: 3mm solid #764a36;
+        border-radius: 7mm;
+
+        overflow: hidden;
+      }
+
+
+      /* Decorative book spine */
+
+      .dh-memory-print-book::before {
+        content: "";
+
+        position: absolute;
+
+        left: 2mm;
+        top: 0;
+        bottom: 0;
+
+        width: 3mm;
+
+        background:
+          repeating-linear-gradient(
+            90deg,
+            #b98b67 0 1px,
+            #eed9b7 2px 3px,
+            #aa7655 4px 5px
+          );
+      }
+
+
+      /* Cream-colored paper */
+
+      #dhMemoryPrintRoot .book-page {
+        position: relative;
+
+        width: 100%;
+        min-height: 262mm;
+
+        box-sizing: border-box;
+
+        padding: 12mm 10mm;
+
+        overflow: visible !important;
+
+        background:
+          linear-gradient(
+            105deg,
+            #eee0c9 0%,
+            #fffaf0 9%,
+            #fff9eb 100%
+          ) !important;
+
+        border-radius: 2mm 5mm 5mm 2mm;
+        border: 1px solid #dcc4a5;
+        box-shadow: none !important;
+
+        transform: none !important;
+        animation: none !important;
+      }
+
+
+      /* Cover and ending page */
+
+      #dhMemoryPrintRoot .book-cover-content {
+        min-height: 228mm;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+      }
+
+      #dhMemoryPrintRoot .book-cover-content h2 {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+
+      /* Support illustrated cover if added */
+
+      #dhMemoryPrintRoot .dh-cover-v2 {
+        min-height: 252mm;
+        height: 252mm;
+      }
+
+
+      /* Memory photos */
+
+      #dhMemoryPrintRoot .book-entry-image {
+        display: block;
+
+        width: 100%;
+        height: 125mm !important;
+
+        object-fit: contain;
+
+        margin: 15px auto;
+
+        background: #f2e6d5;
+      }
+
+
+      /* Print full diary text */
+
+      #dhMemoryPrintRoot .book-entry-diary {
+        max-height: none !important;
+
+        height: auto !important;
+
+        overflow: visible !important;
+
+        white-space: pre-wrap;
+
+        font-size: 13px;
+        line-height: 1.85;
+      }
+
+
+      /* Do not show interactive buttons */
+
+      #dhMemoryPrintRoot button {
+        display: none !important;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+
+
+  /* ======================================
+     03 · THREE LANGUAGES
+  ====================================== */
+
+  const labels = {
+
+    zh: "↓ 导出整本回忆书 PDF",
+
+    en: "↓ EXPORT MEMORY BOOK · PDF",
+
+    ms: "↓ EKSPORT BUKU KENANGAN · PDF"
+
+  };
+
+
+  function updateExportButton() {
+
+    const code = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    const langCode = code.startsWith("zh")
+      ? "zh"
+      : code.startsWith("ms")
+        ? "ms"
+        : "en";
+
+    exportButton.textContent = labels[langCode];
+
+  }
+
+
+  updateExportButton();
+
+
+  new MutationObserver(
+    updateExportButton
+  ).observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ["lang"]
+    }
+  );
+
+
+  /* ======================================
+     04 · COLLECT EVERY BOOK PAGE
+
+     Reuse your original renderBook()
+     instead of rebuilding memories.
+
+     This preserves:
+     - Cover
+     - Uploaded photos
+     - Place names
+     - Travel dates
+     - Diary content
+     - Final ending page
+  ====================================== */
+
+  function collectBookPages() {
+
+    const originalIndex = bookIndex;
+
+    const result = [];
+
+    const totalPages = entries.length + 2;
+
+
+    try {
+
+      for (
+        let index = 0;
+        index < totalPages;
+        index++
+      ) {
+
+        bookIndex = index;
+
+        renderBook();
+
+        const page = document.getElementById(
+          "bookPage"
+        );
+
+        result.push(page.innerHTML);
+
+      }
+
+    } finally {
+
+      /* Restore current page */
+
+      bookIndex = originalIndex;
+
+      renderBook();
+
+    }
+
+
+    return result;
+
+  }
+
+
+  /* ======================================
+     05 · CREATE PRINTABLE BOOK
+  ====================================== */
+
+  let activePrintRoot = null;
+
+
+  function buildPrintableBook(pages) {
+
+    if (activePrintRoot) {
+      activePrintRoot.remove();
+    }
+
+
+    const root = document.createElement("div");
+
+    root.id = "dhMemoryPrintRoot";
+
+
+    root.innerHTML = pages.map(page => `
+
+      <section class="dh-memory-print-sheet">
+
+        <div class="dh-memory-print-book">
+
+          <div class="book-page">
+
+            ${page}
+
+          </div>
+
+        </div>
+
+      </section>
+
+    `).join("");
+
+
+    document.body.appendChild(root);
+
+    activePrintRoot = root;
+
+    return root;
+
+  }
+
+
+  /* ======================================
+     06 · WAIT FOR PHOTOS AND FONTS
+  ====================================== */
+
+  async function preparePrint(root) {
+
+    if (document.fonts?.ready) {
+
+      await document.fonts.ready;
+
+    }
+
+
+    const images = Array.from(
+      root.querySelectorAll("img")
+    );
+
+
+    await Promise.allSettled(
+
+      images.map(image => {
+
+        if (
+          typeof image.decode === "function"
+        ) {
+
+          return image.decode();
+
+        }
+
+        if (image.complete) {
+          return Promise.resolve();
+        }
+
+        return new Promise(resolve => {
+
+          image.addEventListener(
+            "load",
+            resolve,
+            { once: true }
+          );
+
+          image.addEventListener(
+            "error",
+            resolve,
+            { once: true }
+          );
+
+        });
+
+      })
+
+    );
+
+  }
+
+
+  /* ======================================
+     07 · CLEAN UP AFTER PRINTING
+  ====================================== */
+
+  window.addEventListener("afterprint", () => {
+
+    if (activePrintRoot) {
+
+      activePrintRoot.remove();
+
+      activePrintRoot = null;
+
+    }
+
+  });
+
+
+  /* ======================================
+     08 · EXPORT BUTTON CLICK
+  ====================================== */
+
+  exportButton.addEventListener(
+    "click",
+    async function () {
+
+      if (!entries.length) return;
+
+      if (
+        document.getElementById(
+          "bookStage"
+        ).hidden
+      ) return;
+
+
+      exportButton.disabled = true;
+
+
+      try {
+
+        /* Collect cover, memories, end */
+
+        const pages = collectBookPages();
+
+
+        /* Create complete printable book */
+
+        const root = buildPrintableBook(pages);
+
+
+        /* Ensure uploaded photos are ready */
+
+        await preparePrint(root);
+
+
+        /* Open browser PDF export */
+
+        window.print();
+
+
+      } catch (error) {
+
+        console.error(
+          "Memory book export failed:",
+          error
+        );
+
+        alert(
+          "Export failed. Please try again."
+        );
+
+      } finally {
+
+        exportButton.disabled = false;
+
+      }
+
+    }
+  );
+
+
+})();
+
+/* END MEMORY BOOK PDF EXPORT */
+
 /* INITIALIZATION */
 
 async function init() {
