@@ -1,0 +1,2818 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUNHUANG | Accommodation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --dark:#5e3d2f;
+  --brown:#8f5f42;
+  --clay:#b86e4b;
+  --clay-dark:#96563a;
+  --gold:#d8b47c;
+  --sand:#e4c39b;
+  --paper:#fff9ed;
+  --cream:#f5eee1;
+  --ink:#3b2d24;
+  --muted:#726052;
+  --line:#dcc6a6;
+}
+
+* {box-sizing:border-box}
+
+html {scroll-behavior:smooth}
+
+body {
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:"DM Sans","Noto Sans SC",sans-serif;
+  line-height:1.7;
+}
+
+button {font:inherit;cursor:pointer}
+a {color:inherit;text-decoration:none}
+
+button:focus-visible,
+a:focus-visible {
+  outline:3px solid var(--gold);
+  outline-offset:3px;
+}
+
+/* NAVIGATION */
+.site-header {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  background:rgba(94,61,47,.97);
+  backdrop-filter:blur(12px);
+  min-height:90px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:15px 4%;
+  color:#fff9ed;
+  border-bottom:1px solid rgba(216,180,124,.3);
+}
+
+.logo {
+  font:600 36px/1 "Cormorant Garamond",Georgia,serif;
+  letter-spacing:3px;
+  white-space:nowrap;
+}
+.logo span {color:var(--gold)}
+
+.nav-actions {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:6px;
+}
+
+.nav-actions button,
+.nav-actions .home-link {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:44px;
+  padding:8px 12px;
+  color:#fff9ed;
+  border:1px solid rgba(255,249,237,.5);
+  background:none;
+  font-size:14px;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+.nav-actions .senior,
+.nav-actions .home-link {
+  border-color:var(--gold);
+  border-radius:5px;
+}
+
+.nav-actions button.active,
+.nav-actions button:hover,
+.nav-actions .home-link:hover {
+  background:var(--gold);
+  color:var(--dark);
+}
+
+/* HERO */
+.hero {
+  padding:160px 6% 83px;
+  background:
+    radial-gradient(circle at 76% 16%,rgba(255,219,159,.14),transparent 33%),
+    linear-gradient(135deg,#a76c49 0%,#8f5f42 46%,#5e3d2f 100%);
+  color:#fff9ed;
+  text-align:center;
+}
+
+.eyebrow {
+  color:#aa7046;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:3px;
+}
+
+.hero .eyebrow,
+.quiz-section .eyebrow,
+.journey-page-nav-label {
+  color:#f0c88e;
+}
+
+.hero h1,
+.section h2 {
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-weight:600;
+}
+
+.hero h1 {
+  font-size:clamp(56px,8vw,100px);
+  line-height:1.1;
+  margin:15px 0;
+}
+
+.hero p {
+  max-width:760px;
+  margin:auto;
+  color:#f6e8d7;
+  font-size:17px;
+}
+
+/* GENERAL */
+.section {padding:80px 6%}
+
+.section-heading {
+  text-align:center;
+  max-width:800px;
+  margin:0 auto 34px;
+}
+
+.section-heading h2 {
+  font-size:clamp(37px,5vw,60px);
+  margin:12px 0;
+  line-height:1.2;
+}
+
+.section-heading p {color:var(--muted)}
+.wrap {max-width:1250px;margin:auto}
+
+/* ACCOMMODATION EXPERIENCE */
+.showcase {background:#eedcc4}
+
+.toggle {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+.toggle button {
+  border:1px solid #b98d61;
+  border-radius:24px;
+  min-width:120px;
+  padding:10px 20px;
+  color:var(--dark);
+  background:transparent;
+  font-weight:700;
+  transition:.25s;
+}
+
+.toggle button:hover {background:#f4e5cf}
+
+.toggle button.active {
+  background:var(--clay);
+  border-color:var(--clay);
+  color:#fff9ed;
+}
+
+/* PHOTO AREA */
+.scene {
+  height:440px;
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  background:#9a6a4b;
+  border:1px solid #d1a474;
+}
+
+.scene .photo {
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  transition:opacity .55s ease;
+}
+
+.scene .next {opacity:0}
+
+.scene .shade {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(55,30,21,.77),transparent 65%);
+  pointer-events:none;
+}
+
+.scene-caption {
+  position:absolute;
+  bottom:20px;
+  left:24px;
+  max-width:85%;
+  color:white;
+  font-size:21px;
+  font-weight:700;
+  text-shadow:0 2px 9px rgba(0,0,0,.5);
+}
+
+.scene-hint {
+  position:absolute;
+  right:18px;
+  top:17px;
+  border:1px solid rgba(255,239,211,.75);
+  color:white;
+  border-radius:40px;
+  padding:7px 12px;
+  background:rgba(94,61,47,.67);
+  font-size:13px;
+}
+
+/* STAY TYPE BUTTONS */
+.stay-types {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:20px;
+}
+
+.stay-types button {
+  background:var(--paper);
+  border:1px solid var(--line);
+  padding:22px;
+  border-radius:12px;
+  text-align:center;
+  color:var(--ink);
+  transition:.2s;
+}
+
+.stay-types button:hover {
+  transform:translateY(-4px);
+  background:#fff0d9;
+}
+
+.stay-types button.active {
+  background:#f1d6b5;
+  border:2px solid var(--clay);
+}
+
+.stay-types .emoji {
+  font-size:29px;
+  display:block;
+}
+
+.stay-types strong {
+  display:block;
+  margin:8px 0 4px;
+}
+
+.stay-types small {color:var(--muted)}
+
+/* ACCOMMODATION INFO */
+.info {
+  margin-top:22px;
+  padding:28px;
+  border-left:4px solid var(--clay);
+  background:var(--paper);
+  border-radius:6px;
+}
+
+.info h3 {
+  font:600 35px "Cormorant Garamond",Georgia,serif;
+  margin:0 0 8px;
+}
+
+.info p {
+  color:var(--muted);
+  margin:0 0 8px;
+}
+
+/* QUIZ SECTION */
+.quiz-section {
+  background:#8f5f42;
+}
+
+.quiz-section .section-heading h2 {
+  color:#fff9ed;
+}
+
+.quiz-section .section-heading p {
+  color:#f5e4cf;
+}
+
+.quiz {
+  max-width:860px;
+  margin:auto;
+  background:var(--paper);
+  color:var(--ink);
+  padding:38px;
+  border-radius:15px;
+  min-height:390px;
+  border:1px solid rgba(215,174,128,.9);
+  box-shadow:0 16px 38px rgba(55,30,21,.18);
+}
+
+.quiz-header {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  color:#98603d;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:1.5px;
+}
+
+.progress {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin:16px 0 32px;
+}
+
+.progress span {
+  height:5px;
+  border-radius:8px;
+  background:#ecd9bf;
+}
+
+.progress .filled {background:var(--clay)}
+
+.question-title {
+  font:600 clamp(32px,4vw,44px)/1.2 "Cormorant Garamond",Georgia,serif;
+  margin:0 0 9px;
+}
+
+.question-sub {
+  color:var(--muted);
+  margin:0 0 25px;
+}
+
+.options {
+  display:grid;
+  gap:12px;
+}
+
+.answer {
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  text-align:left;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fffcf7;
+  padding:17px 20px;
+  color:var(--ink);
+}
+
+.answer:hover {background:#faead5}
+
+.answer.chosen {
+  background:#f4dfc0;
+  border:2px solid var(--clay);
+}
+
+.answer span:last-child {
+  color:var(--clay);
+  font-size:22px;
+}
+
+/* QUIZ CONTROLS */
+.quiz-controls {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:28px;
+}
+
+.quiz-controls button,
+.restart-btn {
+  padding:12px 22px;
+  border:1px solid #c8a37b;
+  background:transparent;
+  color:var(--dark);
+  border-radius:6px;
+  font-weight:700;
+}
+
+.quiz-controls .next,
+.restart-btn {
+  background:var(--clay);
+  color:#fff9ed;
+  border-color:var(--clay);
+}
+
+.quiz-controls .next:hover:not(:disabled),
+.restart-btn:hover {
+  background:var(--clay-dark);
+  border-color:var(--clay-dark);
+  color:white;
+}
+
+.quiz-controls button:disabled {
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+/* QUIZ RESULT */
+.result {text-align:center}
+
+.result h3 {
+  font:600 52px "Cormorant Garamond",Georgia,serif;
+  margin:12px 0;
+}
+
+.result p {color:var(--muted)}
+.result .icon {font-size:50px}
+
+.result .tip {
+  text-align:left;
+  background:#f2dfc3;
+  border-left:4px solid var(--clay);
+  padding:20px;
+  margin:22px 0;
+}
+
+/* TRAVEL TIPS */
+.tips {background:var(--cream)}
+
+.tip-grid {
+  max-width:1150px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.tip {
+  background:var(--paper);
+  border:1px solid var(--line);
+  padding:25px;
+  border-top:3px solid var(--clay);
+}
+
+.tip h3 {margin:0 0 10px}
+.tip p {color:var(--muted);margin:0}
+
+/* JOURNEY NAVIGATION */
+.journey-page-nav {
+  background:var(--dark);
+  padding:65px 6%;
+  color:#fff9ed;
+}
+
+.journey-page-nav-inner {
+  max-width:1200px;
+  margin:auto;
+}
+
+.journey-page-nav-label {
+  text-align:center;
+  letter-spacing:3px;
+  font-size:13px;
+  margin-bottom:25px;
+}
+
+.journey-page-nav-links {
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.journey-page-link {
+  flex:1;
+  min-width:0;
+  padding:22px 25px;
+  border:1px solid rgba(240,200,142,.6);
+  border-radius:8px;
+  color:#fff9ed;
+  transition:.3s;
+}
+
+.journey-page-link:hover {
+  background:#edc494;
+  color:var(--dark);
+}
+
+.journey-page-link.next {text-align:right}
+
+.journey-page-link span {
+  display:block;
+  font-size:13px;
+  opacity:.75;
+  margin-bottom:7px;
+}
+
+.journey-page-link strong {
+  display:block;
+  font-size:20px;
+}
+
+/* FOOTER */
+footer {
+  background:#4c3028;
+  color:#fff9ed;
+  text-align:center;
+  padding:42px 16px;
+}
+
+footer strong {
+  font:600 35px "Cormorant Garamond",Georgia,serif;
+  letter-spacing:3px;
+}
+
+footer p {color:#f0d9bf}
+
+/* SENIOR MODE */
+.senior-mode .section-heading p,
+.senior-mode .info p,
+.senior-mode .answer,
+.senior-mode .question-sub,
+.senior-mode .tip p,
+.senior-mode .result p {
+  font-size:21px;
+}
+
+.senior-mode .stay-types button small {font-size:18px}
+
+.senior-mode .nav-actions button,
+.senior-mode .nav-actions .home-link {
+  font-size:17px;
+  min-height:48px;
+}
+
+/* RESPONSIVE */
+@media(max-width:760px) {
+  .site-header {
+    position:sticky;
+    flex-wrap:wrap;
+    justify-content:center;
+    min-height:0;
+    padding:12px;
+  }
+
+  .logo {font-size:29px}
+  .nav-actions {justify-content:center}
+
+  .nav-actions button,
+  .nav-actions .home-link {
+    padding:8px;
+    font-size:12px;
+  }
+
+  .hero {
+    padding:65px 5%;
+    background:linear-gradient(145deg,#ad7855,#5e3d2f);
+  }
+
+  .section {padding:65px 5%}
+
+  .stay-types,
+  .tip-grid {
+    grid-template-columns:1fr;
+  }
+
+  .scene {height:310px}
+  .quiz {padding:25px 19px}
+  .scene-caption {font-size:17px}
+}
+
+@media(max-width:600px) {
+  .journey-page-nav-links {flex-direction:column}
+  .journey-page-link.next {text-align:left}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+  }
+  html {scroll-behavior:auto}
+}
+
+/* Accommodation navbar alignment */
+
+@media (min-width: 1450px) {
+
+  .site-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .site-header .site-nav {
+    position: absolute;
+    left: 57.5%;
+    transform: translateX(-50%);
+    width: max-content;
+    flex-wrap: nowrap;
+    gap: 25px;
+  }
+
+  .site-header .nav-actions {
+    margin-left: auto;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header class="site-header">
+  <a id="homeLogo" class="logo" href="Dunhuang improve.html">
+    DUNHUANG<span>.</span>
+  </a>
+
+  <div class="nav-actions">
+    <button type="button" class="language" data-lang="en">EN</button>
+    <button type="button" class="language" data-lang="zh">中文</button>
+    <button type="button" class="language" data-lang="ms">BM</button>
+
+    <button type="button" class="senior" id="seniorButton">
+      👓 <span data-i18n="senior">Senior Mode</span>
+    </button>
+
+    <a class="home-link" id="backHome"
+       href="Dunhuang improve.html" data-i18n="back">
+      ← BACK TO HOME
+    </a>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow" data-i18n="heroLabel">
+    STAY IN DUNHUANG
+  </div>
+
+  <h1 data-i18n="heroTitle">
+    A Night on the Silk Road
+  </h1>
+
+  <p data-i18n="heroDesc">
+    Explore city hotels, cultural guesthouses
+    and desert camps through day and night photographs.
+  </p>
+</section>
+
+<!-- ACCOMMODATION EXPERIENCE -->
+<section class="section showcase" id="stayExperience">
+  <div class="section-heading">
+    <div class="eyebrow" data-i18n="showLabel">
+      EXPLORE YOUR STAY
+    </div>
+
+    <h2 data-i18n="showTitle">
+      From Day to Night
+    </h2>
+
+    <p data-i18n="showDesc">
+      Select a stay and switch between day and night.
+    </p>
+  </div>
+
+  <div class="wrap">
+    <div class="toggle">
+      <button id="dayButton" type="button" data-i18n="day">
+        ☀️ Day
+      </button>
+      <button id="nightButton" type="button" data-i18n="night">
+        🌙 Night
+      </button>
+    </div>
+
+    <div class="scene" id="scene">
+      <div id="currentPhoto" class="photo"></div>
+      <div id="nextPhoto" class="photo next"></div>
+      <div class="shade"></div>
+
+      <div class="scene-hint" data-i18n="sampleNote">
+        Illustrative photos
+      </div>
+
+      <div id="sceneCaption" class="scene-caption"></div>
+    </div>
+
+    <div id="stayTypes" class="stay-types"></div>
+
+    <div class="info">
+      <h3 id="infoTitle"></h3>
+      <p id="infoDesc"></p>
+      <p id="infoTip"></p>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE QUIZ -->
+<section class="section quiz-section" id="quizSection">
+  <div class="section-heading">
+    <div class="eyebrow" data-i18n="quizLabel">
+      PERSONAL TRAVEL GUIDE
+    </div>
+
+    <h2 data-i18n="quizTitle">
+      Find Your Perfect Stay
+    </h2>
+
+    <p data-i18n="quizIntro">
+      Answer four questions. No answers are selected for you.
+    </p>
+  </div>
+
+  <div id="quiz" class="quiz" aria-live="polite"></div>
+</section>
+
+<!-- TRAVEL TIPS -->
+<section class="section tips">
+  <div class="section-heading">
+    <div class="eyebrow" data-i18n="tipLabel">
+      BEFORE YOU BOOK
+    </div>
+
+    <h2 data-i18n="tipTitle">
+      Accommodation Tips
+    </h2>
+  </div>
+
+  <div class="tip-grid">
+    <article class="tip">
+      <h3 data-i18n="tip1H">📅 Book in Advance</h3>
+      <p data-i18n="tip1D">
+        Prices can rise during holidays and popular seasons.
+      </p>
+    </article>
+
+    <article class="tip">
+      <h3 data-i18n="tip2H">🚕 Check Transportation</h3>
+      <p data-i18n="tip2D">
+        Consider journeys to Mogao Caves and Mingsha Mountain.
+      </p>
+    </article>
+
+    <article class="tip">
+      <h3 data-i18n="tip3H">🌙 Check Desert Facilities</h3>
+      <p data-i18n="tip3D">
+        Confirm warmth, bathroom facilities and transfers.
+      </p>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<!-- JOURNEY NAVIGATION -->
+<div id="journeyPageNavigation"></div>
+
+<footer>
+  <strong>DUNHUANG.</strong>
+  <p data-i18n="footer">
+    Discover the ancient Silk Road.
+  </p>
+</footer>
+
+<script>
+/* ====================================
+   LOCAL ACCOMMODATION IMAGES
+   图片文件名保留你原来的空格形式
+==================================== */
+
+const STAY_IMAGES = {
+  city: {
+    day:"photo/city day.jpg",
+    night:"photo/city night.jpg"
+  },
+  courtyard: {
+    day:"photo/courtyard day.jpg",
+    night:"photo/courtyard night.jpg"
+  },
+  desert: {
+    day:"photo/desert day.jpg",
+    night:"photo/desert night.jpg"
+  }
+};
+
+/* ====================================
+   TRANSLATIONS
+==================================== */
+
+const languageData = {
+
+en: {
+  senior:"Senior Mode",
+  back:"← BACK TO HOME",
+
+  heroLabel:"STAY IN DUNHUANG",
+  heroTitle:"A Night on the Silk Road",
+  heroDesc:"Explore city hotels, cultural guesthouses and desert camps through day and night photographs.",
+
+  showLabel:"EXPLORE YOUR STAY",
+  showTitle:"From Day to Night",
+  showDesc:"Select a stay and switch between day and night.",
+
+  day:"☀️ Day",
+  night:"🌙 Night",
+  sampleNote:"Illustrative photos",
+
+  quizLabel:"PERSONAL TRAVEL GUIDE",
+  quizTitle:"Find Your Perfect Stay",
+  quizIntro:"Answer four questions. No answers are selected for you.",
+
+  tipLabel:"BEFORE YOU BOOK",
+  tipTitle:"Accommodation Tips",
+  tip1H:"📅 Book in Advance",
+  tip1D:"Prices can rise during holidays and popular seasons.",
+  tip2H:"🚕 Check Transportation",
+  tip2D:"Consider journeys to Mogao Caves and Mingsha Mountain.",
+  tip3H:"🌙 Check Desert Facilities",
+  tip3D:"Confirm warmth, bathroom facilities and transfers.",
+
+  footer:"Discover the ancient Silk Road.",
+  prev:"← Previous",
+  next:"Next →",
+  finish:"See My Match →",
+  restart:"↻ Take the Quiz Again",
+  resultLabel:"YOUR PERFECT MATCH",
+  travelTip:"Travel Tip",
+
+  types: {
+    city: {
+      name:"City Centre Hotel",
+      short:"Convenient transport and restaurants",
+      desc:"Staying in central Dunhuang gives you convenient access to restaurants, shops and transport services.",
+      tip:"Best for first-time visitors and families.",
+      match:"You prefer convenient transport, restaurants and an easy travel schedule.",
+      advice:"Compare hotel locations and check access to major attractions.",
+      icon:"🏨"
+    },
+    courtyard: {
+      name:"Cultural Guesthouse",
+      short:"Quiet atmosphere and local culture",
+      desc:"A quieter accommodation experience with traditional decoration and a personal atmosphere.",
+      tip:"Best for cultural exploration and slower travel.",
+      match:"You enjoy local culture and peaceful surroundings.",
+      advice:"Check guest reviews, room facilities and transfer options.",
+      icon:"🏡"
+    },
+    desert: {
+      name:"Desert Camp",
+      short:"Desert sunset and starry sky",
+      desc:"An accommodation experience focused on desert scenery, sunsets and stars. Facilities may vary.",
+      tip:"Best for photography, scenery and special experiences.",
+      match:"You love unique scenery and memorable experiences.",
+      advice:"Confirm bathroom facilities, night temperatures and transfer arrangements.",
+      icon:"⛺"
+    }
+  },
+
+  questions: [
+    {
+      title:"What's your accommodation budget?",
+      sub:"Choose your approximate budget per night.",
+      options:[
+        {text:"Budget · ¥100–250",scores:[3,2,0]},
+        {text:"Comfort · ¥250–600",scores:[3,3,1]},
+        {text:"Experience · ¥600+",scores:[1,2,4]}
+      ]
+    },
+    {
+      title:"What matters most to you?",
+      sub:"Choose your favourite atmosphere.",
+      options:[
+        {text:"Transport and restaurants",scores:[4,1,0]},
+        {text:"Quiet and local culture",scores:[1,4,1]},
+        {text:"Desert views and stars",scores:[0,1,5]}
+      ]
+    },
+    {
+      title:"How do you like to travel?",
+      sub:"Choose the travel style that suits you.",
+      options:[
+        {text:"Easy and comfortable",scores:[4,1,0]},
+        {text:"Explore local culture slowly",scores:[1,4,1]},
+        {text:"Try something unusual",scores:[0,1,4]}
+      ]
+    },
+    {
+      title:"Where would you love to wake up?",
+      sub:"Choose your favourite setting.",
+      options:[
+        {text:"In a lively city centre",scores:[4,0,0]},
+        {text:"Inside a quiet courtyard",scores:[0,4,0]},
+        {text:"Looking at the desert",scores:[0,0,5]}
+      ]
+    }
+  ]
+},
+
+zh: {
+  senior:"长辈模式",
+  back:"← 返回首页",
+
+  heroLabel:"敦煌住宿指南",
+  heroTitle:"丝绸之路的一夜",
+  heroDesc:"通过昼夜照片探索市中心酒店、敦煌特色民宿和沙漠营地。",
+
+  showLabel:"探索住宿体验",
+  showTitle:"从白天到夜晚",
+  showDesc:"选择住宿类型，再切换白天和夜晚。",
+
+  day:"☀️ 白天",
+  night:"🌙 夜晚",
+  sampleNote:"住宿氛围示意照片",
+
+  quizLabel:"个性化旅行指南",
+  quizTitle:"找到适合你的住宿",
+  quizIntro:"回答四道问题。系统不会提前替你选择答案。",
+
+  tipLabel:"预订之前",
+  tipTitle:"敦煌住宿小贴士",
+  tip1H:"📅 提前预订",
+  tip1D:"旅游旺季和节假日期间住宿价格可能上涨。",
+  tip2H:"🚕 关注交通",
+  tip2D:"考虑前往莫高窟和鸣沙山的交通时间。",
+  tip3H:"🌙 确认沙漠营地设施",
+  tip3D:"了解保暖条件、卫浴设施和接送服务。",
+
+  footer:"探索古代丝绸之路。",
+  prev:"← 上一步",
+  next:"下一题 →",
+  finish:"查看匹配结果 →",
+  restart:"↻ 重新测试",
+  resultLabel:"最适合你的住宿",
+  travelTip:"旅行建议",
+
+  types: {
+    city: {
+      name:"市中心酒店",
+      short:"交通便利 · 餐饮丰富",
+      desc:"靠近市区服务设施，安排用餐、出行和换乘相对方便。",
+      tip:"适合第一次来敦煌和家庭出游的游客。",
+      match:"你更重视交通、周边服务和轻松的行程安排。",
+      advice:"预订前确认酒店实际位置和前往主要景点的交通时间。",
+      icon:"🏨"
+    },
+    courtyard: {
+      name:"敦煌特色民宿",
+      short:"安静舒适 · 当地文化",
+      desc:"住宿氛围比较安静，可能带有传统装饰与庭院特色。",
+      tip:"适合喜欢文化氛围和慢旅行的游客。",
+      match:"你更喜欢安静环境和有当地文化特色的住宿。",
+      advice:"建议查看住客评价、隔音条件和交通接送。",
+      icon:"🏡"
+    },
+    desert: {
+      name:"沙漠特色营地",
+      short:"沙丘日落 · 星空体验",
+      desc:"以沙漠景观与特色住宿体验为主，实际设施因营地而异。",
+      tip:"适合喜欢风景、摄影和特别体验的游客。",
+      match:"你更看重特别的自然风景和难忘的住宿体验。",
+      advice:"预订前确认营地营业时间、卫浴、气温及接送安排。",
+      icon:"⛺"
+    }
+  },
+
+  questions: [
+    {
+      title:"你的住宿预算是多少？",
+      sub:"请选择每晚的大致预算。",
+      options:[
+        {text:"经济型 · ¥100–250 / 晚",scores:[3,2,0]},
+        {text:"舒适型 · ¥250–600 / 晚",scores:[3,3,1]},
+        {text:"体验型 · ¥600+ / 晚",scores:[1,2,4]}
+      ]
+    },
+    {
+      title:"你最看重什么？",
+      sub:"选择你喜欢的住宿氛围。",
+      options:[
+        {text:"交通方便，附近有餐厅",scores:[4,1,0]},
+        {text:"安静、有当地文化氛围",scores:[1,4,1]},
+        {text:"沙漠日落、星空与特色体验",scores:[0,1,5]}
+      ]
+    },
+    {
+      title:"你喜欢哪种旅行方式？",
+      sub:"选择最符合你的旅行风格。",
+      options:[
+        {text:"轻松方便，少折腾",scores:[4,1,0]},
+        {text:"慢慢探索当地文化",scores:[1,4,1]},
+        {text:"愿意尝试特别体验",scores:[0,1,4]}
+      ]
+    },
+    {
+      title:"你最想在哪里醒来？",
+      sub:"选出最喜欢的早晨环境。",
+      options:[
+        {text:"热闹的城市中心",scores:[4,0,0]},
+        {text:"安静的特色庭院",scores:[0,4,0]},
+        {text:"可以看到沙漠的地方",scores:[0,0,5]}
+      ]
+    }
+  ]
+},
+
+ms: {
+  senior:"Mod Warga Emas",
+  back:"← KEMBALI KE LAMAN UTAMA",
+
+  heroLabel:"PENGINAPAN DI DUNHUANG",
+  heroTitle:"Semalam di Laluan Sutera",
+  heroDesc:"Terokai hotel bandar, rumah tamu budaya dan kem gurun melalui foto siang dan malam.",
+
+  showLabel:"TEROKAI PENGINAPAN",
+  showTitle:"Dari Siang ke Malam",
+  showDesc:"Pilih penginapan dan tukar antara siang dan malam.",
+
+  day:"☀️ Siang",
+  night:"🌙 Malam",
+  sampleNote:"Foto suasana contoh",
+
+  quizLabel:"PANDUAN PERJALANAN PERIBADI",
+  quizTitle:"Cari Penginapan Terbaik Anda",
+  quizIntro:"Jawab empat soalan. Tiada jawapan dipilih secara automatik.",
+
+  tipLabel:"SEBELUM MENEMPAH",
+  tipTitle:"Tip Penginapan",
+  tip1H:"📅 Tempah Awal",
+  tip1D:"Harga mungkin meningkat semasa musim pelancongan.",
+  tip2H:"🚕 Semak Pengangkutan",
+  tip2D:"Pertimbangkan perjalanan ke Gua Mogao dan Gunung Mingsha.",
+  tip3H:"🌙 Semak Kemudahan Kem",
+  tip3D:"Sahkan pemanasan, bilik mandi dan perkhidmatan pengangkutan.",
+
+  footer:"Terokai Laluan Sutera purba.",
+  prev:"← Sebelumnya",
+  next:"Seterusnya →",
+  finish:"Lihat Padanan Saya →",
+  restart:"↻ Cuba Lagi",
+  resultLabel:"PADANAN TERBAIK ANDA",
+  travelTip:"Tip perjalanan",
+
+  types: {
+    city: {
+      name:"Hotel Pusat Bandar",
+      short:"Pengangkutan dan restoran mudah",
+      desc:"Pilihan praktikal berhampiran kemudahan bandar dan pengangkutan.",
+      tip:"Sesuai untuk keluarga dan pelawat kali pertama.",
+      match:"Anda lebih mementingkan pengangkutan mudah dan perkhidmatan bandar.",
+      advice:"Semak lokasi hotel dan perjalanan ke tempat tarikan.",
+      icon:"🏨"
+    },
+    courtyard: {
+      name:"Rumah Tamu Budaya",
+      short:"Tenang dan budaya tempatan",
+      desc:"Penginapan lebih tenang dengan suasana peribadi dan budaya.",
+      tip:"Sesuai untuk perjalanan santai dan budaya.",
+      match:"Anda suka persekitaran tenang dan suasana budaya tempatan.",
+      advice:"Semak ulasan, keselesaan bilik dan pengangkutan.",
+      icon:"🏡"
+    },
+    desert: {
+      name:"Kem Gurun",
+      short:"Bukit pasir, senja dan bintang",
+      desc:"Pengalaman berpemandangan gurun dengan kemudahan yang berbeza.",
+      tip:"Sesuai untuk pemandangan dan pengalaman istimewa.",
+      match:"Anda lebih suka pemandangan dan pengalaman unik.",
+      advice:"Semak tarikh operasi, tandas, suhu dan pengangkutan.",
+      icon:"⛺"
+    }
+  },
+
+  questions: [
+    {
+      title:"Berapakah bajet penginapan anda?",
+      sub:"Pilih satu jawapan.",
+      options:[
+        {text:"Jimat · ¥100–250",scores:[3,2,0]},
+        {text:"Selesa · ¥250–600",scores:[3,3,1]},
+        {text:"Pengalaman · ¥600+",scores:[1,2,4]}
+      ]
+    },
+    {
+      title:"Apakah yang paling penting?",
+      sub:"Pilih suasana penginapan.",
+      options:[
+        {text:"Pengangkutan dan restoran mudah",scores:[4,1,0]},
+        {text:"Tenang dan bercirikan budaya",scores:[1,4,1]},
+        {text:"Gurun, senja dan bintang",scores:[0,1,5]}
+      ]
+    },
+    {
+      title:"Bagaimana gaya perjalanan anda?",
+      sub:"Pilih yang paling sesuai.",
+      options:[
+        {text:"Mudah dan selesa",scores:[4,1,0]},
+        {text:"Meneroka budaya tempatan",scores:[1,4,1]},
+        {text:"Mencuba pengalaman luar biasa",scores:[0,1,4]}
+      ]
+    },
+    {
+      title:"Di manakah anda mahu bangun pagi?",
+      sub:"Pilih suasana pagi.",
+      options:[
+        {text:"Pusat bandar",scores:[4,0,0]},
+        {text:"Halaman yang tenang",scores:[0,4,0]},
+        {text:"Pemandangan gurun",scores:[0,0,5]}
+      ]
+    }
+  ]
+}
+
+};
+
+/* ====================================
+   APP STATE
+==================================== */
+
+let lang="en";
+let place="desert";
+let time="night";
+let step=0;
+let answers=[null,null,null,null];
+let senior=false;
+let photoRequest=0;
+
+const $ = id => document.getElementById(id);
+const locations=["city","courtyard","desert"];
+
+/* ====================================
+   DAY/NIGHT IMAGE TRANSITION
+==================================== */
+
+function renderPhoto() {
+  const src=STAY_IMAGES[place][time];
+  const request=++photoRequest;
+  const panel=$("nextPhoto");
+  const image=new Image();
+
+  image.onload=()=>{
+    if(photoRequest!==request)return;
+
+    panel.style.backgroundImage=`url("${src}")`;
+    panel.style.opacity="1";
+
+    setTimeout(()=>{
+      if(photoRequest!==request)return;
+
+      $("currentPhoto").style.backgroundImage=`url("${src}")`;
+      panel.style.opacity="0";
+    },560);
+  };
+
+  image.onerror=()=>{
+    if(photoRequest!==request)return;
+    panel.style.backgroundImage="none";
+    panel.style.opacity="0";
+    $("currentPhoto").style.backgroundImage="none";
+  };
+
+  image.src=src;
+}
+
+/* ====================================
+   ACCOMMODATION SELECTION
+==================================== */
+
+function renderStay() {
+  const t=languageData[lang];
+  const selected=t.types[place];
+
+  $("sceneCaption").textContent=
+    selected.name+" · "+(time==="day"?t.day:t.night);
+
+  $("infoTitle").textContent=selected.name;
+  $("infoDesc").textContent=selected.desc;
+  $("infoTip").textContent=selected.tip;
+
+  $("dayButton").classList.toggle("active",time==="day");
+  $("nightButton").classList.toggle("active",time==="night");
+
+  const buttons=locations.map(key=>{
+    const item=t.types[key];
+    const button=document.createElement("button");
+
+    button.type="button";
+    button.className=key===place?"active":"";
+    button.setAttribute("aria-pressed",String(key===place));
+
+    const icon=document.createElement("span");
+    icon.className="emoji";
+    icon.textContent=item.icon;
+
+    const title=document.createElement("strong");
+    title.textContent=item.name;
+
+    const subtitle=document.createElement("small");
+    subtitle.textContent=item.short;
+
+    button.append(icon,title,subtitle);
+
+    button.onclick=()=>{
+      place=key;
+      renderStay();
+      renderPhoto();
+    };
+
+    return button;
+  });
+
+  $("stayTypes").replaceChildren(...buttons);
+}
+
+/* ====================================
+   INTERACTIVE QUIZ
+==================================== */
+
+function renderQuiz() {
+  const t=languageData[lang];
+  const root=$("quiz");
+  root.replaceChildren();
+
+  /* FINISHED ALL FOUR QUESTIONS */
+  if(step===4) {
+    const scores=[0,0,0];
+
+    t.questions.forEach((question,i)=>{
+      const answer=answers[i];
+      if(answer===null)return;
+
+      question.options[answer].scores.forEach((score,j)=>{
+        scores[j]+=score;
+      });
+    });
+
+    const highest=Math.max(...scores);
+    const winner=scores.indexOf(highest);
+    const bestPlace=locations[winner];
+    const result=t.types[bestPlace];
+
+    const resultBox=document.createElement("div");
+    resultBox.className="result";
+
+    const icon=document.createElement("div");
+    icon.className="icon";
+    icon.textContent=result.icon;
+
+    const label=document.createElement("div");
+    label.className="eyebrow";
+    label.textContent=t.resultLabel;
+
+    const title=document.createElement("h3");
+    title.textContent=result.name;
+
+    const description=document.createElement("p");
+    description.textContent=result.match;
+
+    const tipBox=document.createElement("div");
+    tipBox.className="tip";
+
+    const tipTitle=document.createElement("strong");
+    tipTitle.textContent=t.travelTip;
+
+    const tipText=document.createElement("p");
+    tipText.textContent=result.advice;
+
+    tipBox.append(tipTitle,tipText);
+
+    const restartButton=document.createElement("button");
+    restartButton.type="button";
+    restartButton.className="restart-btn";
+    restartButton.textContent=t.restart;
+
+    restartButton.onclick=()=>{
+      step=0;
+      answers=[null,null,null,null];
+      renderQuiz();
+    };
+
+    resultBox.append(
+      icon,label,title,description,tipBox,restartButton
+    );
+
+    root.append(resultBox);
+    return;
+  }
+
+  /* CURRENT QUESTION */
+  const question=t.questions[step];
+
+  const header=document.createElement("div");
+  header.className="quiz-header";
+
+  const progressText=document.createElement("span");
+  progressText.textContent=t.quizTitle.toUpperCase();
+
+  const counter=document.createElement("span");
+  counter.textContent=(step+1)+" / 4";
+
+  header.append(progressText,counter);
+
+  const progress=document.createElement("div");
+  progress.className="progress";
+
+  for(let i=0;i<4;i++){
+    const part=document.createElement("span");
+    if(i<=step)part.className="filled";
+    progress.append(part);
+  }
+
+  const title=document.createElement("h3");
+  title.className="question-title";
+  title.textContent=question.title;
+
+  const subtitle=document.createElement("p");
+  subtitle.className="question-sub";
+  subtitle.textContent=question.sub;
+
+  const options=document.createElement("div");
+  options.className="options";
+
+  question.options.forEach((option,i)=>{
+    const button=document.createElement("button");
+    button.type="button";
+
+    const selected=answers[step]===i;
+    button.className="answer"+(selected?" chosen":"");
+    button.setAttribute("aria-pressed",String(selected));
+
+    const text=document.createElement("span");
+    text.textContent=option.text;
+
+    const circle=document.createElement("span");
+    circle.textContent=selected?"●":"○";
+
+    button.append(text,circle);
+
+    button.onclick=()=>{
+      answers[step]=i;
+      renderQuiz();
+    };
+
+    options.append(button);
+  });
+
+  const controls=document.createElement("div");
+  controls.className="quiz-controls";
+
+  const previous=document.createElement("button");
+  previous.type="button";
+  previous.textContent=t.prev;
+  previous.disabled=step===0;
+
+  previous.onclick=()=>{
+    step--;
+    renderQuiz();
+  };
+
+  const next=document.createElement("button");
+  next.type="button";
+  next.className="next";
+  next.textContent=step===3?t.finish:t.next;
+
+  /* MUST SELECT AN ANSWER BEFORE NEXT */
+  next.disabled=answers[step]===null;
+
+  next.onclick=()=>{
+    if(answers[step]===null)return;
+    step++;
+    renderQuiz();
+  };
+
+  controls.append(previous,next);
+
+  root.append(
+    header,progress,title,subtitle,options,controls
+  );
+}
+
+/* ====================================
+   JOURNEY PREVIOUS/NEXT NAVIGATION
+==================================== */
+
+const journeyPages=[
+  {
+    file:"ticket improve.html",
+    en:"Ticket Booking",
+    zh:"门票预约",
+    ms:"Tempahan Tiket"
+  },
+  {
+    file:"transport improve.html",
+    en:"Transportation",
+    zh:"交通指南",
+    ms:"Pengangkutan"
+  },
+  {
+    file:"accommodation.html",
+    en:"Accommodation",
+    zh:"住宿推荐",
+    ms:"Penginapan"
+  },
+  {
+    file:"season improve.html",
+    en:"Best Time to Visit",
+    zh:"最佳旅行季节",
+    ms:"Masa Terbaik untuk Melawat"
+  }
+];
+
+const journeyLabels={
+  en:{
+    heading:"CONTINUE YOUR JOURNEY",
+    previous:"← PREVIOUS",
+    next:"NEXT →"
+  },
+  zh:{
+    heading:"继续探索敦煌",
+    previous:"← 上一页",
+    next:"下一页 →"
+  },
+  ms:{
+    heading:"TERUSKAN PERJALANAN",
+    previous:"← SEBELUMNYA",
+    next:"SETERUSNYA →"
+  }
+};
+
+function renderJourneyNavigation() {
+  const container=$("journeyPageNavigation");
+  const index=2;
+  const labels=journeyLabels[lang];
+
+  container.replaceChildren();
+
+  const section=document.createElement("section");
+  section.className="journey-page-nav";
+
+  const inner=document.createElement("div");
+  inner.className="journey-page-nav-inner";
+
+  const heading=document.createElement("p");
+  heading.className="journey-page-nav-label";
+  heading.textContent=labels.heading;
+
+  const links=document.createElement("div");
+  links.className="journey-page-nav-links";
+
+  function makeLink(page,direction,label) {
+    const link=document.createElement("a");
+    link.className="journey-page-link "+direction;
+    link.href=page.file+"?lang="+encodeURIComponent(lang);
+
+    const small=document.createElement("span");
+    small.textContent=label;
+
+    const strong=document.createElement("strong");
+    strong.textContent=page[lang];
+
+    link.append(small,strong);
+    return link;
+  }
+
+  links.append(
+    makeLink(journeyPages[index-1],"previous",labels.previous),
+    makeLink(journeyPages[index+1],"next",labels.next)
+  );
+
+  inner.append(heading,links);
+  section.append(inner);
+  container.append(section);
+}
+
+/* ====================================
+   LANGUAGE SYSTEM
+==================================== */
+
+function setLanguage(value) {
+  if(!languageData[value])value="en";
+
+  lang=value;
+  document.documentElement.lang=value==="zh"?"zh-CN":value;
+
+  const t=languageData[value];
+
+  document.querySelectorAll("[data-i18n]").forEach(element=>{
+    const key=element.dataset.i18n;
+    if(t[key]!==undefined)element.textContent=t[key];
+  });
+
+  document.querySelectorAll(".language").forEach(button=>{
+    button.classList.toggle(
+      "active",
+      button.dataset.lang===value
+    );
+  });
+
+  const home="Dunhuang improve.html?lang="+encodeURIComponent(value);
+  $("homeLogo").href=home;
+  $("backHome").href=home;
+
+  renderStay();
+  renderQuiz();
+  renderJourneyNavigation();
+
+  const url=new URL(window.location.href);
+  url.searchParams.set("lang",value);
+  window.history.replaceState({},"",url);
+}
+
+/* ====================================
+   BUTTON EVENTS
+==================================== */
+
+document.querySelectorAll(".language").forEach(button=>{
+  button.onclick=()=>{
+    setLanguage(button.dataset.lang);
+  };
+});
+
+$("dayButton").onclick=()=>{
+  time="day";
+  renderStay();
+  renderPhoto();
+};
+
+$("nightButton").onclick=()=>{
+  time="night";
+  renderStay();
+  renderPhoto();
+};
+
+$("seniorButton").onclick=()=>{
+  senior=!senior;
+
+  document.body.classList.toggle("senior-mode",senior);
+  $("seniorButton").classList.toggle("active",senior);
+  $("seniorButton").setAttribute("aria-pressed",String(senior));
+};
+
+/* ====================================
+   INITIALISATION
+==================================== */
+
+const params=new URLSearchParams(window.location.search);
+setLanguage(params.get("lang")||"en");
+renderPhoto();
+
+</script>
+
+<!-- =====================================
+     UNIFIED DUNHUANG NAVIGATION
+     Accommodation Page
+===================================== -->
+
+<style>
+:root {
+  --accommodation-nav-height: 90px;
+}
+
+html {
+  scroll-padding-top:
+    calc(var(--accommodation-nav-height) + 15px);
+}
+
+body {
+  padding-top: var(--accommodation-nav-height);
+}
+
+/* 顶部导航与 About 页面保持一致 */
+.site-header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 9999;
+
+  display: grid !important;
+  grid-template-columns:
+    auto minmax(0, 1fr) auto;
+
+  align-items: center;
+  gap: 25px;
+  min-height: 90px;
+  padding: 15px 4%;
+
+  background: rgba(94,61,47,.97);
+  backdrop-filter: blur(12px);
+}
+
+/* 中间导航 */
+.site-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.site-nav a {
+  color: #fff9ed;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .25s;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: #d8b47c;
+}
+
+/* 右侧语言与长辈模式 */
+.site-header .nav-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+/* 原本的 Back to Home 不再显示，
+   但保留元素，避免原来的 JS 报错 */
+.site-header #backHome {
+  display: none !important;
+}
+
+/* 避免标题出现多余的上方空间 */
+.hero {
+  padding-top: 80px;
+}
+
+/* 长辈模式 */
+.senior-mode .site-nav a {
+  font-size: 19px;
+}
+
+/* 平板 */
+@media (max-width: 1250px) {
+  .site-header {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+
+  .site-header .logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .site-header .nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .site-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 18px;
+  }
+}
+
+/* 手机 */
+@media (max-width: 760px) {
+  .site-header {
+    position: fixed !important;
+    padding: 12px 4%;
+  }
+
+  .site-nav {
+    gap: 10px 15px;
+  }
+
+  .site-nav a {
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 65px 5%;
+  }
+}
+
+@media (max-width: 450px) {
+  .site-header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .site-header .logo,
+  .site-header .nav-actions,
+  .site-nav {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .site-header .nav-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+</style>
+
+<script>
+(function () {
+  const header =
+    document.querySelector(".site-header");
+
+  if (!header) return;
+
+  const logo = header.querySelector(".logo");
+  const actions =
+    header.querySelector(".nav-actions");
+
+  if (!logo || !actions) return;
+
+  /* 创建与首页相同的六个导航链接 */
+
+  const nav = document.createElement("nav");
+  nav.className = "site-nav";
+  nav.setAttribute(
+    "aria-label",
+    "Main navigation"
+  );
+
+  const menuItems = [
+    ["home", "HOME"],
+    ["experiences", "EXPLORE"],
+    ["journey", "JOURNEY"],
+    ["stories", "STORIES"],
+    ["faq", "FAQ"],
+    ["about", "ABOUT"]
+  ];
+
+  menuItems.forEach(([section, label]) => {
+    const a = document.createElement("a");
+
+    a.dataset.section = section;
+    a.textContent = label;
+
+    nav.appendChild(a);
+  });
+
+  header.insertBefore(nav, actions);
+
+  /* 导航三语言 */
+
+  const menuLanguages = {
+    en: [
+      "HOME",
+      "EXPLORE",
+      "JOURNEY",
+      "STORIES",
+      "FAQ",
+      "ABOUT"
+    ],
+    zh: [
+      "首页",
+      "探索",
+      "旅程",
+      "历史故事",
+      "常见问题",
+      "关于我们"
+    ],
+    ms: [
+      "UTAMA",
+      "TEROKAI",
+      "KEMBARA",
+      "KISAH",
+      "SOALAN LAZIM",
+      "TENTANG KAMI"
+    ]
+  };
+
+  function currentLanguage() {
+    const current =
+      document.documentElement.lang;
+
+    if (current.startsWith("zh")) return "zh";
+    if (current === "ms") return "ms";
+    return "en";
+  }
+
+  function updateMenu() {
+    const language = currentLanguage();
+
+    const home =
+      "./Dunhuang improve.html?lang=" +
+      encodeURIComponent(language);
+
+    logo.href = home + "#home";
+
+    nav.querySelectorAll("a").forEach((a, i) => {
+      const section = a.dataset.section;
+
+      a.textContent = menuLanguages[language][i];
+
+      if (section === "about") {
+        a.href =
+          "./about.html?lang=" +
+          encodeURIComponent(language);
+      } else {
+        a.href = home + "#" + section;
+      }
+    });
+
+    updateHeaderHeight();
+  }
+
+  /* 计算固定导航真实高度 */
+  function updateHeaderHeight() {
+    document.documentElement.style.setProperty(
+      "--accommodation-nav-height",
+      header.offsetHeight + "px"
+    );
+  }
+
+  /* 跟随原页面的语言按钮 */
+  document.querySelectorAll(".language").forEach(
+    button => {
+      button.addEventListener(
+        "click",
+        updateMenu
+      );
+    }
+  );
+
+  /* 长辈模式可能改变导航高度 */
+  const seniorButton =
+    document.getElementById("seniorButton");
+
+  if (seniorButton) {
+    seniorButton.addEventListener(
+      "click",
+      updateHeaderHeight
+    );
+  }
+
+  window.addEventListener(
+    "resize",
+    updateHeaderHeight
+  );
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(
+      updateHeaderHeight
+    ).observe(header);
+  }
+
+  /* 初始化 */
+  updateMenu();
+})();
+</script>
+
+<!-- =====================================
+     DUNHUANG UNIVERSAL REVIEWS NAVIGATION
+===================================== -->
+
+<style>
+/* Reviews nav link */
+
+.dh-reviews-nav-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color .25s ease;
+}
+
+.dh-reviews-nav-link:hover {
+  color: #d8b47c !important;
+}
+
+/* When a page has no navigation links */
+
+.dh-reviews-generated {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(9px, 1.3vw, 22px);
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.dh-reviews-generated a {
+  color: #fff8ed;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-decoration: none;
+}
+
+/* Fix header layout on pages
+   where the navigation is missing */
+
+.navbar.dh-reviews-has-fallback {
+  display: grid !important;
+  grid-template-columns:
+    auto minmax(0, 1fr) auto !important;
+
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar.dh-reviews-has-fallback
+.dh-reviews-generated {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.navbar.dh-reviews-has-fallback
+.nav-actions {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+/* Anchor position */
+
+#dhReviews {
+  scroll-margin-top: 110px;
+}
+
+/* Small screens */
+
+@media (max-width: 1150px) {
+
+  .navbar.dh-reviews-has-fallback {
+    grid-template-columns: 1fr auto !important;
+  }
+
+  .navbar.dh-reviews-has-fallback
+  .dh-reviews-generated {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .navbar.dh-reviews-has-fallback
+  .nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .dh-reviews-generated {
+    gap: 10px 15px;
+  }
+
+  .dh-reviews-generated a {
+    font-size: 11px;
+  }
+}
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  /* Actual homepage filename */
+
+  const HOME_PAGE = "./Dunhuang improve.html";
+
+  const translations = {
+
+    en: {
+      home: "HOME",
+      strategy: "STRATEGY",
+      explore: "EXPLORE",
+      journey: "JOURNEY",
+      stories: "STORIES",
+      reviews: "REVIEWS",
+      faq: "FAQ",
+      about: "ABOUT"
+    },
+
+    zh: {
+      home: "首页",
+      strategy: "旅行攻略",
+      explore: "探索",
+      journey: "旅程",
+      stories: "历史故事",
+      reviews: "旅人说",
+      faq: "常见问题",
+      about: "关于我们"
+    },
+
+    ms: {
+      home: "UTAMA",
+      strategy: "STRATEGI",
+      explore: "TEROKAI",
+      journey: "KEMBARA",
+      stories: "KISAH",
+      reviews: "ULASAN",
+      faq: "SOALAN LAZIM",
+      about: "TENTANG KAMI"
+    }
+
+  };
+
+
+  function getLanguage() {
+
+    const activeButton = document.querySelector(
+      '.lang-btn.active[data-lang], ' +
+      '[data-lang][aria-pressed="true"]'
+    );
+
+    let lang = activeButton
+      ? activeButton.dataset.lang
+      : document.documentElement.lang;
+
+    lang = (lang || "").toLowerCase();
+
+    if (lang.startsWith("zh")) return "zh";
+
+    if (
+      lang.startsWith("ms") ||
+      lang.startsWith("bm")
+    ) {
+      return "ms";
+    }
+
+    return "en";
+  }
+
+
+  function findHeader() {
+
+    return document.querySelector(
+      "header.navbar, " +
+      "#navbar, " +
+      ".navbar, " +
+      "header.site-header, " +
+      "header"
+    );
+
+  }
+
+
+  function findNavigation(header) {
+
+    const selectors = [
+      ".nav-links:not(.dh-reviews-generated)",
+      "#navLinks",
+      ".nav-menu",
+      ".nav-list",
+      ".navigation-links",
+      ".nav-center",
+      "nav"
+    ];
+
+    for (const selector of selectors) {
+
+      const found = header.querySelector(selector);
+
+      if (
+        found &&
+        !found.classList.contains(
+          "dh-reviews-generated"
+        )
+      ) {
+        return found;
+      }
+
+    }
+
+    return null;
+  }
+
+
+  function createNavigation(header) {
+
+    let nav = header.querySelector(
+      ".dh-reviews-generated"
+    );
+
+    if (nav) return nav;
+
+    nav = document.createElement("ul");
+
+    nav.className =
+      "nav-links dh-reviews-generated";
+
+    nav.setAttribute(
+      "aria-label",
+      "Dunhuang Main Navigation"
+    );
+
+    const actions = header.querySelector(
+      ".nav-actions, .header-actions"
+    );
+
+    if (actions) {
+      header.insertBefore(nav, actions);
+    } else {
+      header.appendChild(nav);
+    }
+
+    header.classList.add(
+      "dh-reviews-has-fallback"
+    );
+
+    return nav;
+  }
+
+
+  function buildFallbackNavigation(nav, lang) {
+
+    const t = translations[lang];
+
+    const home = HOME_PAGE + "?lang=" + lang;
+
+    const items = [
+
+      ["home", home + "#home"],
+
+      [
+        "strategy",
+        "./strategy.html?lang=" + lang
+      ],
+
+      ["explore", home + "#experiences"],
+
+      ["journey", home + "#journey"],
+
+      ["stories", home + "#stories"],
+
+      ["reviews", home + "#dhReviews"],
+
+      ["faq", home + "#faq"],
+
+      [
+        "about",
+        "./about.html?lang=" + lang
+      ]
+
+    ];
+
+    // Rebuild only this generated navigation.
+
+    const fragment = document.createDocumentFragment();
+
+    items.forEach(([key, href]) => {
+
+      const li = document.createElement("li");
+
+      const a = document.createElement("a");
+
+      a.href = href;
+      a.dataset.dhNavItem = key;
+      a.textContent = t[key];
+
+      if (key === "reviews") {
+        a.classList.add(
+          "dh-reviews-nav-link"
+        );
+        a.dataset.dhReviewsNav = "true";
+      }
+
+      li.appendChild(a);
+      fragment.appendChild(li);
+
+    });
+
+    nav.replaceChildren(fragment);
+
+    nav.dataset.currentLang = lang;
+
+  }
+
+
+  function isReviewsLink(link) {
+
+    const href = link.getAttribute("href") || "";
+
+    return (
+      link.dataset.dhReviewsNav === "true" ||
+      href.includes("#dhReviews") ||
+      ["REVIEWS", "旅人说", "ULASAN"].includes(
+        link.textContent.trim()
+      )
+    );
+
+  }
+
+
+  function findFAQ(nav) {
+
+    return Array.from(
+      nav.querySelectorAll("a")
+    ).find(link => {
+
+      const href = (
+        link.getAttribute("href") || ""
+      ).toLowerCase();
+
+      const key = (
+        link.dataset.i18n || ""
+      ).toLowerCase();
+
+      const label =
+        link.textContent.trim().toLowerCase();
+
+      return (
+        href.includes("#faq") ||
+        key.includes("navfaq") ||
+        ["faq", "常见问题", "soalan lazim"]
+          .includes(label)
+      );
+
+    });
+
+  }
+
+
+  function updateNavigation() {
+
+    const header = findHeader();
+
+    if (!header) return;
+
+    const lang = getLanguage();
+
+    let nav = findNavigation(header);
+
+    const fallback = header.querySelector(
+      ".dh-reviews-generated"
+    );
+
+    if (nav && fallback) {
+
+      fallback.remove();
+
+      header.classList.remove(
+        "dh-reviews-has-fallback"
+      );
+
+    }
+
+    if (!nav) {
+
+      nav = createNavigation(header);
+
+      if (nav.dataset.currentLang !== lang) {
+        buildFallbackNavigation(nav, lang);
+      }
+
+      return;
+    }
+
+
+    const labels = translations[lang];
+
+    const allLinks = Array.from(
+      nav.querySelectorAll("a")
+    );
+
+    let reviewLink = allLinks.find(
+      isReviewsLink
+    );
+
+    if (!reviewLink) {
+
+      reviewLink = document.createElement("a");
+
+      reviewLink.dataset.dhReviewsNav = "true";
+
+      reviewLink.className =
+        "dh-reviews-nav-link";
+
+      const faqLink = findFAQ(nav);
+
+      const isList =
+        nav.tagName === "UL" ||
+        nav.tagName === "OL";
+
+      let item = reviewLink;
+
+      if (isList) {
+
+        item = document.createElement("li");
+
+        item.appendChild(reviewLink);
+
+      }
+
+      const faqItem = faqLink
+        ? (
+            isList
+              ? faqLink.closest("li")
+              : faqLink
+          )
+        : null;
+
+      if (
+        faqItem &&
+        faqItem.parentElement === nav
+      ) {
+
+        nav.insertBefore(item, faqItem);
+
+      } else {
+
+        nav.appendChild(item);
+
+      }
+
+    }
+
+
+    reviewLink.dataset.dhReviewsNav = "true";
+
+    reviewLink.classList.add(
+      "dh-reviews-nav-link"
+    );
+
+    if (
+      reviewLink.textContent !== labels.reviews
+    ) {
+
+      reviewLink.textContent = labels.reviews;
+
+    }
+
+
+    const isHome =
+      document.getElementById("dhReviews") !== null;
+
+    const href = isHome
+      ? "#dhReviews"
+      : HOME_PAGE +
+        "?lang=" + lang +
+        "#dhReviews";
+
+
+    if (
+      reviewLink.getAttribute("href") !== href
+    ) {
+
+      reviewLink.setAttribute("href", href);
+
+    }
+
+  }
+
+
+  /* Update when pages rebuild navigation */
+
+  let scheduled = false;
+
+  function scheduleUpdate() {
+
+    if (scheduled) return;
+
+    scheduled = true;
+
+    queueMicrotask(() => {
+
+      scheduled = false;
+
+      updateNavigation();
+
+    });
+
+  }
+
+
+  new MutationObserver(
+    scheduleUpdate
+  ).observe(document.body, {
+
+    childList: true,
+    subtree: true
+
+  });
+
+
+  new MutationObserver(
+    scheduleUpdate
+  ).observe(document.documentElement, {
+
+    attributes: true,
+    attributeFilter: ["lang"]
+
+  });
+
+
+  document.addEventListener(
+    "click",
+    function (event) {
+
+      if (
+        event.target.closest(
+          ".lang-btn, [data-lang]"
+        )
+      ) {
+
+        setTimeout(
+          scheduleUpdate,
+          0
+        );
+
+      }
+
+    }
+  );
+
+
+  /* Initial update */
+
+  scheduleUpdate();
+
+})();
+</script>
+
+<!-- END UNIVERSAL REVIEWS NAVIGATION -->
+
+<!-- ===================================
+   DUNHUANG · GLOBAL FLOATING TOOLS
+   AI GUIDE + BACK TO TOP
+=================================== -->
+
+<style>
+.dh-global-tools {
+  position: fixed !important;
+  right: 30px;
+  bottom: 30px;
+  z-index: 20000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: center;
+}
+
+.dh-global-tools button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform .3s ease;
+  box-shadow: 0 8px 25px #0004;
+}
+
+.dh-global-tools button:hover {
+  transform: translateY(-4px);
+}
+
+.dh-global-ai {
+  background: #171c19;
+  border: 2px solid #d8b47c;
+  color: #d8b47c;
+}
+
+.dh-global-top {
+  background: #d8b47c;
+  border: none;
+  color: #171c19;
+}
+
+/* AI CHAT WINDOW */
+
+.dh-global-chat {
+  position: fixed;
+  right: 120px;
+  bottom: 30px;
+  z-index: 20001;
+
+  width: min(450px, calc(100vw - 150px));
+  height: min(650px, calc(100dvh - 60px));
+
+  background: #fffaf0;
+  border: 1px solid #d8b47c;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px #0006;
+  overflow: hidden;
+}
+
+.dh-global-chat[hidden] {
+  display: none !important;
+}
+
+.dh-global-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fffaf0;
+}
+
+.dh-global-close {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #51342c;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.dh-global-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 35px;
+  text-align: center;
+  color: #85583c;
+  background: #fffaf0;
+  font-size: 14px;
+}
+
+/* SENIOR MODE */
+
+body.senior-mode .dh-global-tools button {
+  width: 82px;
+  height: 82px;
+  font-size: 38px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+  .dh-global-tools {
+    right: 18px;
+    bottom: 20px;
+    gap: 16px;
+  }
+
+  .dh-global-tools button {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+
+  .dh-global-chat {
+    right: 10px;
+    bottom: 160px;
+    width: calc(100vw - 20px);
+    height: min(560px, calc(100dvh - 180px));
+  }
+}
+</style>
+
+
+<script>
+(function () {
+  "use strict";
+
+  // 原本的敦煌首页文件名
+  const HOME_PAGE = "./Dunhuang%20AI.html";
+
+  // 避免在已有按钮的页面重复创建
+  const hasOriginalAI =
+    !!document.getElementById("aiFloating");
+
+  const hasOriginalTop =
+    !!document.querySelector(".floating-top");
+
+  if (hasOriginalAI && hasOriginalTop) return;
+
+  const tools = document.createElement("div");
+  tools.className = "dh-global-tools";
+
+  // Create buttons
+  const aiButton = document.createElement("button");
+  aiButton.className = "dh-global-ai";
+  aiButton.type = "button";
+  aiButton.textContent = "✦";
+  aiButton.title = "Dunhuang AI Guide";
+  aiButton.setAttribute("aria-label", "Open AI Guide");
+
+  const topButton = document.createElement("button");
+  topButton.className = "dh-global-top";
+  topButton.type = "button";
+  topButton.textContent = "↑";
+  topButton.title = "Back to Top";
+  topButton.setAttribute("aria-label", "Back to Top");
+
+  if (!hasOriginalAI) tools.appendChild(aiButton);
+  if (!hasOriginalTop) tools.appendChild(topButton);
+
+  document.body.appendChild(tools);
+
+  /* BACK TO TOP */
+
+  topButton.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  /* AI WINDOW */
+
+  if (hasOriginalAI) return;
+
+  const panel = document.createElement("div");
+  panel.className = "dh-global-chat";
+  panel.hidden = true;
+
+  const frame = document.createElement("iframe");
+  frame.className = "dh-global-frame";
+  frame.title = "Dunhuang AI Guide";
+
+  const close = document.createElement("button");
+  close.className = "dh-global-close";
+  close.type = "button";
+  close.textContent = "×";
+  close.setAttribute("aria-label", "Close AI Guide");
+
+  const loading = document.createElement("div");
+  loading.className = "dh-global-loading";
+  loading.textContent = "Opening Dunhuang AI Guide...";
+
+  panel.append(frame, loading, close);
+  document.body.appendChild(panel);
+
+  let loaded = false;
+
+  function getLanguage() {
+    const lang = (
+      document.documentElement.lang || "en"
+    ).toLowerCase();
+
+    if (lang.startsWith("zh")) return "zh";
+    if (lang.startsWith("ms") || lang.startsWith("bm")) return "ms";
+    return "en";
+  }
+
+  /* Reuse the real AI window from homepage */
+
+  frame.addEventListener("load", function () {
+
+    try {
+      const doc = frame.contentDocument;
+
+      if (!doc || !doc.getElementById("aiFloating")) {
+        throw new Error("Homepage AI not found");
+      }
+
+      // Hide homepage content inside the iframe.
+      // Show only the original AI chat.
+      const style = doc.createElement("style");
+
+      style.textContent = `
+        html, body {
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: hidden !important;
+          background: #fffaf0 !important;
+        }
+
+        body > :not(#aiWindow) {
+          display: none !important;
+        }
+
+        #aiWindow {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          max-width: none !important;
+          max-height: none !important;
+          border-radius: 0 !important;
+          display: flex !important;
+          box-shadow: none !important;
+          z-index: 100 !important;
+        }
+
+        #aiWindow[hidden] {
+          display: none !important;
+        }
+
+        #aiClose {
+          display: none !important;
+        }
+      `;
+
+      doc.head.appendChild(style);
+
+      // Set language to match the current page
+      const languageButton = doc.querySelector(
+        '.language-switcher button[data-lang="' +
+        getLanguage() + '"]'
+      );
+
+      languageButton?.click();
+
+      // Open homepage's existing AI functionality
+      const button = doc.getElementById("aiFloating");
+
+      const aiWindow = doc.getElementById("aiWindow");
+
+      if (aiWindow.hidden) {
+        button.click();
+      }
+
+      loaded = true;
+      loading.style.display = "none";
+
+    } catch (error) {
+
+      loading.innerHTML = "";
+
+      const fallback = document.createElement("a");
+      fallback.href = HOME_PAGE;
+      fallback.textContent = "Open AI on Homepage ↗";
+      fallback.style.color = "#96583f";
+
+      loading.appendChild(fallback);
+
+      console.warn("AI guide:", error);
+    }
+
+  });
+
+
+  /* OPEN AI */
+
+  function openAI() {
+
+    panel.hidden = false;
+    aiButton.setAttribute("aria-expanded", "true");
+
+    if (!loaded && !frame.src) {
+      frame.src = HOME_PAGE;
+    }
+
+  }
+
+
+  /* CLOSE AI */
+
+  function closeAI() {
+
+    panel.hidden = true;
+    aiButton.setAttribute("aria-expanded", "false");
+
+    try {
+      frame.contentWindow.speechSynthesis?.cancel();
+    } catch {}
+
+  }
+
+
+  aiButton.addEventListener("click", () => {
+
+    if (panel.hidden) {
+      openAI();
+    } else {
+      closeAI();
+    }
+
+  });
+
+  close.addEventListener("click", closeAI);
+
+  document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && !panel.hidden) {
+      closeAI();
+    }
+
+  });
+
+})();
+</script>
+
+<!-- END GLOBAL FLOATING TOOLS -->
+
+</body>
+</html>
